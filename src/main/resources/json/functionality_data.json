@@ -1,0 +1,150 @@
+{
+	"user": 1,
+	"datas": [
+		{
+			"code": "FONCTIONNALITE",
+			"name": "FONCTIONNALITE"
+		},
+		{
+			"code": "VIEW_FONCTIONNALITE",
+			"parentCode": "FONCTIONNALITE",
+			"name": "VIEW FONCTIONNALITE"
+		},
+		{
+			"code": "CREATE_FONCTIONNALITE",
+			"parentCode": "FONCTIONNALITE",
+			"name": "CREATE FONCTIONNALITE"
+		},
+		{
+			"code": "UPDATE_FONCTIONNALITE",
+			"parentCode": "FONCTIONNALITE",
+			"name": "UPDATE FONCTIONNALITE"
+		},
+		{
+			"code": "DELETE_FONCTIONNALITE",
+			"parentCode": "FONCTIONNALITE",
+			"name": "DELETE FONCTIONNALITE"
+		},
+		{
+			"code": "FONCTIONNALITE_TYPE",
+			"name": "FONCTIONNALITE_TYPE"
+		},
+		{
+			"code": "VIEW_FONCTIONNALITE_TYPE",
+			"parentCode": "FONCTIONNALITE_TYPE",
+			"name": "VIEW FONCTIONNALITE_TYPE"
+		},
+		{
+			"code": "CREATE_FONCTIONNALITE_TYPE",
+			"parentCode": "FONCTIONNALITE_TYPE",
+			"name": "CREATE FONCTIONNALITE_TYPE"
+		},
+		{
+			"code": "UPDATE_FONCTIONNALITE_TYPE",
+			"parentCode": "FONCTIONNALITE_TYPE",
+			"name": "UPDATE FONCTIONNALITE_TYPE"
+		},
+		{
+			"code": "DELETE_FONCTIONNALITE_TYPE",
+			"parentCode": "FONCTIONNALITE_TYPE",
+			"name": "DELETE FONCTIONNALITE_TYPE"
+		},
+		{
+			"code": "PROFIL",
+			"name": "PROFIL"
+		},
+		{
+			"code": "VIEW_PROFIL",
+			"parentCode": "PROFIL",
+			"name": "VIEW PROFIL"
+		},
+		{
+			"code": "CREATE_PROFIL",
+			"parentCode": "PROFIL",
+			"name": "CREATE PROFIL"
+		},
+		{
+			"code": "UPDATE_PROFIL",
+			"parentCode": "PROFIL",
+			"name": "UPDATE PROFIL"
+		},
+		{
+			"code": "DELETE_PROFIL",
+			"parentCode": "PROFIL",
+			"name": "DELETE PROFIL"
+		},
+		{
+			"code": "PROFIL_FONCTIONNALITE",
+			"name": "PROFIL_FONCTIONNALITE"
+		},
+		{
+			"code": "VIEW_PROFIL_FONCTIONNALITE",
+			"parentCode": "PROFIL_FONCTIONNALITE",
+			"name": "VIEW PROFIL_FONCTIONNALITE"
+		},
+		{
+			"code": "CREATE_PROFIL_FONCTIONNALITE",
+			"parentCode": "PROFIL_FONCTIONNALITE",
+			"name": "CREATE PROFIL_FONCTIONNALITE"
+		},
+		{
+			"code": "UPDATE_PROFIL_FONCTIONNALITE",
+			"parentCode": "PROFIL_FONCTIONNALITE",
+			"name": "UPDATE PROFIL_FONCTIONNALITE"
+		},
+		{
+			"code": "DELETE_PROFIL_FONCTIONNALITE",
+			"parentCode": "PROFIL_FONCTIONNALITE",
+			"name": "DELETE PROFIL_FONCTIONNALITE"
+		},
+		{
+			"code": "USER",
+			"name": "USER"
+		},
+		{
+			"code": "VIEW_USER",
+			"parentCode": "USER",
+			"name": "VIEW USER"
+		},
+		{
+			"code": "CREATE_USER",
+			"parentCode": "USER",
+			"name": "CREATE USER"
+		},
+		{
+			"code": "UPDATE_USER",
+			"parentCode": "USER",
+			"name": "UPDATE USER"
+		},
+		{
+			"code": "DELETE_USER",
+			"parentCode": "USER",
+			"name": "DELETE USER"
+		},
+		{
+			"code": "USER_TYPE",
+			"name": "USER_TYPE"
+		},
+		{
+			"code": "VIEW_USER_TYPE",
+			"parentCode": "USER_TYPE",
+			"name": "VIEW USER_TYPE"
+		},
+		{
+			"code": "CREATE_USER_TYPE",
+			"parentCode": "USER_TYPE",
+			"name": "CREATE USER_TYPE"
+		},
+		{
+			"code": "UPDATE_USER_TYPE",
+			"parentCode": "USER_TYPE",
+			"name": "UPDATE USER_TYPE"
+		},
+		{
+			"code": "DELETE_USER_TYPE",
+			"parentCode": "USER_TYPE",
+			"name": "DELETE USER_TYPE"
+		}
+
+	]
+}

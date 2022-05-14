@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Telosys Database Repository --><root>
+    <tableList databaseId="0" databaseName="MYSQL" databaseProductName="MySQL" generation="2022-05-05 15:16:32">
+        <table catalog="vonabri" databaseComment="" databaseType="TABLE" javaBean="Element" name="element" schema="">
+            <column dbAutoIncremented="true" dbComment="" dbDefaultValue="" dbName="id" dbNotNull="true" dbPosition="1" dbPrimaryKey="true" dbSize="10" dbTypeName="INT" inputType="number" javaName="id" javaType="java.lang.Integer" jdbcTypeCode="4" label="Id" notNull="true" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="code" dbNotNull="false" dbPosition="2" dbSize="255" dbTypeName="VARCHAR" inputType="text" javaName="code" javaType="java.lang.String" jdbcTypeCode="12" label="Code" maxLength="255" notNull="false" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="libelle" dbNotNull="false" dbPosition="3" dbSize="255" dbTypeName="VARCHAR" inputType="text" javaName="libelle" javaType="java.lang.String" jdbcTypeCode="12" label="Libelle" maxLength="255" notNull="false" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="icon" dbNotNull="false" dbPosition="4" dbSize="255" dbTypeName="VARCHAR" inputType="text" javaName="icon" javaType="java.lang.String" jdbcTypeCode="12" label="Icon" maxLength="255" notNull="false" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="parent_id" dbNotNull="false" dbPosition="5" dbSize="10" dbTypeName="INT" inputType="number" javaName="parentId" javaType="java.lang.Integer" jdbcTypeCode="4" label="Parent id" notNull="false" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="element_type_id" dbNotNull="false" dbPosition="6" dbSize="10" dbTypeName="INT" inputType="number" javaName="elementTypeId" javaType="java.lang.Integer" jdbcTypeCode="4" label="Element type id" notNull="false" selected="true"/>
+            <column dateType="DT" dbComment="" dbDefaultValue="CURRENT_TIMESTAMP" dbName="created_at" dbNotNull="false" dbPosition="7" dbSize="19" dbTypeName="DATETIME" inputType="" javaName="createdAt" javaType="java.util.Date" jdbcTypeCode="93" label="Created at" notNull="false" selected="true"/>
+            <column dateType="DT" dbComment="" dbDefaultValue="" dbName="deleted_at" dbNotNull="false" dbPosition="8" dbSize="19" dbTypeName="DATETIME" inputType="" javaName="deletedAt" javaType="java.util.Date" jdbcTypeCode="93" label="Deleted at" notNull="false" selected="true"/>
+            <column dateType="DT" dbComment="" dbDefaultValue="" dbName="updated_at" dbNotNull="false" dbPosition="9" dbSize="19" dbTypeName="DATETIME" inputType="" javaName="updatedAt" javaType="java.util.Date" jdbcTypeCode="93" label="Updated at" notNull="false" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="created_by" dbNotNull="false" dbPosition="10" dbSize="10" dbTypeName="INT" inputType="number" javaName="createdBy" javaType="java.lang.Integer" jdbcTypeCode="4" label="Created by" notNull="false" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="updated_by" dbNotNull="false" dbPosition="11" dbSize="10" dbTypeName="INT" inputType="number" javaName="updatedBy" javaType="java.lang.Integer" jdbcTypeCode="4" label="Updated by" notNull="false" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="deleted_by" dbNotNull="false" dbPosition="12" dbSize="10" dbTypeName="INT" inputType="number" javaName="deletedBy" javaType="java.lang.Integer" jdbcTypeCode="4" label="Deleted by" notNull="false" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="is_deleted" dbNotNull="false" dbPosition="13" dbSize="1" dbTypeName="BIT" inputType="checkbox" javaName="isDeleted" javaType="java.lang.Boolean" jdbcTypeCode="-7" label="Is deleted" notNull="false" selected="true"/>
+            <fk name="FK_element">
+                <fkcol colname="parent_id" colref="id" deferrable="7" deleterule="3" sequence="1" tablename="element" tableref="element" updaterule="3"/>
+            </fk>
+            <fk name="FK_element_type">
+                <fkcol colname="element_type_id" colref="id" deferrable="7" deleterule="3" sequence="1" tablename="element" tableref="element_type" updaterule="3"/>
+            </fk>
+            <link cardinality="ManyToOne" cascade="" fetch="DEFAULT" foreignKeyName="FK_element_type" id="LINK_FK_FK_element_type_O" inverseSideOf="" javaName="elementType" javaType="unused" joinTableName="" mappedBy="" optional="" owningSide="true" sourceTableName="element" targetEntity="ElementType" targetTableName="element_type" used="true">
+                <joinColumns>
+                    <joinColumn insertable="false" name="element_type_id" nullable="true" referencedColumnName="id" unique="false" updatable="false"/>
+                </joinColumns>
+            </link>
+            <link cardinality="ManyToOne" cascade="" fetch="DEFAULT" foreignKeyName="FK_element" id="LINK_FK_FK_element_O" inverseSideOf="" javaName="element" javaType="unused" joinTableName="" mappedBy="" optional="" owningSide="true" sourceTableName="element" targetEntity="Element" targetTableName="element" used="true">
+                <joinColumns>
+                    <joinColumn insertable="false" name="parent_id" nullable="true" referencedColumnName="id" unique="false" updatable="false"/>
+                </joinColumns>
+            </link>
+            <link cardinality="OneToMany" cascade="" fetch="DEFAULT" foreignKeyName="FK_element" id="LINK_FK_FK_element_I" inverseSideOf="LINK_FK_FK_element_O" javaName="listOfElement" javaType="unused" joinTableName="" mappedBy="element" optional="" owningSide="false" sourceTableName="element" targetEntity="Element" targetTableName="element" used="true"/>
+        </table>
+        <table catalog="vonabri" databaseComment="" databaseType="TABLE" javaBean="ElementType" name="element_type" schema="">
+            <column dbAutoIncremented="true" dbComment="" dbDefaultValue="" dbName="id" dbNotNull="true" dbPosition="1" dbPrimaryKey="true" dbSize="10" dbTypeName="INT" inputType="number" javaName="id" javaType="java.lang.Integer" jdbcTypeCode="4" label="Id" notNull="true" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="code" dbNotNull="false" dbPosition="2" dbSize="255" dbTypeName="VARCHAR" inputType="text" javaName="code" javaType="java.lang.String" jdbcTypeCode="12" label="Code" maxLength="255" notNull="false" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="libelle" dbNotNull="false" dbPosition="3" dbSize="255" dbTypeName="VARCHAR" inputType="text" javaName="libelle" javaType="java.lang.String" jdbcTypeCode="12" label="Libelle" maxLength="255" notNull="false" selected="true"/>
+            <column dateType="DT" dbComment="" dbDefaultValue="" dbName="created_at" dbNotNull="false" dbPosition="4" dbSize="19" dbTypeName="DATETIME" inputType="" javaName="createdAt" javaType="java.util.Date" jdbcTypeCode="93" label="Created at" notNull="false" selected="true"/>
+            <column dateType="DT" dbComment="" dbDefaultValue="" dbName="updated_at" dbNotNull="false" dbPosition="5" dbSize="19" dbTypeName="DATETIME" inputType="" javaName="updatedAt" javaType="java.util.Date" jdbcTypeCode="93" label="Updated at" notNull="false" selected="true"/>
+            <column dateType="DT" dbComment="" dbDefaultValue="" dbName="deleted_at" dbNotNull="false" dbPosition="6" dbSize="19" dbTypeName="DATETIME" inputType="" javaName="deletedAt" javaType="java.util.Date" jdbcTypeCode="93" label="Deleted at" notNull="false" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="created_by" dbNotNull="false" dbPosition="7" dbSize="10" dbTypeName="INT" inputType="number" javaName="createdBy" javaType="java.lang.Integer" jdbcTypeCode="4" label="Created by" notNull="false" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="updated_by" dbNotNull="false" dbPosition="8" dbSize="10" dbTypeName="INT" inputType="number" javaName="updatedBy" javaType="java.lang.Integer" jdbcTypeCode="4" label="Updated by" notNull="false" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="deleted_by" dbNotNull="false" dbPosition="9" dbSize="10" dbTypeName="INT" inputType="number" javaName="deletedBy" javaType="java.lang.Integer" jdbcTypeCode="4" label="Deleted by" notNull="false" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="is_deleted" dbNotNull="false" dbPosition="10" dbSize="1" dbTypeName="BIT" inputType="checkbox" javaName="isDeleted" javaType="java.lang.Boolean" jdbcTypeCode="-7" label="Is deleted" notNull="false" selected="true"/>
+            <link cardinality="OneToMany" cascade="" fetch="DEFAULT" foreignKeyName="FK_element_type" id="LINK_FK_FK_element_type_I" inverseSideOf="LINK_FK_FK_element_type_O" javaName="listOfElement" javaType="unused" joinTableName="" mappedBy="elementType" optional="" owningSide="false" sourceTableName="element_type" targetEntity="Element" targetTableName="element" used="true"/>
+        </table>
+        <table catalog="vonabri" databaseComment="" databaseType="TABLE" javaBean="Fonctionnalite" name="fonctionnalite" schema="">
+            <column dbAutoIncremented="true" dbComment="" dbDefaultValue="" dbName="id" dbNotNull="true" dbPosition="1" dbPrimaryKey="true" dbSize="10" dbTypeName="INT" inputType="number" javaName="id" javaType="java.lang.Integer" jdbcTypeCode="4" label="Id" notNull="true" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="code" dbNotNull="false" dbPosition="2" dbSize="255" dbTypeName="VARCHAR" inputType="text" javaName="code" javaType="java.lang.String" jdbcTypeCode="12" label="Code" maxLength="255" notNull="false" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="libelle" dbNotNull="false" dbPosition="3" dbSize="255" dbTypeName="VARCHAR" inputType="text" javaName="libelle" javaType="java.lang.String" jdbcTypeCode="12" label="Libelle" maxLength="255" notNull="false" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="icon" dbNotNull="false" dbPosition="4" dbSize="255" dbTypeName="VARCHAR" inputType="text" javaName="icon" javaType="java.lang.String" jdbcTypeCode="12" label="Icon" maxLength="255" notNull="false" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="parent_id" dbNotNull="false" dbPosition="5" dbSize="10" dbTypeName="INT" inputType="number" javaName="parentId" javaType="java.lang.Integer" jdbcTypeCode="4" label="Parent id" notNull="false" selected="true"/>
+            <column dateType="DT" dbComment="" dbDefaultValue="CURRENT_TIMESTAMP" dbName="created_at" dbNotNull="false" dbPosition="6" dbSize="19" dbTypeName="DATETIME" inputType="" javaName="createdAt" javaType="java.util.Date" jdbcTypeCode="93" label="Created at" notNull="false" selected="true"/>
+            <column dateType="DT" dbComment="" dbDefaultValue="" dbName="deleted_at" dbNotNull="false" dbPosition="7" dbSize="19" dbTypeName="DATETIME" inputType="" javaName="deletedAt" javaType="java.util.Date" jdbcTypeCode="93" label="Deleted at" notNull="false" selected="true"/>
+            <column dateType="DT" dbComment="" dbDefaultValue="" dbName="updated_at" dbNotNull="false" dbPosition="8" dbSize="19" dbTypeName="DATETIME" inputType="" javaName="updatedAt" javaType="java.util.Date" jdbcTypeCode="93" label="Updated at" notNull="false" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="created_by" dbNotNull="false" dbPosition="9" dbSize="10" dbTypeName="INT" inputType="number" javaName="createdBy" javaType="java.lang.Integer" jdbcTypeCode="4" label="Created by" notNull="false" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="updated_by" dbNotNull="false" dbPosition="10" dbSize="10" dbTypeName="INT" inputType="number" javaName="updatedBy" javaType="java.lang.Integer" jdbcTypeCode="4" label="Updated by" notNull="false" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="deleted_by" dbNotNull="false" dbPosition="11" dbSize="10" dbTypeName="INT" inputType="number" javaName="deletedBy" javaType="java.lang.Integer" jdbcTypeCode="4" label="Deleted by" notNull="false" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="is_deleted" dbNotNull="false" dbPosition="12" dbSize="1" dbTypeName="BIT" inputType="checkbox" javaName="isDeleted" javaType="java.lang.Boolean" jdbcTypeCode="-7" label="Is deleted" notNull="false" selected="true"/>
+            <fk name="FK_fonctionnalite_fonctionnalite">
+                <fkcol colname="parent_id" colref="id" deferrable="7" deleterule="3" sequence="1" tablename="fonctionnalite" tableref="fonctionnalite" updaterule="3"/>
+            </fk>
+            <link cardinality="OneToMany" cascade="" fetch="DEFAULT" foreignKeyName="fk_profil_fonctionnalite_fonctionnalite" id="LINK_FK_fk_profil_fonctionnalite_fonctionnalite_I" inverseSideOf="LINK_FK_fk_profil_fonctionnalite_fonctionnalite_O" javaName="listOfProfilFonctionnalite" javaType="unused" joinTableName="" mappedBy="fonctionnalite" optional="" owningSide="false" sourceTableName="fonctionnalite" targetEntity="ProfilFonctionnalite" targetTableName="profil_fonctionnalite" used="true"/>
+            <link cardinality="OneToMany" cascade="" fetch="DEFAULT" foreignKeyName="FK_fonctionnalite_fonctionnalite" id="LINK_FK_FK_fonctionnalite_fonctionnalite_I" inverseSideOf="LINK_FK_FK_fonctionnalite_fonctionnalite_O" javaName="listOfFonctionnalite" javaType="unused" joinTableName="" mappedBy="fonctionnalite" optional="" owningSide="false" sourceTableName="fonctionnalite" targetEntity="Fonctionnalite" targetTableName="fonctionnalite" used="true"/>
+            <link cardinality="ManyToOne" cascade="" fetch="DEFAULT" foreignKeyName="FK_fonctionnalite_fonctionnalite" id="LINK_FK_FK_fonctionnalite_fonctionnalite_O" inverseSideOf="" javaName="fonctionnalite" javaType="unused" joinTableName="" mappedBy="" optional="" owningSide="true" sourceTableName="fonctionnalite" targetEntity="Fonctionnalite" targetTableName="fonctionnalite" used="true">
+                <joinColumns>
+                    <joinColumn insertable="false" name="parent_id" nullable="true" referencedColumnName="id" unique="false" updatable="false"/>
+                </joinColumns>
+            </link>
+        </table>
+        <table catalog="vonabri" databaseComment="" databaseType="TABLE" javaBean="Profil" name="profil" schema="">
+            <column dbAutoIncremented="true" dbComment="" dbDefaultValue="" dbName="id" dbNotNull="true" dbPosition="1" dbPrimaryKey="true" dbSize="10" dbTypeName="INT" inputType="number" javaName="id" javaType="java.lang.Integer" jdbcTypeCode="4" label="Id" notNull="true" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="code" dbNotNull="false" dbPosition="2" dbSize="255" dbTypeName="VARCHAR" inputType="text" javaName="code" javaType="java.lang.String" jdbcTypeCode="12" label="Code" maxLength="255" notNull="false" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="libelle" dbNotNull="false" dbPosition="3" dbSize="255" dbTypeName="VARCHAR" inputType="text" javaName="libelle" javaType="java.lang.String" jdbcTypeCode="12" label="Libelle" maxLength="255" notNull="false" selected="true"/>
+            <column dateType="DT" dbComment="" dbDefaultValue="" dbName="created_at" dbNotNull="false" dbPosition="4" dbSize="19" dbTypeName="DATETIME" inputType="" javaName="createdAt" javaType="java.util.Date" jdbcTypeCode="93" label="Created at" notNull="false" selected="true"/>
+            <column dateType="DT" dbComment="" dbDefaultValue="" dbName="updated_at" dbNotNull="false" dbPosition="5" dbSize="19" dbTypeName="DATETIME" inputType="" javaName="updatedAt" javaType="java.util.Date" jdbcTypeCode="93" label="Updated at" notNull="false" selected="true"/>
+            <column dateType="DT" dbComment="" dbDefaultValue="" dbName="deleted_at" dbNotNull="false" dbPosition="6" dbSize="19" dbTypeName="DATETIME" inputType="" javaName="deletedAt" javaType="java.util.Date" jdbcTypeCode="93" label="Deleted at" notNull="false" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="created_by" dbNotNull="false" dbPosition="7" dbSize="10" dbTypeName="INT" inputType="number" javaName="createdBy" javaType="java.lang.Integer" jdbcTypeCode="4" label="Created by" notNull="false" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="updated_by" dbNotNull="false" dbPosition="8" dbSize="10" dbTypeName="INT" inputType="number" javaName="updatedBy" javaType="java.lang.Integer" jdbcTypeCode="4" label="Updated by" notNull="false" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="deleted_by" dbNotNull="false" dbPosition="9" dbSize="10" dbTypeName="INT" inputType="number" javaName="deletedBy" javaType="java.lang.Integer" jdbcTypeCode="4" label="Deleted by" notNull="false" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="is_deleted" dbNotNull="false" dbPosition="10" dbSize="1" dbTypeName="BIT" inputType="checkbox" javaName="isDeleted" javaType="java.lang.Boolean" jdbcTypeCode="-7" label="Is deleted" notNull="false" selected="true"/>
+            <link cardinality="OneToMany" cascade="" fetch="DEFAULT" foreignKeyName="fk_user_profil" id="LINK_FK_fk_user_profil_I" inverseSideOf="LINK_FK_fk_user_profil_O" javaName="listOfUser" javaType="unused" joinTableName="" mappedBy="profil" optional="" owningSide="false" sourceTableName="profil" targetEntity="User" targetTableName="user" used="true"/>
+            <link cardinality="OneToMany" cascade="" fetch="DEFAULT" foreignKeyName="fk_profil_fonctionnalite_profil" id="LINK_FK_fk_profil_fonctionnalite_profil_I" inverseSideOf="LINK_FK_fk_profil_fonctionnalite_profil_O" javaName="listOfProfilFonctionnalite" javaType="unused" joinTableName="" mappedBy="profil" optional="" owningSide="false" sourceTableName="profil" targetEntity="ProfilFonctionnalite" targetTableName="profil_fonctionnalite" used="true"/>
+        </table>
+        <table catalog="vonabri" databaseComment="" databaseType="TABLE" javaBean="ProfilFonctionnalite" name="profil_fonctionnalite" schema="">
+            <column dbAutoIncremented="true" dbComment="" dbDefaultValue="" dbName="id" dbNotNull="true" dbPosition="1" dbPrimaryKey="true" dbSize="10" dbTypeName="INT" inputType="number" javaName="id" javaType="java.lang.Integer" jdbcTypeCode="4" label="Id" notNull="true" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="code" dbNotNull="false" dbPosition="2" dbSize="255" dbTypeName="VARCHAR" inputType="text" javaName="code" javaType="java.lang.String" jdbcTypeCode="12" label="Code" maxLength="255" notNull="false" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="libelle" dbNotNull="false" dbPosition="3" dbSize="255" dbTypeName="VARCHAR" inputType="text" javaName="libelle" javaType="java.lang.String" jdbcTypeCode="12" label="Libelle" maxLength="255" notNull="false" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="profil_id" dbNotNull="false" dbPosition="4" dbSize="10" dbTypeName="INT" inputType="number" javaName="profilId" javaType="java.lang.Integer" jdbcTypeCode="4" label="Profil id" notNull="false" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="fonctionnalite_id" dbNotNull="false" dbPosition="5" dbSize="10" dbTypeName="INT" inputType="number" javaName="fonctionnaliteId" javaType="java.lang.Integer" jdbcTypeCode="4" label="Fonctionnalite id" notNull="false" selected="true"/>
+            <column dateType="DT" dbComment="" dbDefaultValue="" dbName="created_at" dbNotNull="false" dbPosition="6" dbSize="19" dbTypeName="DATETIME" inputType="" javaName="createdAt" javaType="java.util.Date" jdbcTypeCode="93" label="Created at" notNull="false" selected="true"/>
+            <column dateType="DT" dbComment="" dbDefaultValue="" dbName="updated_at" dbNotNull="false" dbPosition="7" dbSize="19" dbTypeName="DATETIME" inputType="" javaName="updatedAt" javaType="java.util.Date" jdbcTypeCode="93" label="Updated at" notNull="false" selected="true"/>
+            <column dateType="DT" dbComment="" dbDefaultValue="" dbName="deleted_at" dbNotNull="false" dbPosition="8" dbSize="19" dbTypeName="DATETIME" inputType="" javaName="deletedAt" javaType="java.util.Date" jdbcTypeCode="93" label="Deleted at" notNull="false" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="created_by" dbNotNull="false" dbPosition="9" dbSize="10" dbTypeName="INT" inputType="number" javaName="createdBy" javaType="java.lang.Integer" jdbcTypeCode="4" label="Created by" notNull="false" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="updated_by" dbNotNull="false" dbPosition="10" dbSize="10" dbTypeName="INT" inputType="number" javaName="updatedBy" javaType="java.lang.Integer" jdbcTypeCode="4" label="Updated by" notNull="false" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="is_deleted" dbNotNull="false" dbPosition="11" dbSize="1" dbTypeName="BIT" inputType="checkbox" javaName="isDeleted" javaType="java.lang.Boolean" jdbcTypeCode="-7" label="Is deleted" notNull="false" selected="true"/>
+            <fk name="fk_profil_fonctionnalite_fonctionnalite">
+                <fkcol colname="fonctionnalite_id" colref="id" deferrable="7" deleterule="3" sequence="1" tablename="profil_fonctionnalite" tableref="fonctionnalite" updaterule="3"/>
+            </fk>
+            <fk name="fk_profil_fonctionnalite_profil">
+                <fkcol colname="profil_id" colref="id" deferrable="7" deleterule="3" sequence="1" tablename="profil_fonctionnalite" tableref="profil" updaterule="3"/>
+            </fk>
+            <link cardinality="ManyToOne" cascade="" fetch="DEFAULT" foreignKeyName="fk_profil_fonctionnalite_profil" id="LINK_FK_fk_profil_fonctionnalite_profil_O" inverseSideOf="" javaName="profil" javaType="unused" joinTableName="" mappedBy="" optional="" owningSide="true" sourceTableName="profil_fonctionnalite" targetEntity="Profil" targetTableName="profil" used="true">
+                <joinColumns>
+                    <joinColumn insertable="false" name="profil_id" nullable="true" referencedColumnName="id" unique="false" updatable="false"/>
+                </joinColumns>
+            </link>
+            <link cardinality="ManyToOne" cascade="" fetch="DEFAULT" foreignKeyName="fk_profil_fonctionnalite_fonctionnalite" id="LINK_FK_fk_profil_fonctionnalite_fonctionnalite_O" inverseSideOf="" javaName="fonctionnalite" javaType="unused" joinTableName="" mappedBy="" optional="" owningSide="true" sourceTableName="profil_fonctionnalite" targetEntity="Fonctionnalite" targetTableName="fonctionnalite" used="true">
+                <joinColumns>
+                    <joinColumn insertable="false" name="fonctionnalite_id" nullable="true" referencedColumnName="id" unique="false" updatable="false"/>
+                </joinColumns>
+            </link>
+        </table>
+        <table catalog="vonabri" databaseComment="" databaseType="TABLE" javaBean="User" name="user" schema="">
+            <column dbAutoIncremented="true" dbComment="" dbDefaultValue="" dbName="id" dbNotNull="true" dbPosition="1" dbPrimaryKey="true" dbSize="10" dbTypeName="INT" inputType="number" javaName="id" javaType="java.lang.Integer" jdbcTypeCode="4" label="Id" notNull="true" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="email" dbNotNull="false" dbPosition="2" dbSize="225" dbTypeName="VARCHAR" inputType="text" javaName="email" javaType="java.lang.String" jdbcTypeCode="12" label="Email" maxLength="225" notNull="false" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="password" dbNotNull="false" dbPosition="3" dbSize="225" dbTypeName="VARCHAR" inputType="text" javaName="password" javaType="java.lang.String" jdbcTypeCode="12" label="Password" maxLength="225" notNull="false" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="profil_id" dbNotNull="false" dbPosition="4" dbSize="10" dbTypeName="INT" inputType="number" javaName="profilId" javaType="java.lang.Integer" jdbcTypeCode="4" label="Profil id" notNull="false" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="user_type_id" dbNotNull="false" dbPosition="5" dbSize="10" dbTypeName="INT" inputType="number" javaName="userTypeId" javaType="java.lang.Integer" jdbcTypeCode="4" label="User type id" notNull="false" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="is_locked" dbNotNull="false" dbPosition="6" dbSize="1" dbTypeName="BIT" inputType="checkbox" javaName="isLocked" javaType="java.lang.Boolean" jdbcTypeCode="-7" label="Is locked" notNull="false" selected="true"/>
+            <column dateType="DT" dbComment="" dbDefaultValue="" dbName="created_at" dbNotNull="false" dbPosition="7" dbSize="19" dbTypeName="DATETIME" inputType="" javaName="createdAt" javaType="java.util.Date" jdbcTypeCode="93" label="Created at" notNull="false" selected="true"/>
+            <column dateType="DT" dbComment="" dbDefaultValue="" dbName="updated_at" dbNotNull="false" dbPosition="8" dbSize="19" dbTypeName="DATETIME" inputType="" javaName="updatedAt" javaType="java.util.Date" jdbcTypeCode="93" label="Updated at" notNull="false" selected="true"/>
+            <column dateType="DT" dbComment="" dbDefaultValue="" dbName="deleted_at" dbNotNull="false" dbPosition="9" dbSize="19" dbTypeName="DATETIME" inputType="" javaName="deletedAt" javaType="java.util.Date" jdbcTypeCode="93" label="Deleted at" notNull="false" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="created_by" dbNotNull="false" dbPosition="10" dbSize="10" dbTypeName="INT" inputType="number" javaName="createdBy" javaType="java.lang.Integer" jdbcTypeCode="4" label="Created by" notNull="false" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="updated_by" dbNotNull="false" dbPosition="11" dbSize="10" dbTypeName="INT" inputType="number" javaName="updatedBy" javaType="java.lang.Integer" jdbcTypeCode="4" label="Updated by" notNull="false" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="deleted_by" dbNotNull="false" dbPosition="12" dbSize="10" dbTypeName="INT" inputType="number" javaName="deletedBy" javaType="java.lang.Integer" jdbcTypeCode="4" label="Deleted by" notNull="false" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="is_deleted" dbNotNull="false" dbPosition="13" dbSize="1" dbTypeName="BIT" inputType="checkbox" javaName="isDeleted" javaType="java.lang.Boolean" jdbcTypeCode="-7" label="Is deleted" notNull="false" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="is_connected" dbNotNull="false" dbPosition="14" dbSize="1" dbTypeName="BIT" inputType="checkbox" javaName="isConnected" javaType="java.lang.Boolean" jdbcTypeCode="-7" label="Is connected" notNull="false" selected="true"/>
+            <fk name="fk_user_profil">
+                <fkcol colname="profil_id" colref="id" deferrable="7" deleterule="3" sequence="1" tablename="user" tableref="profil" updaterule="3"/>
+            </fk>
+            <fk name="fk_user_user_type">
+                <fkcol colname="user_type_id" colref="id" deferrable="7" deleterule="3" sequence="1" tablename="user" tableref="user_type" updaterule="3"/>
+            </fk>
+            <link cardinality="ManyToOne" cascade="" fetch="DEFAULT" foreignKeyName="fk_user_user_type" id="LINK_FK_fk_user_user_type_O" inverseSideOf="" javaName="userType" javaType="unused" joinTableName="" mappedBy="" optional="" owningSide="true" sourceTableName="user" targetEntity="UserType" targetTableName="user_type" used="true">
+                <joinColumns>
+                    <joinColumn insertable="false" name="user_type_id" nullable="true" referencedColumnName="id" unique="false" updatable="false"/>
+                </joinColumns>
+            </link>
+            <link cardinality="ManyToOne" cascade="" fetch="DEFAULT" foreignKeyName="fk_user_profil" id="LINK_FK_fk_user_profil_O" inverseSideOf="" javaName="profil" javaType="unused" joinTableName="" mappedBy="" optional="" owningSide="true" sourceTableName="user" targetEntity="Profil" targetTableName="profil" used="true">
+                <joinColumns>
+                    <joinColumn insertable="false" name="profil_id" nullable="true" referencedColumnName="id" unique="false" updatable="false"/>
+                </joinColumns>
+            </link>
+        </table>
+        <table catalog="vonabri" databaseComment="" databaseType="TABLE" javaBean="UserType" name="user_type" schema="">
+            <column dbAutoIncremented="true" dbComment="" dbDefaultValue="" dbName="id" dbNotNull="true" dbPosition="1" dbPrimaryKey="true" dbSize="10" dbTypeName="INT" inputType="number" javaName="id" javaType="java.lang.Integer" jdbcTypeCode="4" label="Id" notNull="true" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="code" dbNotNull="false" dbPosition="2" dbSize="255" dbTypeName="VARCHAR" inputType="text" javaName="code" javaType="java.lang.String" jdbcTypeCode="12" label="Code" maxLength="255" notNull="false" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="libelle" dbNotNull="false" dbPosition="3" dbSize="255" dbTypeName="VARCHAR" inputType="text" javaName="libelle" javaType="java.lang.String" jdbcTypeCode="12" label="Libelle" maxLength="255" notNull="false" selected="true"/>
+            <column dateType="DT" dbComment="" dbDefaultValue="" dbName="created_at" dbNotNull="false" dbPosition="4" dbSize="19" dbTypeName="DATETIME" inputType="" javaName="createdAt" javaType="java.util.Date" jdbcTypeCode="93" label="Created at" notNull="false" selected="true"/>
+            <column dateType="DT" dbComment="" dbDefaultValue="" dbName="updated_at" dbNotNull="false" dbPosition="5" dbSize="19" dbTypeName="DATETIME" inputType="" javaName="updatedAt" javaType="java.util.Date" jdbcTypeCode="93" label="Updated at" notNull="false" selected="true"/>
+            <column dateType="DT" dbComment="" dbDefaultValue="" dbName="deleted_at" dbNotNull="false" dbPosition="6" dbSize="19" dbTypeName="DATETIME" inputType="" javaName="deletedAt" javaType="java.util.Date" jdbcTypeCode="93" label="Deleted at" notNull="false" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="created_by" dbNotNull="false" dbPosition="7" dbSize="10" dbTypeName="INT" inputType="number" javaName="createdBy" javaType="java.lang.Integer" jdbcTypeCode="4" label="Created by" notNull="false" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="updated_by" dbNotNull="false" dbPosition="8" dbSize="10" dbTypeName="INT" inputType="number" javaName="updatedBy" javaType="java.lang.Integer" jdbcTypeCode="4" label="Updated by" notNull="false" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="deleted_by" dbNotNull="false" dbPosition="9" dbSize="10" dbTypeName="INT" inputType="number" javaName="deletedBy" javaType="java.lang.Integer" jdbcTypeCode="4" label="Deleted by" notNull="false" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="is_deleted" dbNotNull="false" dbPosition="10" dbSize="1" dbTypeName="BIT" inputType="checkbox" javaName="isDeleted" javaType="java.lang.Boolean" jdbcTypeCode="-7" label="Is deleted" notNull="false" selected="true"/>
+            <link cardinality="OneToMany" cascade="" fetch="DEFAULT" foreignKeyName="fk_user_user_type" id="LINK_FK_fk_user_user_type_I" inverseSideOf="LINK_FK_fk_user_user_type_O" javaName="listOfUser" javaType="unused" joinTableName="" mappedBy="userType" optional="" owningSide="false" sourceTableName="user_type" targetEntity="User" targetTableName="user" used="true"/>
+        </table>
+    </tableList>
+</root>
