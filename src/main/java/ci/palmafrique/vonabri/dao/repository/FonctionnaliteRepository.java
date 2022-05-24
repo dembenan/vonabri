@@ -66,15 +66,6 @@ public interface FonctionnaliteRepository extends JpaRepository<Fonctionnalite, 
 	 * @return An Object Fonctionnalite whose icon is equals to the given icon. If
 	 *         no Fonctionnalite is found, this method returns null.
 	 */
-	@Query("select e from Fonctionnalite e where e.icon = :icon and e.isDeleted = :isDeleted")
-	List<Fonctionnalite> findByIcon(@Param("icon")String icon, @Param("isDeleted")Boolean isDeleted);
-	/**
-	 * Finds Fonctionnalite by using createdAt as a search criteria.
-	 * 
-	 * @param createdAt
-	 * @return An Object Fonctionnalite whose createdAt is equals to the given createdAt. If
-	 *         no Fonctionnalite is found, this method returns null.
-	 */
 	@Query("select e from Fonctionnalite e where e.createdAt = :createdAt and e.isDeleted = :isDeleted")
 	List<Fonctionnalite> findByCreatedAt(@Param("createdAt")Date createdAt, @Param("isDeleted")Boolean isDeleted);
 	/**
@@ -250,9 +241,7 @@ public interface FonctionnaliteRepository extends JpaRepository<Fonctionnalite, 
 			if (Utilities.notBlank(dto.getLibelle())) {
 				listOfQuery.add(CriteriaUtils.generateCriteria("libelle", dto.getLibelle(), "e.libelle", "String", dto.getLibelleParam(), param, index, locale));
 			}
-			if (Utilities.notBlank(dto.getIcon())) {
-				listOfQuery.add(CriteriaUtils.generateCriteria("icon", dto.getIcon(), "e.icon", "String", dto.getIconParam(), param, index, locale));
-			}
+
 			if (Utilities.notBlank(dto.getCreatedAt())) {
 				listOfQuery.add(CriteriaUtils.generateCriteria("createdAt", dto.getCreatedAt(), "e.createdAt", "Date", dto.getCreatedAtParam(), param, index, locale));
 			}

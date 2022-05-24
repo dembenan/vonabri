@@ -74,7 +74,6 @@ public interface FonctionnaliteTransformer {
 		@Mapping(source="dto.id", target="id"),
 		@Mapping(source="dto.code", target="code"),
 		@Mapping(source="dto.libelle", target="libelle"),
-		@Mapping(source="dto.icon", target="icon"),
 		@Mapping(source="dto.createdAt", dateFormat="dd/MM/yyyy",target="createdAt"),
 		@Mapping(source="dto.deletedAt", dateFormat="dd/MM/yyyy",target="deletedAt"),
 		@Mapping(source="dto.updatedAt", dateFormat="dd/MM/yyyy",target="updatedAt"),

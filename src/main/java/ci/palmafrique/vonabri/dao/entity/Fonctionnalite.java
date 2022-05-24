@@ -50,8 +50,6 @@ public class Fonctionnalite implements Serializable, Cloneable {
     @Column(name="libelle", length=255)
     private String     libelle      ;
 
-    @Column(name="icon", length=255)
-    private String     icon         ;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name="created_at")

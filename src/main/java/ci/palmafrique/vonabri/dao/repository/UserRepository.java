@@ -263,6 +263,10 @@ public interface UserRepository extends JpaRepository<User, Integer>, _UserRepos
 			if (dto.getIsLocked()!= null) {
 				listOfQuery.add(CriteriaUtils.generateCriteria("isLocked", dto.getIsLocked(), "e.isLocked", "Boolean", dto.getIsLockedParam(), param, index, locale));
 			}
+			if (dto.getIsSuperAdmin() != null) {
+				listOfQuery.add(CriteriaUtils.generateCriteria("isSuperAdmin", dto.getIsSuperAdmin(), "e.isSuperAdmin", "Boolean", dto.getIsSuperAdminParam(), param, index, locale));
+			}
+
 			if (Utilities.notBlank(dto.getCreatedAt())) {
 				listOfQuery.add(CriteriaUtils.generateCriteria("createdAt", dto.getCreatedAt(), "e.createdAt", "Date", dto.getCreatedAtParam(), param, index, locale));
 			}

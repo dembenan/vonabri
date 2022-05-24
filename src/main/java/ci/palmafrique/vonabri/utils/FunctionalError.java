@@ -14,7 +14,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
-import lombok.*;
+
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * Functional Error
@@ -40,7 +43,11 @@ public class FunctionalError {
 		status.setMessage(messageSource.getMessage("StatusMessage.SUCCESS", new Object[] {}, locale) + ": " + message);
 		return status;
 	}
-
+	public Status USER_IS_LOCKED(String message, Locale locale) {
+		status.setCode(StatusCode.FUNC_USER_IS_LOCKED);
+		status.setMessage(messageSource.getMessage("StatusMessage.FUNC_USER_IS_LOCKED", new Object[] {}, locale) + ": " + message);
+		return status;
+	}
 	public Status AUTH_FAIL(String message, Locale locale) {
 		status.setCode(StatusCode.FUNC_AUTH_FAIL);
 		status.setMessage(messageSource.getMessage("StatusMessage.FUNC_AUTH_FAIL", new Object[] {}, locale) + ": " + message);
@@ -178,4 +185,5 @@ public class FunctionalError {
 		status.setMessage(messageSource.getMessage("StatusMessage.FUNC_DATA_DUPLICATE", new Object[] {}, locale) + ": " + message);
 		return status;
 	}
+	
 }

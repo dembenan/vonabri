@@ -1,0 +1,548 @@
+{
+    "info": {
+        "_postman_id": "project.id",
+        "name": "ci_palmafrique_vonabri",
+        "schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "element",
+            "item": [
+                {
+                    "name": "element-getByCriteria",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"isSimpleLoading\":false,\n\t\"data\":{\n  \t\t\"id\": \"\",\n\t\t\"code\": \"\",\n\t\t\"libelle\": \"\",\n\t\t\"icon\": \"\",\n\t\t\"parentId\": \"\",\n\t\t\"elementTypeId\": \"\",\n\t\t\"createdAt\": \"\",\n\t\t\"deletedAt\": \"\",\n\t\t\"updatedAt\": \"\",\n\t\t\"createdBy\": \"\",\n\t\t\"updatedBy\": \"\",\n\t\t\"deletedBy\": \"\",\n\t\t\"isDeleted\": \"\"\n\t}  \n}"
+                        },
+                        "url": "{{main_url}}/element/getByCriteria"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "element-create",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"icon\": \"\",\n\t\t\t\"parentId\": \"\",\n\t\t\t\"elementTypeId\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/element/create"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "element-update",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\",\n\t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"icon\": \"\",\n\t\t\t\"parentId\": \"\",\n\t\t\t\"elementTypeId\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/element/update"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "element-delete",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/element/delete"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "elementType",
+            "item": [
+                {
+                    "name": "elementType-getByCriteria",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"isSimpleLoading\":false,\n\t\"data\":{\n  \t\t\"id\": \"\",\n\t\t\"code\": \"\",\n\t\t\"libelle\": \"\",\n\t\t\"createdAt\": \"\",\n\t\t\"updatedAt\": \"\",\n\t\t\"deletedAt\": \"\",\n\t\t\"createdBy\": \"\",\n\t\t\"updatedBy\": \"\",\n\t\t\"deletedBy\": \"\",\n\t\t\"isDeleted\": \"\"\n\t}  \n}"
+                        },
+                        "url": "{{main_url}}/elementType/getByCriteria"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "elementType-create",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/elementType/create"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "elementType-update",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\",\n\t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/elementType/update"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "elementType-delete",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/elementType/delete"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "fonctionnalite",
+            "item": [
+                {
+                    "name": "fonctionnalite-getByCriteria",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"isSimpleLoading\":false,\n\t\"data\":{\n  \t\t\"id\": \"\",\n\t\t\"code\": \"\",\n\t\t\"libelle\": \"\",\n\t\t\"icon\": \"\",\n\t\t\"parentId\": \"\",\n\t\t\"createdAt\": \"\",\n\t\t\"deletedAt\": \"\",\n\t\t\"updatedAt\": \"\",\n\t\t\"createdBy\": \"\",\n\t\t\"updatedBy\": \"\",\n\t\t\"deletedBy\": \"\",\n\t\t\"isDeleted\": \"\"\n\t}  \n}"
+                        },
+                        "url": "{{main_url}}/fonctionnalite/getByCriteria"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "fonctionnalite-create",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"icon\": \"\",\n\t\t\t\"parentId\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/fonctionnalite/create"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "fonctionnalite-update",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\",\n\t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"icon\": \"\",\n\t\t\t\"parentId\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/fonctionnalite/update"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "fonctionnalite-delete",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/fonctionnalite/delete"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "profil",
+            "item": [
+                {
+                    "name": "profil-getByCriteria",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"isSimpleLoading\":false,\n\t\"data\":{\n  \t\t\"id\": \"\",\n\t\t\"code\": \"\",\n\t\t\"libelle\": \"\",\n\t\t\"createdAt\": \"\",\n\t\t\"updatedAt\": \"\",\n\t\t\"deletedAt\": \"\",\n\t\t\"createdBy\": \"\",\n\t\t\"updatedBy\": \"\",\n\t\t\"deletedBy\": \"\",\n\t\t\"isDeleted\": \"\"\n\t}  \n}"
+                        },
+                        "url": "{{main_url}}/profil/getByCriteria"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "profil-create",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/profil/create"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "profil-update",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\",\n\t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/profil/update"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "profil-delete",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/profil/delete"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "profilFonctionnalite",
+            "item": [
+                {
+                    "name": "profilFonctionnalite-getByCriteria",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"isSimpleLoading\":false,\n\t\"data\":{\n  \t\t\"id\": \"\",\n\t\t\"code\": \"\",\n\t\t\"libelle\": \"\",\n\t\t\"profilId\": \"\",\n\t\t\"fonctionnaliteId\": \"\",\n\t\t\"createdAt\": \"\",\n\t\t\"updatedAt\": \"\",\n\t\t\"deletedAt\": \"\",\n\t\t\"createdBy\": \"\",\n\t\t\"updatedBy\": \"\",\n\t\t\"isDeleted\": \"\"\n\t}  \n}"
+                        },
+                        "url": "{{main_url}}/profilFonctionnalite/getByCriteria"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "profilFonctionnalite-create",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"profilId\": \"\",\n\t\t\t\"fonctionnaliteId\": \"\",\n\t\t\t\"deletedAt\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/profilFonctionnalite/create"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "profilFonctionnalite-update",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\",\n\t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"profilId\": \"\",\n\t\t\t\"fonctionnaliteId\": \"\",\n\t\t\t\"deletedAt\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/profilFonctionnalite/update"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "profilFonctionnalite-delete",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/profilFonctionnalite/delete"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "user",
+            "item": [
+                {
+                    "name": "user-getByCriteria",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"isSimpleLoading\":false,\n\t\"data\":{\n  \t\t\"id\": \"\",\n\t\t\"email\": \"\",\n\t\t\"password\": \"\",\n\t\t\"profilId\": \"\",\n\t\t\"userTypeId\": \"\",\n\t\t\"isLocked\": \"\",\n\t\t\"createdAt\": \"\",\n\t\t\"updatedAt\": \"\",\n\t\t\"deletedAt\": \"\",\n\t\t\"createdBy\": \"\",\n\t\t\"updatedBy\": \"\",\n\t\t\"deletedBy\": \"\",\n\t\t\"isDeleted\": \"\",\n\t\t\"isConnected\": \"\"\n\t}  \n}"
+                        },
+                        "url": "{{main_url}}/user/getByCriteria"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "user-create",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"email\": \"\",\n\t\t\t\"password\": \"\",\n\t\t\t\"profilId\": \"\",\n\t\t\t\"userTypeId\": \"\",\n\t\t\t\"isLocked\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\",\n\t\t\t\"isConnected\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/user/create"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "user-update",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\",\n\t\t\t\"email\": \"\",\n\t\t\t\"password\": \"\",\n\t\t\t\"profilId\": \"\",\n\t\t\t\"userTypeId\": \"\",\n\t\t\t\"isLocked\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\",\n\t\t\t\"isConnected\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/user/update"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "user-delete",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/user/delete"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "userType",
+            "item": [
+                {
+                    "name": "userType-getByCriteria",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"isSimpleLoading\":false,\n\t\"data\":{\n  \t\t\"id\": \"\",\n\t\t\"code\": \"\",\n\t\t\"libelle\": \"\",\n\t\t\"createdAt\": \"\",\n\t\t\"updatedAt\": \"\",\n\t\t\"deletedAt\": \"\",\n\t\t\"createdBy\": \"\",\n\t\t\"updatedBy\": \"\",\n\t\t\"deletedBy\": \"\",\n\t\t\"isDeleted\": \"\"\n\t}  \n}"
+                        },
+                        "url": "{{main_url}}/userType/getByCriteria"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "userType-create",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/userType/create"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "userType-update",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\",\n\t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/userType/update"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "userType-delete",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/userType/delete"
+                    },
+                    "response": []
+                }
+            ]
+        }
+    ]
+}

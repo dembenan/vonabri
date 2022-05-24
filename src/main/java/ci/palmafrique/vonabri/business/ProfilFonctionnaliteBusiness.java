@@ -131,7 +131,6 @@ public class ProfilFonctionnaliteBusiness implements IBasicBusiness<Request<Prof
 				fieldsToVerify.put("libelle", dto.getLibelle());
 				fieldsToVerify.put("profilId", dto.getProfilId());
 				fieldsToVerify.put("fonctionnaliteId", dto.getFonctionnaliteId());
-				fieldsToVerify.put("deletedAt", dto.getDeletedAt());
 				if (!Validate.RequiredValue(fieldsToVerify).isGood()) {
 					response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
 					response.setHasError(true);

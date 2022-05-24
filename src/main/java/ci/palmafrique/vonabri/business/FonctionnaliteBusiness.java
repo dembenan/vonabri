@@ -13,10 +13,12 @@
 
 package ci.palmafrique.vonabri.business;
 
+import java.io.FileReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -25,6 +27,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.tomcat.util.json.JSONParser;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataAccessResourceFailureException;
@@ -125,10 +130,8 @@ public class FonctionnaliteBusiness implements IBasicBusiness<Request<Fonctionna
 				// Definir les parametres obligatoires
 				Map<String, java.lang.Object> fieldsToVerify = new HashMap<String, java.lang.Object>();
 				fieldsToVerify.put("code", dto.getCode());
-				fieldsToVerify.put("libelle", dto.getLibelle());
-				fieldsToVerify.put("icon", dto.getIcon());
-				fieldsToVerify.put("parentId", dto.getParentId());
-				fieldsToVerify.put("fonctionnaliteTypeId", dto.getFonctionnaliteTypeId());
+				fieldsToVerify.put("name", dto.getName());
+				//fieldsToVerify.put("parentCode", dto.getParentCode());
 				if (!Validate.RequiredValue(fieldsToVerify).isGood()) {
 					response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
 					response.setHasError(true);
@@ -172,11 +175,21 @@ public class FonctionnaliteBusiness implements IBasicBusiness<Request<Fonctionna
 				}
 
 				// Verify if fonctionnalite exist
-				Fonctionnalite existingFonctionnalite = null;
-				if (dto.getParentId() != null && dto.getParentId() > 0){
-					existingFonctionnalite = fonctionnaliteRepository.findOne(dto.getParentId(), false);
-					if (existingFonctionnalite == null) {
-						response.setStatus(functionalError.DATA_NOT_EXIST("fonctionnalite parentId -> " + dto.getParentId(), locale));
+//				Fonctionnalite existingFonctionnalite = null;
+//				if (dto.getParentId() != null && dto.getParentId() > 0){
+//					existingFonctionnalite = fonctionnaliteRepository.findOne(dto.getParentId(), false);
+//					if (existingFonctionnalite == null) {
+//						response.setStatus(functionalError.DATA_NOT_EXIST("fonctionnalite parentId -> " + dto.getParentId(), locale));
+//						response.setHasError(true);
+//						return response;
+//					}
+//				}
+				// verif unique libelle in db
+				Fonctionnalite existingParent = null;
+				if (Utilities.notBlank(dto.getParentCode())) {
+					existingParent = fonctionnaliteRepository.findByLibelle(dto.getParentCode(), false);
+					if (existingParent != null) {
+						response.setStatus(functionalError.DATA_EXIST("fonctionnalite parent code -> " +dto.getParentCode(), locale));
 						response.setHasError(true);
 						return response;
 					}
@@ -191,8 +204,9 @@ public class FonctionnaliteBusiness implements IBasicBusiness<Request<Fonctionna
 //						return response;
 //					}
 //				}
+				dto.setLibelle(dto.getName());
 				Fonctionnalite entityToSave = null;
-				entityToSave = FonctionnaliteTransformer.INSTANCE.toEntity(dto, existingFonctionnalite);
+				entityToSave = FonctionnaliteTransformer.INSTANCE.toEntity(dto, existingParent);
 				entityToSave.setCreatedAt(Utilities.getCurrentDate());
 				entityToSave.setCreatedBy(request.getUser());
 				entityToSave.setIsDeleted(false);
@@ -326,9 +340,7 @@ public class FonctionnaliteBusiness implements IBasicBusiness<Request<Fonctionna
 				if (Utilities.notBlank(dto.getLibelle())) {
 					entityToSave.setLibelle(dto.getLibelle());
 				}
-				if (Utilities.notBlank(dto.getIcon())) {
-					entityToSave.setIcon(dto.getIcon());
-				}
+
 				if (Utilities.notBlank(dto.getDeletedAt())) {
 					entityToSave.setDeletedAt(dateFormat.parse(dto.getDeletedAt()));
 				}

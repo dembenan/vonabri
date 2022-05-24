@@ -77,6 +77,7 @@ public interface UserTransformer {
 		@Mapping(source="dto.email", target="email"),
 		@Mapping(source="dto.password", target="password"),
 		@Mapping(source="dto.isLocked", target="isLocked"),
+		@Mapping(source="dto.isSuperAdmin", target="isSuperAdmin"),
 		@Mapping(source="dto.createdAt", dateFormat="dd/MM/yyyy",target="createdAt"),
 		@Mapping(source="dto.updatedAt", dateFormat="dd/MM/yyyy",target="updatedAt"),
 		@Mapping(source="dto.deletedAt", dateFormat="dd/MM/yyyy",target="deletedAt"),

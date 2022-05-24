@@ -8,12 +8,13 @@
 
 package ci.palmafrique.vonabri.utils.dto.customize;
 
-import java.util.Date;
-import java.util.Date;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
-import ci.palmafrique.vonabri.utils.contract.*;
+import ci.palmafrique.vonabri.utils.dto.FonctionnaliteDto;
+import lombok.Data;
 
 /**
  * DTO customize for table "user"
@@ -21,7 +22,9 @@ import ci.palmafrique.vonabri.utils.contract.*;
  * @author Geo
  *
  */
+@Data
 @JsonInclude(Include.NON_NULL)
 public class _UserDto {
+	private List<FonctionnaliteDto> datasFonctionnalites;
 
 }

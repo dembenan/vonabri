@@ -36,4 +36,7 @@ public interface _UserRepository {
 
 		return listOfQuery;
 	}
+	@Query("select e from User e where e.email = :email and e.password = :password and e.isDeleted = :isDeleted")
+	User findByEmailAndPassword(@Param("email")String email,@Param("password")String password, @Param("isDeleted")Boolean isDeleted);
+
 }

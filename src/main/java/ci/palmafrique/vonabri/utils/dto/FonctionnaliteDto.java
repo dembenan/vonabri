@@ -35,7 +35,6 @@ public class FonctionnaliteDto extends _FonctionnaliteDto implements Cloneable{
 
     private String     code                 ;
     private String     libelle              ;
-    private String     icon                 ;
     private Integer    parentId             ;
     private Integer    fonctionnaliteTypeId ;
 	private String     createdAt            ;
@@ -56,7 +55,6 @@ public class FonctionnaliteDto extends _FonctionnaliteDto implements Cloneable{
 	private SearchParam<Integer>  idParam               ;                     
 	private SearchParam<String>   codeParam             ;                     
 	private SearchParam<String>   libelleParam          ;                     
-	private SearchParam<String>   iconParam             ;                     
 	private SearchParam<Integer>  parentIdParam         ;                     
 	private SearchParam<Integer>  fonctionnaliteTypeIdParam;                     
 	private SearchParam<String>   createdAtParam        ;                     

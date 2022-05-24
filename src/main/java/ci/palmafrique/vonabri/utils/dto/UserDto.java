@@ -45,6 +45,11 @@ public class UserDto extends _UserDto implements Cloneable{
     private Integer    deletedBy            ;
     private Boolean    isDeleted            ;
     private Boolean    isConnected          ;
+    private Boolean    isSuperAdmin          ;
+
+
+    
+    
 
     //----------------------------------------------------------------------
     // ENTITY LINKS FIELD ( RELATIONSHIP )
@@ -68,7 +73,8 @@ public class UserDto extends _UserDto implements Cloneable{
 	private SearchParam<Integer>  updatedByParam        ;                     
 	private SearchParam<Integer>  deletedByParam        ;                     
 	private SearchParam<Boolean>  isDeletedParam        ;                     
-	private SearchParam<Boolean>  isConnectedParam      ;                     
+	private SearchParam<Boolean>  isConnectedParam      ;  
+	private SearchParam<Boolean>  isSuperAdminParam      ;                     
 	private SearchParam<String>   userTypeCodeParam     ;                     
 	private SearchParam<String>   userTypeLibelleParam  ;                     
 	private SearchParam<String>   profilCodeParam       ;                     

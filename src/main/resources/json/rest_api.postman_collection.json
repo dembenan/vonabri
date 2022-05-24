@@ -9,6 +9,30 @@
 	"public": false,
 	"folders": [
 		{
+			"id": "element.id",
+			"name": "element",
+			"description": "",
+			"order": [
+				"element.getByCriteria",
+				"element.create",
+				"element.update",
+				"element.delete"
+			],
+			"owner": "1151918"
+		},
+		{
+			"id": "elementType.id",
+			"name": "elementType",
+			"description": "",
+			"order": [
+				"elementType.getByCriteria",
+				"elementType.create",
+				"elementType.update",
+				"elementType.delete"
+			],
+			"owner": "1151918"
+		},
+		{
 			"id": "fonctionnalite.id",
 			"name": "fonctionnalite",
 			"description": "",
@@ -17,18 +41,6 @@
 				"fonctionnalite.create",
 				"fonctionnalite.update",
 				"fonctionnalite.delete"
-			],
-			"owner": "1151918"
-		},
-		{
-			"id": "fonctionnaliteType.id",
-			"name": "fonctionnaliteType",
-			"description": "",
-			"order": [
-				"fonctionnaliteType.getByCriteria",
-				"fonctionnaliteType.create",
-				"fonctionnaliteType.update",
-				"fonctionnaliteType.delete"
 			],
 			"owner": "1151918"
 		},
@@ -83,6 +95,246 @@
 	],
 	"requests": [
 		{
+			"id": "element.create",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{main_url}}/element/create",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1497439012859,
+			"name": "element-create",
+			"description": "",
+			"collectionId": "project.id",
+			"responses": [],
+			"rawModeData": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"icon\": \"\",\n\t\t\t\"parentId\": \"\",\n\t\t\t\"elementTypeId\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+		},
+		{
+			"id": "element.update",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{main_url}}/element/update",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1497439012859,
+			"name": "element-update",
+			"description": "",
+			"collectionId": "project.id",
+			"responses": [],
+			"rawModeData": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\",\n\t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"icon\": \"\",\n\t\t\t\"parentId\": \"\",\n\t\t\t\"elementTypeId\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+		},
+		{
+			"id": "element.delete",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{main_url}}/element/delete",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1497439012859,
+			"name": "element-delete",
+			"description": "",
+			"collectionId": "project.id",
+			"responses": [],
+			"rawModeData": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\"\n\t\t} \n\t]  \n}"
+		},
+		{
+			"id": "element.getByCriteria",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{main_url}}/element/getByCriteria",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1497439015040,
+			"name": "element-getByCriteria",
+			"description": "",
+			"collectionId": "project.id",
+			"responses": [],
+			"rawModeData": "{\n\t\"user\":\"1\",\n\t\"isSimpleLoading\":false,\n\t\"data\":{\n  \t\t\"id\": \"\",\n\t\t\"code\": \"\",\n\t\t\"libelle\": \"\",\n\t\t\"icon\": \"\",\n\t\t\"parentId\": \"\",\n\t\t\"elementTypeId\": \"\",\n\t\t\"createdAt\": \"\",\n\t\t\"deletedAt\": \"\",\n\t\t\"updatedAt\": \"\",\n\t\t\"createdBy\": \"\",\n\t\t\"updatedBy\": \"\",\n\t\t\"deletedBy\": \"\",\n\t\t\"isDeleted\": \"\"\n\t}  \n}"
+		},
+		{
+			"id": "elementType.create",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{main_url}}/elementType/create",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1497439012859,
+			"name": "elementType-create",
+			"description": "",
+			"collectionId": "project.id",
+			"responses": [],
+			"rawModeData": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+		},
+		{
+			"id": "elementType.update",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{main_url}}/elementType/update",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1497439012859,
+			"name": "elementType-update",
+			"description": "",
+			"collectionId": "project.id",
+			"responses": [],
+			"rawModeData": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\",\n\t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+		},
+		{
+			"id": "elementType.delete",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{main_url}}/elementType/delete",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1497439012859,
+			"name": "elementType-delete",
+			"description": "",
+			"collectionId": "project.id",
+			"responses": [],
+			"rawModeData": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\"\n\t\t} \n\t]  \n}"
+		},
+		{
+			"id": "elementType.getByCriteria",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "{{main_url}}/elementType/getByCriteria",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1497439015040,
+			"name": "elementType-getByCriteria",
+			"description": "",
+			"collectionId": "project.id",
+			"responses": [],
+			"rawModeData": "{\n\t\"user\":\"1\",\n\t\"isSimpleLoading\":false,\n\t\"data\":{\n  \t\t\"id\": \"\",\n\t\t\"code\": \"\",\n\t\t\"libelle\": \"\",\n\t\t\"createdAt\": \"\",\n\t\t\"updatedAt\": \"\",\n\t\t\"deletedAt\": \"\",\n\t\t\"createdBy\": \"\",\n\t\t\"updatedBy\": \"\",\n\t\t\"deletedBy\": \"\",\n\t\t\"isDeleted\": \"\"\n\t}  \n}"
+		},
+		{
 			"id": "fonctionnalite.create",
 			"headers": "Content-Type: application/json\n",
 			"headerData": [
@@ -110,7 +362,7 @@
 			"description": "",
 			"collectionId": "project.id",
 			"responses": [],
-			"rawModeData": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"icon\": \"\",\n\t\t\t\"parentId\": \"\",\n\t\t\t\"fonctionnaliteTypeId\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+			"rawModeData": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"icon\": \"\",\n\t\t\t\"parentId\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
 		},
 		{
 			"id": "fonctionnalite.update",
@@ -140,7 +392,7 @@
 			"description": "",
 			"collectionId": "project.id",
 			"responses": [],
-			"rawModeData": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\",\n\t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"icon\": \"\",\n\t\t\t\"parentId\": \"\",\n\t\t\t\"fonctionnaliteTypeId\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+			"rawModeData": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\",\n\t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"icon\": \"\",\n\t\t\t\"parentId\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
 		},
 		{
 			"id": "fonctionnalite.delete",
@@ -200,127 +452,7 @@
 			"description": "",
 			"collectionId": "project.id",
 			"responses": [],
-			"rawModeData": "{\n\t\"user\":\"1\",\n\t\"isSimpleLoading\":false,\n\t\"data\":{\n  \t\t\"id\": \"\",\n\t\t\"code\": \"\",\n\t\t\"libelle\": \"\",\n\t\t\"icon\": \"\",\n\t\t\"parentId\": \"\",\n\t\t\"fonctionnaliteTypeId\": \"\",\n\t\t\"createdAt\": \"\",\n\t\t\"deletedAt\": \"\",\n\t\t\"updatedAt\": \"\",\n\t\t\"createdBy\": \"\",\n\t\t\"updatedBy\": \"\",\n\t\t\"deletedBy\": \"\",\n\t\t\"isDeleted\": \"\"\n\t}  \n}"
-		},
-		{
-			"id": "fonctionnaliteType.create",
-			"headers": "Content-Type: application/json\n",
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"url": "{{main_url}}/fonctionnaliteType/create",
-			"queryParams": [],
-			"preRequestScript": null,
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "POST",
-			"data": [],
-			"dataMode": "raw",
-			"version": 2,
-			"tests": null,
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1497439012859,
-			"name": "fonctionnaliteType-create",
-			"description": "",
-			"collectionId": "project.id",
-			"responses": [],
-			"rawModeData": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
-		},
-		{
-			"id": "fonctionnaliteType.update",
-			"headers": "Content-Type: application/json\n",
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"url": "{{main_url}}/fonctionnaliteType/update",
-			"queryParams": [],
-			"preRequestScript": null,
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "POST",
-			"data": [],
-			"dataMode": "raw",
-			"version": 2,
-			"tests": null,
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1497439012859,
-			"name": "fonctionnaliteType-update",
-			"description": "",
-			"collectionId": "project.id",
-			"responses": [],
-			"rawModeData": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\",\n\t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
-		},
-		{
-			"id": "fonctionnaliteType.delete",
-			"headers": "Content-Type: application/json\n",
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"url": "{{main_url}}/fonctionnaliteType/delete",
-			"queryParams": [],
-			"preRequestScript": null,
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "POST",
-			"data": [],
-			"dataMode": "raw",
-			"version": 2,
-			"tests": null,
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1497439012859,
-			"name": "fonctionnaliteType-delete",
-			"description": "",
-			"collectionId": "project.id",
-			"responses": [],
-			"rawModeData": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\"\n\t\t} \n\t]  \n}"
-		},
-		{
-			"id": "fonctionnaliteType.getByCriteria",
-			"headers": "Content-Type: application/json\n",
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"url": "{{main_url}}/fonctionnaliteType/getByCriteria",
-			"queryParams": [],
-			"preRequestScript": null,
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "POST",
-			"data": [],
-			"dataMode": "raw",
-			"version": 2,
-			"tests": null,
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1497439015040,
-			"name": "fonctionnaliteType-getByCriteria",
-			"description": "",
-			"collectionId": "project.id",
-			"responses": [],
-			"rawModeData": "{\n\t\"user\":\"1\",\n\t\"isSimpleLoading\":false,\n\t\"data\":{\n  \t\t\"id\": \"\",\n\t\t\"code\": \"\",\n\t\t\"libelle\": \"\",\n\t\t\"createdAt\": \"\",\n\t\t\"updatedAt\": \"\",\n\t\t\"deletedAt\": \"\",\n\t\t\"createdBy\": \"\",\n\t\t\"updatedBy\": \"\",\n\t\t\"deletedBy\": \"\",\n\t\t\"isDeleted\": \"\"\n\t}  \n}"
+			"rawModeData": "{\n\t\"user\":\"1\",\n\t\"isSimpleLoading\":false,\n\t\"data\":{\n  \t\t\"id\": \"\",\n\t\t\"code\": \"\",\n\t\t\"libelle\": \"\",\n\t\t\"icon\": \"\",\n\t\t\"parentId\": \"\",\n\t\t\"createdAt\": \"\",\n\t\t\"deletedAt\": \"\",\n\t\t\"updatedAt\": \"\",\n\t\t\"createdBy\": \"\",\n\t\t\"updatedBy\": \"\",\n\t\t\"deletedBy\": \"\",\n\t\t\"isDeleted\": \"\"\n\t}  \n}"
 		},
 		{
 			"id": "profil.create",

@@ -26,6 +26,7 @@ import lombok.Data;
 @JsonInclude(Include.NON_NULL)
 public class _FonctionnaliteDto {
 	private List<FonctionnaliteDto> datasChildren;
-
+	private String name;
+	private String parentCode;
 
 }

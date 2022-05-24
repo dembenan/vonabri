@@ -1,28 +1,17 @@
 package ci.palmafrique.vonabri.dao.repository.customize;
 
-import java.util.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
 import java.util.Locale;
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 
-import org.springframework.dao.DataAccessException;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import ci.palmafrique.vonabri.utils.*;
-import ci.palmafrique.vonabri.utils.dto.*;
-import ci.palmafrique.vonabri.utils.contract.*;
-import ci.palmafrique.vonabri.utils.contract.Request;
-import ci.palmafrique.vonabri.utils.contract.Response;
-import ci.palmafrique.vonabri.dao.entity.*;
+import ci.palmafrique.vonabri.dao.entity.Fonctionnalite;
+import ci.palmafrique.vonabri.dao.entity.ProfilFonctionnalite;
+import ci.palmafrique.vonabri.utils.dto.ProfilFonctionnaliteDto;
 
 /**
  * Repository customize : ProfilFonctionnalite.
@@ -36,4 +25,11 @@ public interface _ProfilFonctionnaliteRepository {
 
 		return listOfQuery;
 	}
+	
+	@Query("select e from ProfilFonctionnalite e where e.profil.id = :profilId and e.fonctionnalite.id = :fonctionnaliteId and e.isDeleted = :isDeleted")
+	ProfilFonctionnalite findByProfilIdAndFonctionnaliteId(@Param("profilId")Integer profilId, @Param("fonctionnaliteId")Integer fonctionnaliteId, @Param("isDeleted")Boolean isDeleted);
+
+	@Query("select e.fonctionnalite from ProfilFonctionnalite e where e.profil.id = :profilId and e.isDeleted = :isDeleted")
+	List<Fonctionnalite> findFonctionnaliteByProfilId(@Param("profilId")Integer profilId, @Param("isDeleted")Boolean isDeleted);
+
 }

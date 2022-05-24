@@ -76,9 +76,12 @@ public class User implements Serializable, Cloneable {
     @Column(name="is_deleted")
     private Boolean    isDeleted    ;
 
-    @Column(name="is_connected")
+    @Column(columnDefinition="bit default 0" ,name="is_connected")
     private Boolean    isConnected  ;
 
+    
+    @Column(columnDefinition="bit default 0",name="isSuperAdmin")
+    private Boolean    isSuperAdmin  ;
 	// "profilId" (column "profil_id") is not defined by itself because used as FK in a link 
 	// "userTypeId" (column "user_type_id") is not defined by itself because used as FK in a link 
 

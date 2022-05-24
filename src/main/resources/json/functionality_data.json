@@ -2,6 +2,54 @@
 	"user": 1,
 	"datas": [
 		{
+			"code": "ELEMENT",
+			"name": "ELEMENT"
+		},
+		{
+			"code": "VIEW_ELEMENT",
+			"parentCode": "ELEMENT",
+			"name": "VIEW ELEMENT"
+		},
+		{
+			"code": "CREATE_ELEMENT",
+			"parentCode": "ELEMENT",
+			"name": "CREATE ELEMENT"
+		},
+		{
+			"code": "UPDATE_ELEMENT",
+			"parentCode": "ELEMENT",
+			"name": "UPDATE ELEMENT"
+		},
+		{
+			"code": "DELETE_ELEMENT",
+			"parentCode": "ELEMENT",
+			"name": "DELETE ELEMENT"
+		},
+		{
+			"code": "ELEMENT_TYPE",
+			"name": "ELEMENT_TYPE"
+		},
+		{
+			"code": "VIEW_ELEMENT_TYPE",
+			"parentCode": "ELEMENT_TYPE",
+			"name": "VIEW ELEMENT_TYPE"
+		},
+		{
+			"code": "CREATE_ELEMENT_TYPE",
+			"parentCode": "ELEMENT_TYPE",
+			"name": "CREATE ELEMENT_TYPE"
+		},
+		{
+			"code": "UPDATE_ELEMENT_TYPE",
+			"parentCode": "ELEMENT_TYPE",
+			"name": "UPDATE ELEMENT_TYPE"
+		},
+		{
+			"code": "DELETE_ELEMENT_TYPE",
+			"parentCode": "ELEMENT_TYPE",
+			"name": "DELETE ELEMENT_TYPE"
+		},
+		{
 			"code": "FONCTIONNALITE",
 			"name": "FONCTIONNALITE"
 		},
@@ -24,30 +72,6 @@
 			"code": "DELETE_FONCTIONNALITE",
 			"parentCode": "FONCTIONNALITE",
 			"name": "DELETE FONCTIONNALITE"
-		},
-		{
-			"code": "FONCTIONNALITE_TYPE",
-			"name": "FONCTIONNALITE_TYPE"
-		},
-		{
-			"code": "VIEW_FONCTIONNALITE_TYPE",
-			"parentCode": "FONCTIONNALITE_TYPE",
-			"name": "VIEW FONCTIONNALITE_TYPE"
-		},
-		{
-			"code": "CREATE_FONCTIONNALITE_TYPE",
-			"parentCode": "FONCTIONNALITE_TYPE",
-			"name": "CREATE FONCTIONNALITE_TYPE"
-		},
-		{
-			"code": "UPDATE_FONCTIONNALITE_TYPE",
-			"parentCode": "FONCTIONNALITE_TYPE",
-			"name": "UPDATE FONCTIONNALITE_TYPE"
-		},
-		{
-			"code": "DELETE_FONCTIONNALITE_TYPE",
-			"parentCode": "FONCTIONNALITE_TYPE",
-			"name": "DELETE FONCTIONNALITE_TYPE"
 		},
 		{
 			"code": "PROFIL",

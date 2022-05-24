@@ -13,42 +13,48 @@
 
 package ci.palmafrique.vonabri.business;
 
-import lombok.extern.java.Log;
-import org.apache.commons.lang3.StringUtils;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Collections;
 
-import javax.persistence.PersistenceContext;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.dao.PermissionDeniedDataAccessException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import ci.palmafrique.vonabri.utils.*;
-import ci.palmafrique.vonabri.utils.dto.*;
-import ci.palmafrique.vonabri.utils.enums.*;
-import ci.palmafrique.vonabri.utils.contract.*;
+import ci.palmafrique.vonabri.dao.entity.Fonctionnalite;
+import ci.palmafrique.vonabri.dao.entity.Profil;
+import ci.palmafrique.vonabri.dao.entity.User;
+import ci.palmafrique.vonabri.dao.entity.UserType;
+import ci.palmafrique.vonabri.dao.repository.FonctionnaliteRepository;
+import ci.palmafrique.vonabri.dao.repository.ProfilFonctionnaliteRepository;
+import ci.palmafrique.vonabri.dao.repository.ProfilRepository;
+import ci.palmafrique.vonabri.dao.repository.UserRepository;
+import ci.palmafrique.vonabri.dao.repository.UserTypeRepository;
+import ci.palmafrique.vonabri.utils.ExceptionUtils;
+import ci.palmafrique.vonabri.utils.FunctionalError;
+import ci.palmafrique.vonabri.utils.TechnicalError;
+import ci.palmafrique.vonabri.utils.Utilities;
+import ci.palmafrique.vonabri.utils.Validate;
 import ci.palmafrique.vonabri.utils.contract.IBasicBusiness;
 import ci.palmafrique.vonabri.utils.contract.Request;
 import ci.palmafrique.vonabri.utils.contract.Response;
-import ci.palmafrique.vonabri.utils.dto.transformer.*;
-import ci.palmafrique.vonabri.dao.entity.User;
-import ci.palmafrique.vonabri.dao.entity.UserType;
-import ci.palmafrique.vonabri.dao.entity.Profil;
-import ci.palmafrique.vonabri.dao.entity.*;
-import ci.palmafrique.vonabri.dao.repository.*;
+import ci.palmafrique.vonabri.utils.dto.FonctionnaliteDto;
+import ci.palmafrique.vonabri.utils.dto.UserDto;
+import ci.palmafrique.vonabri.utils.dto.transformer.FonctionnaliteTransformer;
+import ci.palmafrique.vonabri.utils.dto.transformer.UserTransformer;
+import ci.palmafrique.vonabri.utils.enums.FunctionalityEnum;
+import lombok.extern.java.Log;
 
 /**
 BUSINESS for table "user"
@@ -67,6 +73,11 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 	private UserTypeRepository userTypeRepository;
 	@Autowired
 	private ProfilRepository profilRepository;
+	@Autowired
+	private ProfilFonctionnaliteRepository profilFonctionnaliteRepository;
+
+	@Autowired
+	private FonctionnaliteRepository fonctionnaliteRepository;
 
 
 	@Autowired
@@ -179,6 +190,10 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 				}
 				User entityToSave = null;
 				entityToSave = UserTransformer.INSTANCE.toEntity(dto, existingUserType, existingProfil);
+				entityToSave.setPassword(Utilities.encrypt(dto.getPassword()));
+				if (dto.getIsSuperAdmin() != null) {
+					entityToSave.setIsSuperAdmin(dto.getIsSuperAdmin());
+				}
 				entityToSave.setCreatedAt(Utilities.getCurrentDate());
 				entityToSave.setCreatedBy(request.getUser());
 				entityToSave.setIsDeleted(false);
@@ -554,6 +569,143 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 		return response;
 	}
 
+	
+	public Response<UserDto> login(Request<UserDto> request, Locale locale) {
+		log.info("----begin login-----");
+
+		response = new Response<UserDto>();
+		try {
+			UserDto data = request.getData();
+			// Definir les parametres obligatoires
+			Map<String, java.lang.Object> fieldsToVerify = new HashMap<String, java.lang.Object>();
+			fieldsToVerify.put("email", data.getEmail());
+			fieldsToVerify.put("password", data.getPassword());
+			if (!Validate.RequiredValue(fieldsToVerify).isGood()) {
+				response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
+				response.setHasError(true);
+				return response;
+			}
+
+			data.setEmail(data.getEmail().trim());
+			User item = userRepository.findByEmailAndPassword(data.getEmail(),Utilities.encrypt(data.getPassword()), false);
+			if (item == null) {
+				response.setStatus(functionalError.LOGIN_FAIL(locale));
+				response.setHasError(true);
+				return response;
+			}
+			if (item.getIsConnected() != null && item.getIsConnected()) {
+				response.setStatus(functionalError.USER_ALREADY_CONNECTED("---->"+data.getEmail(),locale));
+				response.setHasError(true);
+				return response;
+			}
+
+//			if (Utilities.isTrue(item.getIsLocked())) {
+//				response.setStatus(functionalError.USER_IS_LOCKED(String.format("%1$s est vérouillé(e)", item.getEmail()), locale));
+//				response.setHasError(true);
+//				return response;
+//			}
+			if (item.getIsLocked() != null && item.getIsLocked().equals(Boolean.TRUE)) {
+				response.setStatus(functionalError.AUTH_FAIL("Compte verrouillé. Contacter un administrateur !", locale));
+				response.setHasError(Boolean.TRUE);
+				return response;
+			}
+
+			// List<String> fonctionnalites = new ArrayList<String>();
+			List<Fonctionnalite> list = new ArrayList<Fonctionnalite>();
+			List<FonctionnaliteDto> listDto = new ArrayList<FonctionnaliteDto>();
+			if (item.getProfil() != null && item.getProfil().getId() > 0) {
+				list = profilFonctionnaliteRepository.findFonctionnaliteByProfilId(item.getProfil().getId(), false);
+				if (Utilities.isNotEmpty(list)) {
+					for (FonctionnaliteDto fdto : FonctionnaliteTransformer.INSTANCE.toDtos(list)) {
+						fdto.setCreatedAt(null);
+						fdto.setCreatedBy(null);
+						fdto.setIsDeleted(null);
+						listDto.add(fdto);
+					}
+				}
+			}
+			item.setIsConnected(Boolean.TRUE);
+			userRepository.save(item);
+				UserDto itemsDto = UserTransformer.INSTANCE.toDto(item);
+				itemsDto.setDatasFonctionnalites(listDto);
+				response.setItem(itemsDto);
+				response.setHasError(false);
+				response.setStatus(functionalError.SUCCESS("Connexion reussie", locale));
+
+			log.info("----end login-----");
+		} catch (PermissionDeniedDataAccessException e) {
+			exceptionUtils.PERMISSION_DENIED_DATA_ACCESS_EXCEPTION(response, locale, e);
+		} catch (DataAccessResourceFailureException e) {
+			exceptionUtils.DATA_ACCESS_RESOURCE_FAILURE_EXCEPTION(response, locale, e);
+		} catch (DataAccessException e) {
+			exceptionUtils.DATA_ACCESS_EXCEPTION(response, locale, e);
+		} catch (RuntimeException e) {
+			exceptionUtils.RUNTIME_EXCEPTION(response, locale, e);
+		} catch (Exception e) {
+			exceptionUtils.EXCEPTION(response, locale, e);
+		} finally {
+			if (response.isHasError() && response.getStatus() != null) {
+				log.info(String.format("Erreur| code: {} -  message: {}", response.getStatus().getCode(),
+						response.getStatus().getMessage()));
+				throw new RuntimeException(response.getStatus().getCode() + ";" + response.getStatus().getMessage());
+			}
+		}
+		return response;
+	}
+
+	public Response<UserDto> logout(Request<UserDto> request, Locale locale) {
+		log.info("----begin logout-----");
+
+		response = new Response<UserDto>();
+		try {
+			UserDto data = request.getData();
+			// Definir les parametres obligatoires
+			Map<String, java.lang.Object> fieldsToVerify = new HashMap<String, java.lang.Object>();
+			fieldsToVerify.put("email", data.getEmail());
+			//fieldsToVerify.put("password", data.getPassword());
+			if (!Validate.RequiredValue(fieldsToVerify).isGood()) {
+				response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
+				response.setHasError(true);
+				return response;
+			}
+
+			data.setEmail(data.getEmail().trim());
+			User item = userRepository.findByEmail(data.getEmail(), false);
+			if (item == null) {
+				response.setStatus(functionalError.DATA_NOT_EXIST("username -->"+data.getEmail(),locale));
+				response.setHasError(true);
+				return response;
+			}
+
+			item.setIsConnected(Boolean.FALSE);
+			userRepository.save(item);
+				//UserDto itemsDto = UserTransformer.INSTANCE.toDto(item);
+				//itemsDto.setDatasFonctionnalites(listDto);
+				//response.setItem(itemsDto);
+				response.setHasError(false);
+				response.setStatus(functionalError.SUCCESS("Deconnexion reussie", locale));
+
+			log.info("----end logout-----");
+		} catch (PermissionDeniedDataAccessException e) {
+			exceptionUtils.PERMISSION_DENIED_DATA_ACCESS_EXCEPTION(response, locale, e);
+		} catch (DataAccessResourceFailureException e) {
+			exceptionUtils.DATA_ACCESS_RESOURCE_FAILURE_EXCEPTION(response, locale, e);
+		} catch (DataAccessException e) {
+			exceptionUtils.DATA_ACCESS_EXCEPTION(response, locale, e);
+		} catch (RuntimeException e) {
+			exceptionUtils.RUNTIME_EXCEPTION(response, locale, e);
+		} catch (Exception e) {
+			exceptionUtils.EXCEPTION(response, locale, e);
+		} finally {
+			if (response.isHasError() && response.getStatus() != null) {
+				log.info(String.format("Erreur| code: {} -  message: {}", response.getStatus().getCode(),
+						response.getStatus().getMessage()));
+				throw new RuntimeException(response.getStatus().getCode() + ";" + response.getStatus().getMessage());
+			}
+		}
+		return response;
+	}
+
 	/**
 	 * get full UserDto by using User as object.
 	 * 
@@ -597,21 +749,42 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 				return response;
 			}
 
-//			if (Utilities.isTrue(currentUser.getLocked())) {
-//				response.setStatus(functionalError.REQUEST_FAIL("L'utilisateur "+currentUser.getLogin()+" est verouille(e)" , locale));
-//				response.setHasError(true);
-//				return response;
-// 			}
-//    		
+			if (Utilities.isTrue(currentUser.getIsLocked())) {
+				response.setStatus(functionalError.REQUEST_FAIL("L'utilisateur "+currentUser.getEmail()+" est verouille(e)" , locale));
+				response.setHasError(true);
+				return response;
+ 			}
+			if (Utilities.isFalse(currentUser.getIsConnected())) {
+				response.setStatus(functionalError
+						.DISALLOWED_OPERATION("L'utilisateur " + currentUser.getEmail() + " n'est pas connecte", locale));
+				response.setHasError(true);
+				return response;
+			}
+			if (currentUser.getProfil() == null) {
+				response.setStatus(functionalError.DISALLOWED_OPERATION(
+						"L'utilisateur " + currentUser.getEmail() + " n'a pas le droit de se connecter au dashboard",
+						locale));
+				response.setHasError(true);
+				return response;
+			}
 //			if (Utilities.isFalse(currentUser.getIsSuperAdmin())) {
-////				if (Utilities.notBlank(functionalityCode)) {
-////					Functionality functionality = roleFunctionalityRepository.isGranted(currentUser.getRole().getId(), functionalityCode ,false);
-////					if (functionality == null) {
-////						response.setHasError(true);
-////						response.setStatus(functionalError.USER_NOT_GRANTED("", locale));
-////						return response;
-////					}
-////				}
+//				if (Utilities.notBlank(functionalityCode)) {
+//					Fonctionnalite functionality = fonctionnaliteRepository.findByCode(functionalityCode ,false);
+//					if (functionality == null) {
+//						response.setHasError(true);
+//						//response.setStatus(functionalError.USER_NOT_GRANTED("", locale));
+//						response.setStatus(functionalError.DISALLOWED_OPERATION("pour "+ currentUser.getEmail(), locale));
+//						return response;
+//					}
+//					//ProfilFonctionnalite profilFunctionality = profilFonctionnaliteRepository.isGranted(currentUser.getProfil().getId(), functionalityCode ,false);
+//					ProfilFonctionnalite profilFunctionality = profilFonctionnaliteRepository.findByProfilIdAndFonctionnaliteId(currentUser.getProfil().getId(), functionality.getId() ,false);
+//
+//					if (profilFunctionality == null) {
+//						response.setHasError(true);
+//						response.setStatus(functionalError.DISALLOWED_OPERATION("pour "+ currentUser.getEmail(), locale));
+//						return response;
+//					}
+//				}
 //			}
 
 			response.setHasError(false);

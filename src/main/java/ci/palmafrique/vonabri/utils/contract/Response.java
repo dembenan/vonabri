@@ -28,4 +28,6 @@ import lombok.*;
 public class Response<T> extends ResponseBase {
 
 	protected List<T> items;
+	protected T item;
+
 }
