@@ -16,6 +16,7 @@ package ci.palmafrique.vonabri.business;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -31,6 +32,7 @@ import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.dao.PermissionDeniedDataAccessException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.thymeleaf.context.Context;
 
 import ci.palmafrique.vonabri.dao.entity.Fonctionnalite;
 import ci.palmafrique.vonabri.dao.entity.Profil;
@@ -43,6 +45,9 @@ import ci.palmafrique.vonabri.dao.repository.UserRepository;
 import ci.palmafrique.vonabri.dao.repository.UserTypeRepository;
 import ci.palmafrique.vonabri.utils.ExceptionUtils;
 import ci.palmafrique.vonabri.utils.FunctionalError;
+import ci.palmafrique.vonabri.utils.ParamsUtils;
+import ci.palmafrique.vonabri.utils.RedisUser;
+import ci.palmafrique.vonabri.utils.SmtpUtils;
 import ci.palmafrique.vonabri.utils.TechnicalError;
 import ci.palmafrique.vonabri.utils.Utilities;
 import ci.palmafrique.vonabri.utils.Validate;
@@ -79,7 +84,11 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 	@Autowired
 	private FonctionnaliteRepository fonctionnaliteRepository;
 
-
+	@Autowired
+	private ParamsUtils paramsUtils;
+	@Autowired
+	private SmtpUtils smtpUtils;
+	
 	@Autowired
 	private FunctionalError functionalError;
 	@Autowired
@@ -88,7 +97,15 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 	private ExceptionUtils exceptionUtils;
 	@PersistenceContext
 	private EntityManager em;
+	
+	@Autowired
+	private RedisUser redisUser;
 
+	private Context context;
+	private final String ENTETE = "Vonabri";
+	private final String TITRE = "Administrator";
+	
+	
 	private SimpleDateFormat dateFormat;
 	private SimpleDateFormat dateTimeFormat;
 
@@ -112,30 +129,30 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 		log.info("----begin create User-----");
 		
 		response = new Response<UserDto>();
-		
+		String password = null;
+
 		try {
-//			Map<String, java.lang.Object> fieldsToVerifyUser = new HashMap<String, java.lang.Object>();
-//			fieldsToVerifyUser.put("user", request.getUser());
-//			if (!Validate.RequiredValue(fieldsToVerifyUser).isGood()) {
-//				response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
-//				response.setHasError(true);
-//				return response;
-//			}
-//
-//			Response<UserDto> userResponse = isGranted(request.getUser(), FunctionalityEnum.CREATE_USER.getValue(), locale);
-//			if (userResponse.isHasError()) {
-//				response.setHasError(true);
-//				response.setStatus(userResponse.getStatus());
-//				return response;
-//			}
+			Map<String, java.lang.Object> fieldsToVerifyUser = new HashMap<String, java.lang.Object>();
+			fieldsToVerifyUser.put("token", request.getToken());
+			if (!Validate.RequiredValue(fieldsToVerifyUser).isGood()) {
+				response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
+				response.setHasError(true);
+				return response;
+			}
+
+			Response<UserDto> userResponse = isGranted(request, FunctionalityEnum.CREATE_USER.getValue(), locale);
+			if (userResponse.isHasError()) {
+				response.setHasError(true);
+				response.setStatus(userResponse.getStatus());
+				return response;
+			}
 			
 			List<User> items = new ArrayList<User>();
-			
 			for (UserDto dto : request.getDatas()) {
 				// Definir les parametres obligatoires
 				Map<String, java.lang.Object> fieldsToVerify = new HashMap<String, java.lang.Object>();
 				fieldsToVerify.put("email", dto.getEmail());
-				fieldsToVerify.put("password", dto.getPassword());
+				//fieldsToVerify.put("password", dto.getPassword());
 				fieldsToVerify.put("profilId", dto.getProfilId());
 				fieldsToVerify.put("userTypeId", dto.getUserTypeId());
 //				fieldsToVerify.put("isLocked", dto.getIsLocked());
@@ -190,7 +207,9 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 				}
 				User entityToSave = null;
 				entityToSave = UserTransformer.INSTANCE.toEntity(dto, existingUserType, existingProfil);
-				entityToSave.setPassword(Utilities.encrypt(dto.getPassword()));
+				password = Utilities.generateAlphabeticCode(8);
+
+				entityToSave.setPassword(Utilities.encrypt(password));
 				if (dto.getIsSuperAdmin() != null) {
 					entityToSave.setIsSuperAdmin(dto.getIsSuperAdmin());
 				}
@@ -209,12 +228,72 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 					response.setHasError(true);
 					return response;
 				}
+				
+				for (User dto : itemsSaved) {
+					if (Utilities.notBlank(dto.getEmail())) {
+						// set mail to user
+						Map<String, String> from = new HashMap<>();
+						from.put("email", paramsUtils.getSmtpLogin());
+						from.put("user", ENTETE);
+						// recipients
+						List<Map<String, String>> toRecipients = new ArrayList<Map<String, String>>();
+						items.stream().forEach(user -> {
+							Map<String, String> recipient = new HashMap<String, String>();
+							recipient = new HashMap<String, String>();
+							recipient.put("email", user.getEmail());
+							// recipient.put("user", user.getLogin());
+							toRecipients.add(recipient);
+						});
+						// choisir la vraie url
+						String appLink = paramsUtils.getUrlAdmin();
+
+						// subject
+						String subject = "Vonabri access";
+						String contenu = "Your default credencial to Vonabri dashboad is <br/><br/>";
+						contenu += "EMAIL : " + dto.getEmail();
+						contenu += "<br/><br/>PASSWORD : " + password;
+
+						String body = "";
+						context = new Context();
+						// subject
+						context = new Context();
+						String template = "mail_new_mdp";
+						context.setVariable("email", dto.getEmail());
+						context.setVariable("entete", ENTETE);
+						context.setVariable("appLink", appLink);
+						context.setVariable("password", password);
+						context.setVariable("date", dateTimeFormat.format(new Date()));
+						log.info("********************* from " + from);
+						log.info("********************* Recipeints " + toRecipients);
+						log.info("********************* subject " + toRecipients);
+						log.info("********************* context " + context);
+						smtpUtils.sendEmail(from, toRecipients, subject, null, null, context, template, null);
+
+//						context.setVariable("contenu", contenu);
+//						context.setVariable("entete", ENTETE);
+//						context.setVariable("titre", TITRE);
+//
+//						context.setVariable("appLink", appLink);
+//						Response<UserDto> responseEnvoiEmail = smtpUtils.sendEmail(from, toRecipients, subject,
+//								body, null, context, template, locale);
+//
+//						if (responseEnvoiEmail.isHasError()) {
+//							System.out.println(responseEnvoiEmail.getStatus());
+//							// response.setStatus(responseEnvoiEmail.getStatus());
+//							// response.setHasError(true);
+//							// return response;
+//						}
+					}
+
+				}
+				
+				
 				List<UserDto> itemsDto = (Utilities.isTrue(request.getIsSimpleLoading())) ? UserTransformer.INSTANCE.toLiteDtos(itemsSaved) : UserTransformer.INSTANCE.toDtos(itemsSaved);
 				
 				final int size = itemsSaved.size();
 				List<String>  listOfError      = Collections.synchronizedList(new ArrayList<String>());
 				itemsDto.parallelStream().forEach(dto -> {
-					try {
+					try {	
 						dto = getFullInfos(dto, size, request.getIsSimpleLoading(), locale);
 					} catch (Exception e) {
 						listOfError.add(e.getMessage());
@@ -266,14 +345,14 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 		
 		try {
 			Map<String, java.lang.Object> fieldsToVerifyUser = new HashMap<String, java.lang.Object>();
-			fieldsToVerifyUser.put("user", request.getUser());
+			fieldsToVerifyUser.put("token", request.getToken());
 			if (!Validate.RequiredValue(fieldsToVerifyUser).isGood()) {
 				response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
 				response.setHasError(true);
 				return response;
 			}
 
-			Response<UserDto> userResponse = isGranted(request.getUser(), FunctionalityEnum.UPDATE_USER.getValue(), locale);
+			Response<UserDto> userResponse = isGranted(request, FunctionalityEnum.CREATE_USER.getValue(), locale);
 			if (userResponse.isHasError()) {
 				response.setHasError(true);
 				response.setStatus(userResponse.getStatus());
@@ -415,16 +494,15 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 		response = new Response<UserDto>();
 		
 		try {
-
 			Map<String, java.lang.Object> fieldsToVerifyUser = new HashMap<String, java.lang.Object>();
-			fieldsToVerifyUser.put("user", request.getUser());
+			fieldsToVerifyUser.put("token", request.getToken());
 			if (!Validate.RequiredValue(fieldsToVerifyUser).isGood()) {
 				response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
 				response.setHasError(true);
 				return response;
 			}
 
-			Response<UserDto> userResponse = isGranted(request.getUser(), FunctionalityEnum.DELETE_USER.getValue(), locale);
+			Response<UserDto> userResponse = isGranted(request, FunctionalityEnum.CREATE_USER.getValue(), locale);
 			if (userResponse.isHasError()) {
 				response.setHasError(true);
 				response.setStatus(userResponse.getStatus());
@@ -507,20 +585,20 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 		
 		try {
 			Map<String, java.lang.Object> fieldsToVerifyUser = new HashMap<String, java.lang.Object>();
-			fieldsToVerifyUser.put("user", request.getUser());
+			fieldsToVerifyUser.put("token", request.getToken());
 			if (!Validate.RequiredValue(fieldsToVerifyUser).isGood()) {
 				response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
 				response.setHasError(true);
 				return response;
 			}
 
-			Response<UserDto> userResponse = isGranted(request.getUser(), FunctionalityEnum.VIEW_USER.getValue(), locale);
+			Response<UserDto> userResponse = isGranted(request, FunctionalityEnum.CREATE_USER.getValue(), locale);
 			if (userResponse.isHasError()) {
 				response.setHasError(true);
 				response.setStatus(userResponse.getStatus());
 				return response;
 			}
-
+			
 			List<User> items = null;
 			items = userRepository.getByCriteria(request, em, locale);
 			if (items != null && !items.isEmpty()) {
@@ -593,11 +671,11 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 				response.setHasError(true);
 				return response;
 			}
-			if (item.getIsConnected() != null && item.getIsConnected()) {
-				response.setStatus(functionalError.USER_ALREADY_CONNECTED("---->"+data.getEmail(),locale));
-				response.setHasError(true);
-				return response;
-			}
+//			if (item.getIsConnected() != null && item.getIsConnected()) {
+//				response.setStatus(functionalError.USER_ALREADY_CONNECTED("---->"+data.getEmail(),locale));
+//				response.setHasError(true);
+//				return response;
+//			}
 
 //			if (Utilities.isTrue(item.getIsLocked())) {
 //				response.setStatus(functionalError.USER_IS_LOCKED(String.format("%1$s est vérouillé(e)", item.getEmail()), locale));
@@ -625,8 +703,16 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 				}
 			}
 			item.setIsConnected(Boolean.TRUE);
-			userRepository.save(item);
-				UserDto itemsDto = UserTransformer.INSTANCE.toDto(item);
+			User userSaved = userRepository.save(item);
+			if(userSaved == null) {
+				response.setStatus(functionalError.SAVE_FAIL("User", locale));
+				response.setHasError(Boolean.TRUE);
+				return response;
+			}
+				UserDto itemsDto = UserTransformer.INSTANCE.toDto(userSaved);
+				String token = String.valueOf(userSaved.getId()).concat("_VONABRI_").concat(Utilities.generateCodeOld());
+				itemsDto.setToken(token);
+				redisUser.saveValueWithExpirationMinutes(token, itemsDto,5);
 				itemsDto.setDatasFonctionnalites(listDto);
 				response.setItem(itemsDto);
 				response.setHasError(false);
@@ -736,19 +822,29 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 	 * @param locale
 	 * @return
 	 */
-    public Response<UserDto> isGranted(Integer userId, String functionalityCode, Locale locale){
+    @SuppressWarnings("rawtypes")
+	public Response<UserDto> isGranted(Request request, String functionalityCode, Locale locale){
 		log.info("----begin get isGranted-----");
 
 		response = new Response<UserDto>();
 
 		try {
-			User currentUser = userRepository.findOne(userId, false);
+
+			UserDto getRedisSaved = redisUser.get(request.getToken());
+			System.out.println("getRedisSaved======>"+getRedisSaved);
+			if (getRedisSaved == null) {
+				response.setStatus(functionalError.USER_SESSION_EXPIRED("Votre session a expirée : Veillez vous réconnectez" , locale));
+				response.setHasError(true);
+				return response;
+ 			}
+			
+			User currentUser = userRepository.findOne(getRedisSaved.getId(), false);
 			if (currentUser == null) {
-				response.setStatus(functionalError.DATA_NOT_EXIST("Utilisateur -> " + userId, locale));
+				response.setStatus(functionalError.DATA_NOT_EXIST("Utilisateur -> " + getRedisSaved.getId(), locale));
 				response.setHasError(true);
 				return response;
 			}
-
+			
 			if (Utilities.isTrue(currentUser.getIsLocked())) {
 				response.setStatus(functionalError.REQUEST_FAIL("L'utilisateur "+currentUser.getEmail()+" est verouille(e)" , locale));
 				response.setHasError(true);
@@ -786,7 +882,10 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 //					}
 //				}
 //			}
+			redisUser.saveValueWithExpirationMinutes(request.getToken(), getRedisSaved,5);
 
+			request.setUser(currentUser.getId());
+			
 			response.setHasError(false);
 			log.info("----end get isGranted-----");
 

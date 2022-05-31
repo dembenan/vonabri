@@ -26,5 +26,6 @@ import lombok.Data;
 @JsonInclude(Include.NON_NULL)
 public class _UserDto {
 	private List<FonctionnaliteDto> datasFonctionnalites;
+	private String token;
 
 }

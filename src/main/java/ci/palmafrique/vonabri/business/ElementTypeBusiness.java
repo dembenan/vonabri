@@ -103,20 +103,20 @@ public class ElementTypeBusiness implements IBasicBusiness<Request<ElementTypeDt
 		response = new Response<ElementTypeDto>();
 		
 		try {
-//			Map<String, java.lang.Object> fieldsToVerifyUser = new HashMap<String, java.lang.Object>();
-//			fieldsToVerifyUser.put("user", request.getUser());
-//			if (!Validate.RequiredValue(fieldsToVerifyUser).isGood()) {
-//				response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
-//				response.setHasError(true);
-//				return response;
-//			}
-//
-//			Response<UserDto> userResponse = userBusiness.isGranted(request.getUser(), FunctionalityEnum.CREATE_ELEMENT_TYPE.getValue(), locale);
-//			if (userResponse.isHasError()) {
-//				response.setHasError(true);
-//				response.setStatus(userResponse.getStatus());
-//				return response;
-//			}
+			Map<String, java.lang.Object> fieldsToVerifyUser = new HashMap<String, java.lang.Object>();
+			fieldsToVerifyUser.put("token", request.getToken());
+			if (!Validate.RequiredValue(fieldsToVerifyUser).isGood()) {
+				response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
+				response.setHasError(true);
+				return response;
+			}
+
+			Response<UserDto> userResponse = userBusiness.isGranted(request, FunctionalityEnum.CREATE_USER.getValue(), locale);
+			if (userResponse.isHasError()) {
+				response.setHasError(true);
+				response.setStatus(userResponse.getStatus());
+				return response;
+			}
 			
 			List<ElementType> items = new ArrayList<ElementType>();
 			
@@ -240,20 +240,20 @@ public class ElementTypeBusiness implements IBasicBusiness<Request<ElementTypeDt
 		response = new Response<ElementTypeDto>();
 		
 		try {
-//			Map<String, java.lang.Object> fieldsToVerifyUser = new HashMap<String, java.lang.Object>();
-//			fieldsToVerifyUser.put("user", request.getUser());
-//			if (!Validate.RequiredValue(fieldsToVerifyUser).isGood()) {
-//				response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
-//				response.setHasError(true);
-//				return response;
-//			}
-//
-//			Response<UserDto> userResponse = userBusiness.isGranted(request.getUser(), FunctionalityEnum.UPDATE_ELEMENT_TYPE.getValue(), locale);
-//			if (userResponse.isHasError()) {
-//				response.setHasError(true);
-//				response.setStatus(userResponse.getStatus());
-//				return response;
-//			}
+			Map<String, java.lang.Object> fieldsToVerifyUser = new HashMap<String, java.lang.Object>();
+			fieldsToVerifyUser.put("token", request.getToken());
+			if (!Validate.RequiredValue(fieldsToVerifyUser).isGood()) {
+				response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
+				response.setHasError(true);
+				return response;
+			}
+
+			Response<UserDto> userResponse = userBusiness.isGranted(request, FunctionalityEnum.CREATE_USER.getValue(), locale);
+			if (userResponse.isHasError()) {
+				response.setHasError(true);
+				response.setStatus(userResponse.getStatus());
+				return response;
+			}
 
 			List<ElementType> items = new ArrayList<ElementType>();
 			
@@ -364,21 +364,20 @@ public class ElementTypeBusiness implements IBasicBusiness<Request<ElementTypeDt
 		response = new Response<ElementTypeDto>();
 		
 		try {
+			Map<String, java.lang.Object> fieldsToVerifyUser = new HashMap<String, java.lang.Object>();
+			fieldsToVerifyUser.put("token", request.getToken());
+			if (!Validate.RequiredValue(fieldsToVerifyUser).isGood()) {
+				response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
+				response.setHasError(true);
+				return response;
+			}
 
-//			Map<String, java.lang.Object> fieldsToVerifyUser = new HashMap<String, java.lang.Object>();
-//			fieldsToVerifyUser.put("user", request.getUser());
-//			if (!Validate.RequiredValue(fieldsToVerifyUser).isGood()) {
-//				response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
-//				response.setHasError(true);
-//				return response;
-//			}
-//
-//			Response<UserDto> userResponse = userBusiness.isGranted(request.getUser(), FunctionalityEnum.DELETE_ELEMENT_TYPE.getValue(), locale);
-//			if (userResponse.isHasError()) {
-//				response.setHasError(true);
-//				response.setStatus(userResponse.getStatus());
-//				return response;
-//			}
+			Response<UserDto> userResponse = userBusiness.isGranted(request, FunctionalityEnum.CREATE_USER.getValue(), locale);
+			if (userResponse.isHasError()) {
+				response.setHasError(true);
+				response.setStatus(userResponse.getStatus());
+				return response;
+			}
 
 			List<ElementType> items = new ArrayList<ElementType>();
 			
@@ -462,20 +461,20 @@ public class ElementTypeBusiness implements IBasicBusiness<Request<ElementTypeDt
 		response = new Response<ElementTypeDto>();
 		
 		try {
-//			Map<String, java.lang.Object> fieldsToVerifyUser = new HashMap<String, java.lang.Object>();
-//			fieldsToVerifyUser.put("user", request.getUser());
-//			if (!Validate.RequiredValue(fieldsToVerifyUser).isGood()) {
-//				response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
-//				response.setHasError(true);
-//				return response;
-//			}
-//
-//			Response<UserDto> userResponse = userBusiness.isGranted(request.getUser(), FunctionalityEnum.VIEW_ELEMENT_TYPE.getValue(), locale);
-//			if (userResponse.isHasError()) {
-//				response.setHasError(true);
-//				response.setStatus(userResponse.getStatus());
-//				return response;
-//			}
+			Map<String, java.lang.Object> fieldsToVerifyUser = new HashMap<String, java.lang.Object>();
+			fieldsToVerifyUser.put("token", request.getToken());
+			if (!Validate.RequiredValue(fieldsToVerifyUser).isGood()) {
+				response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
+				response.setHasError(true);
+				return response;
+			}
+
+			Response<UserDto> userResponse = userBusiness.isGranted(request, FunctionalityEnum.CREATE_USER.getValue(), locale);
+			if (userResponse.isHasError()) {
+				response.setHasError(true);
+				response.setStatus(userResponse.getStatus());
+				return response;
+			}
 
 			List<ElementType> items = null;
 			items = elementTypeRepository.getByCriteria(request, em, locale);

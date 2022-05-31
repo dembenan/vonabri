@@ -194,6 +194,11 @@ public class Utilities {
 		return formatted;
 	}
 
+	public static String generateAlphabeticCode(Integer nbreCaractere) {
+		String formatted = null;
+		formatted = RandomStringUtils.randomAlphabetic(nbreCaractere);
+		return formatted;
+	}
 	public static String generateCode() {
 		String formatted = null;
 		SecureRandom secureRandom = new SecureRandom();

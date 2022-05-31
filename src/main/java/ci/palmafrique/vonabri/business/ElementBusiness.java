@@ -106,14 +106,14 @@ public class ElementBusiness implements IBasicBusiness<Request<ElementDto>, Resp
 		
 		try {
 			Map<String, java.lang.Object> fieldsToVerifyUser = new HashMap<String, java.lang.Object>();
-			fieldsToVerifyUser.put("user", request.getUser());
+			fieldsToVerifyUser.put("token", request.getToken());
 			if (!Validate.RequiredValue(fieldsToVerifyUser).isGood()) {
 				response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
 				response.setHasError(true);
 				return response;
 			}
 
-			Response<UserDto> userResponse = userBusiness.isGranted(request.getUser(), FunctionalityEnum.CREATE_ELEMENT.getValue(), locale);
+			Response<UserDto> userResponse = userBusiness.isGranted(request, FunctionalityEnum.CREATE_USER.getValue(), locale);
 			if (userResponse.isHasError()) {
 				response.setHasError(true);
 				response.setStatus(userResponse.getStatus());
@@ -266,14 +266,14 @@ public class ElementBusiness implements IBasicBusiness<Request<ElementDto>, Resp
 		
 		try {
 			Map<String, java.lang.Object> fieldsToVerifyUser = new HashMap<String, java.lang.Object>();
-			fieldsToVerifyUser.put("user", request.getUser());
+			fieldsToVerifyUser.put("token", request.getToken());
 			if (!Validate.RequiredValue(fieldsToVerifyUser).isGood()) {
 				response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
 				response.setHasError(true);
 				return response;
 			}
 
-			Response<UserDto> userResponse = userBusiness.isGranted(request.getUser(), FunctionalityEnum.UPDATE_ELEMENT.getValue(), locale);
+			Response<UserDto> userResponse = userBusiness.isGranted(request, FunctionalityEnum.CREATE_USER.getValue(), locale);
 			if (userResponse.isHasError()) {
 				response.setHasError(true);
 				response.setStatus(userResponse.getStatus());
@@ -412,21 +412,20 @@ public class ElementBusiness implements IBasicBusiness<Request<ElementDto>, Resp
 		response = new Response<ElementDto>();
 		
 		try {
+			Map<String, java.lang.Object> fieldsToVerifyUser = new HashMap<String, java.lang.Object>();
+			fieldsToVerifyUser.put("token", request.getToken());
+			if (!Validate.RequiredValue(fieldsToVerifyUser).isGood()) {
+				response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
+				response.setHasError(true);
+				return response;
+			}
 
-//			Map<String, java.lang.Object> fieldsToVerifyUser = new HashMap<String, java.lang.Object>();
-//			fieldsToVerifyUser.put("user", request.getUser());
-//			if (!Validate.RequiredValue(fieldsToVerifyUser).isGood()) {
-//				response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
-//				response.setHasError(true);
-//				return response;
-//			}
-//
-//			Response<UserDto> userResponse = userBusiness.isGranted(request.getUser(), FunctionalityEnum.DELETE_ELEMENT.getValue(), locale);
-//			if (userResponse.isHasError()) {
-//				response.setHasError(true);
-//				response.setStatus(userResponse.getStatus());
-//				return response;
-//			}
+			Response<UserDto> userResponse = userBusiness.isGranted(request, FunctionalityEnum.CREATE_USER.getValue(), locale);
+			if (userResponse.isHasError()) {
+				response.setHasError(true);
+				response.setStatus(userResponse.getStatus());
+				return response;
+			}
 
 			List<Element> items = new ArrayList<Element>();
 			
@@ -511,14 +510,14 @@ public class ElementBusiness implements IBasicBusiness<Request<ElementDto>, Resp
 		
 		try {
 			Map<String, java.lang.Object> fieldsToVerifyUser = new HashMap<String, java.lang.Object>();
-			fieldsToVerifyUser.put("user", request.getUser());
+			fieldsToVerifyUser.put("token", request.getToken());
 			if (!Validate.RequiredValue(fieldsToVerifyUser).isGood()) {
 				response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
 				response.setHasError(true);
 				return response;
 			}
 
-			Response<UserDto> userResponse = userBusiness.isGranted(request.getUser(), FunctionalityEnum.VIEW_ELEMENT.getValue(), locale);
+			Response<UserDto> userResponse = userBusiness.isGranted(request, FunctionalityEnum.CREATE_USER.getValue(), locale);
 			if (userResponse.isHasError()) {
 				response.setHasError(true);
 				response.setStatus(userResponse.getStatus());

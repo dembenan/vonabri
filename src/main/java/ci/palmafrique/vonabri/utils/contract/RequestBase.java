@@ -26,6 +26,7 @@ public class RequestBase {
 	protected String		caseEngine;
 	protected Boolean		isAnd;
 	protected Integer		user;
+	protected String		token;
 	protected Boolean 		isSimpleLoading;
 	protected Boolean       hierarchyFormat;
 

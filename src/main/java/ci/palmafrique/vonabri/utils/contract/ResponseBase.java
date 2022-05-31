@@ -24,5 +24,6 @@ public class ResponseBase {
 	protected Status	status = new Status();
 	protected boolean	hasError;
 	protected String	sessionUser;
+	protected Integer	user;
 	protected Long		count;
 }

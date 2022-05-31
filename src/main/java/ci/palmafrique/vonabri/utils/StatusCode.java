@@ -23,6 +23,8 @@ public class StatusCode {
 	public static final String	TECH_DB_PERMISSION_DENIED		= "1004";
 	public static final String	TECH_DB_QUERY_REFUSED			= "1005";
 
+	public static final String	FUNC_USER_SESSION_EXPIRED			= "401";
+
 	public static final String	FUNC_FAIL						= "900";
 	public static final String	FUNC_AUTH_FAIL					= "901";
 	public static final String	FUNC_DATA_NOT_EXIST				= "902";

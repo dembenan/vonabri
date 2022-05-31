@@ -51,7 +51,9 @@ import ci.palmafrique.vonabri.utils.contract.IBasicBusiness;
 import ci.palmafrique.vonabri.utils.contract.Request;
 import ci.palmafrique.vonabri.utils.contract.Response;
 import ci.palmafrique.vonabri.utils.dto.FonctionnaliteDto;
+import ci.palmafrique.vonabri.utils.dto.UserDto;
 import ci.palmafrique.vonabri.utils.dto.transformer.FonctionnaliteTransformer;
+import ci.palmafrique.vonabri.utils.enums.FunctionalityEnum;
 import lombok.extern.java.Log;
 
 /**
@@ -110,19 +112,19 @@ public class FonctionnaliteBusiness implements IBasicBusiness<Request<Fonctionna
 		
 		try {
 			Map<String, java.lang.Object> fieldsToVerifyUser = new HashMap<String, java.lang.Object>();
-			fieldsToVerifyUser.put("user", request.getUser());
+			fieldsToVerifyUser.put("token", request.getToken());
 			if (!Validate.RequiredValue(fieldsToVerifyUser).isGood()) {
 				response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
 				response.setHasError(true);
 				return response;
 			}
 
-//			Response<UserDto> userResponse = userBusiness.isGranted(request.getUser(), FunctionalityEnum.CREATE_FONCTIONNALITE.getValue(), locale);
-//			if (userResponse.isHasError()) {
-//				response.setHasError(true);
-//				response.setStatus(userResponse.getStatus());
-//				return response;
-//			}
+			Response<UserDto> userResponse = userBusiness.isGranted(request, FunctionalityEnum.CREATE_USER.getValue(), locale);
+			if (userResponse.isHasError()) {
+				response.setHasError(true);
+				response.setStatus(userResponse.getStatus());
+				return response;
+			}
 			
 			List<Fonctionnalite> items = new ArrayList<Fonctionnalite>();
 			
@@ -278,20 +280,20 @@ public class FonctionnaliteBusiness implements IBasicBusiness<Request<Fonctionna
 		response = new Response<FonctionnaliteDto>();
 		
 		try {
-//			Map<String, java.lang.Object> fieldsToVerifyUser = new HashMap<String, java.lang.Object>();
-//			fieldsToVerifyUser.put("user", request.getUser());
-//			if (!Validate.RequiredValue(fieldsToVerifyUser).isGood()) {
-//				response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
-//				response.setHasError(true);
-//				return response;
-//			}
+			Map<String, java.lang.Object> fieldsToVerifyUser = new HashMap<String, java.lang.Object>();
+			fieldsToVerifyUser.put("token", request.getToken());
+			if (!Validate.RequiredValue(fieldsToVerifyUser).isGood()) {
+				response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
+				response.setHasError(true);
+				return response;
+			}
 
-//			Response<UserDto> userResponse = userBusiness.isGranted(request.getUser(), FunctionalityEnum.UPDATE_FONCTIONNALITE.getValue(), locale);
-//			if (userResponse.isHasError()) {
-//				response.setHasError(true);
-//				response.setStatus(userResponse.getStatus());
-//				return response;
-//			}
+			Response<UserDto> userResponse = userBusiness.isGranted(request, FunctionalityEnum.CREATE_USER.getValue(), locale);
+			if (userResponse.isHasError()) {
+				response.setHasError(true);
+				response.setStatus(userResponse.getStatus());
+				return response;
+			}
 
 			List<Fonctionnalite> items = new ArrayList<Fonctionnalite>();
 			
@@ -423,21 +425,20 @@ public class FonctionnaliteBusiness implements IBasicBusiness<Request<Fonctionna
 		response = new Response<FonctionnaliteDto>();
 		
 		try {
+			Map<String, java.lang.Object> fieldsToVerifyUser = new HashMap<String, java.lang.Object>();
+			fieldsToVerifyUser.put("token", request.getToken());
+			if (!Validate.RequiredValue(fieldsToVerifyUser).isGood()) {
+				response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
+				response.setHasError(true);
+				return response;
+			}
 
-//			Map<String, java.lang.Object> fieldsToVerifyUser = new HashMap<String, java.lang.Object>();
-//			fieldsToVerifyUser.put("user", request.getUser());
-//			if (!Validate.RequiredValue(fieldsToVerifyUser).isGood()) {
-//				response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
-//				response.setHasError(true);
-//				return response;
-//			}
-
-//			Response<UserDto> userResponse = userBusiness.isGranted(request.getUser(), FunctionalityEnum.DELETE_FONCTIONNALITE.getValue(), locale);
-//			if (userResponse.isHasError()) {
-//				response.setHasError(true);
-//				response.setStatus(userResponse.getStatus());
-//				return response;
-//			}
+			Response<UserDto> userResponse = userBusiness.isGranted(request, FunctionalityEnum.CREATE_USER.getValue(), locale);
+			if (userResponse.isHasError()) {
+				response.setHasError(true);
+				response.setStatus(userResponse.getStatus());
+				return response;
+			}
 
 			List<Fonctionnalite> items = new ArrayList<Fonctionnalite>();
 			
@@ -528,20 +529,20 @@ public class FonctionnaliteBusiness implements IBasicBusiness<Request<Fonctionna
 		response = new Response<FonctionnaliteDto>();
 		
 		try {
-//			Map<String, java.lang.Object> fieldsToVerifyUser = new HashMap<String, java.lang.Object>();
-//			fieldsToVerifyUser.put("user", request.getUser());
-//			if (!Validate.RequiredValue(fieldsToVerifyUser).isGood()) {
-//				response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
-//				response.setHasError(true);
-//				return response;
-//			}
+			Map<String, java.lang.Object> fieldsToVerifyUser = new HashMap<String, java.lang.Object>();
+			fieldsToVerifyUser.put("token", request.getToken());
+			if (!Validate.RequiredValue(fieldsToVerifyUser).isGood()) {
+				response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
+				response.setHasError(true);
+				return response;
+			}
 
-//			Response<UserDto> userResponse = userBusiness.isGranted(request.getUser(), FunctionalityEnum.VIEW_FONCTIONNALITE.getValue(), locale);
-//			if (userResponse.isHasError()) {
-//				response.setHasError(true);
-//				response.setStatus(userResponse.getStatus());
-//				return response;
-//			}
+			Response<UserDto> userResponse = userBusiness.isGranted(request, FunctionalityEnum.CREATE_USER.getValue(), locale);
+			if (userResponse.isHasError()) {
+				response.setHasError(true);
+				response.setStatus(userResponse.getStatus());
+				return response;
+			}
 
 			List<Fonctionnalite> items = null;
 			items = fonctionnaliteRepository.getByCriteria(request, em, locale);

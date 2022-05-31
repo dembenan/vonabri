@@ -103,20 +103,20 @@ public class ProfilBusiness implements IBasicBusiness<Request<ProfilDto>, Respon
 		response = new Response<ProfilDto>();
 		
 		try {
-//			Map<String, java.lang.Object> fieldsToVerifyUser = new HashMap<String, java.lang.Object>();
-//			fieldsToVerifyUser.put("user", request.getUser());
-//			if (!Validate.RequiredValue(fieldsToVerifyUser).isGood()) {
-//				response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
-//				response.setHasError(true);
-//				return response;
-//			}
-//
-//			Response<UserDto> userResponse = userBusiness.isGranted(request.getUser(), FunctionalityEnum.CREATE_PROFIL.getValue(), locale);
-//			if (userResponse.isHasError()) {
-//				response.setHasError(true);
-//				response.setStatus(userResponse.getStatus());
-//				return response;
-//			}
+			Map<String, java.lang.Object> fieldsToVerifyUser = new HashMap<String, java.lang.Object>();
+			fieldsToVerifyUser.put("token", request.getToken());
+			if (!Validate.RequiredValue(fieldsToVerifyUser).isGood()) {
+				response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
+				response.setHasError(true);
+				return response;
+			}
+
+			Response<UserDto> userResponse = userBusiness.isGranted(request, FunctionalityEnum.CREATE_USER.getValue(), locale);
+			if (userResponse.isHasError()) {
+				response.setHasError(true);
+				response.setStatus(userResponse.getStatus());
+				return response;
+			}
 			
 			List<Profil> items = new ArrayList<Profil>();
 			
@@ -241,14 +241,14 @@ public class ProfilBusiness implements IBasicBusiness<Request<ProfilDto>, Respon
 		
 		try {
 			Map<String, java.lang.Object> fieldsToVerifyUser = new HashMap<String, java.lang.Object>();
-			fieldsToVerifyUser.put("user", request.getUser());
+			fieldsToVerifyUser.put("token", request.getToken());
 			if (!Validate.RequiredValue(fieldsToVerifyUser).isGood()) {
 				response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
 				response.setHasError(true);
 				return response;
 			}
 
-			Response<UserDto> userResponse = userBusiness.isGranted(request.getUser(), FunctionalityEnum.UPDATE_PROFIL.getValue(), locale);
+			Response<UserDto> userResponse = userBusiness.isGranted(request, FunctionalityEnum.CREATE_USER.getValue(), locale);
 			if (userResponse.isHasError()) {
 				response.setHasError(true);
 				response.setStatus(userResponse.getStatus());
@@ -364,21 +364,20 @@ public class ProfilBusiness implements IBasicBusiness<Request<ProfilDto>, Respon
 		response = new Response<ProfilDto>();
 		
 		try {
-//
-//			Map<String, java.lang.Object> fieldsToVerifyUser = new HashMap<String, java.lang.Object>();
-//			fieldsToVerifyUser.put("user", request.getUser());
-//			if (!Validate.RequiredValue(fieldsToVerifyUser).isGood()) {
-//				response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
-//				response.setHasError(true);
-//				return response;
-//			}
-//
-//			Response<UserDto> userResponse = userBusiness.isGranted(request.getUser(), FunctionalityEnum.DELETE_PROFIL.getValue(), locale);
-//			if (userResponse.isHasError()) {
-//				response.setHasError(true);
-//				response.setStatus(userResponse.getStatus());
-//				return response;
-//			}
+			Map<String, java.lang.Object> fieldsToVerifyUser = new HashMap<String, java.lang.Object>();
+			fieldsToVerifyUser.put("token", request.getToken());
+			if (!Validate.RequiredValue(fieldsToVerifyUser).isGood()) {
+				response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
+				response.setHasError(true);
+				return response;
+			}
+
+			Response<UserDto> userResponse = userBusiness.isGranted(request, FunctionalityEnum.CREATE_USER.getValue(), locale);
+			if (userResponse.isHasError()) {
+				response.setHasError(true);
+				response.setStatus(userResponse.getStatus());
+				return response;
+			}
 
 			List<Profil> items = new ArrayList<Profil>();
 			
@@ -470,14 +469,14 @@ public class ProfilBusiness implements IBasicBusiness<Request<ProfilDto>, Respon
 		
 		try {
 			Map<String, java.lang.Object> fieldsToVerifyUser = new HashMap<String, java.lang.Object>();
-			fieldsToVerifyUser.put("user", request.getUser());
+			fieldsToVerifyUser.put("token", request.getToken());
 			if (!Validate.RequiredValue(fieldsToVerifyUser).isGood()) {
 				response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
 				response.setHasError(true);
 				return response;
 			}
 
-			Response<UserDto> userResponse = userBusiness.isGranted(request.getUser(), FunctionalityEnum.VIEW_PROFIL.getValue(), locale);
+			Response<UserDto> userResponse = userBusiness.isGranted(request, FunctionalityEnum.CREATE_USER.getValue(), locale);
 			if (userResponse.isHasError()) {
 				response.setHasError(true);
 				response.setStatus(userResponse.getStatus());

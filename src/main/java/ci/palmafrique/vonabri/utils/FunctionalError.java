@@ -53,7 +53,11 @@ public class FunctionalError {
 		status.setMessage(messageSource.getMessage("StatusMessage.FUNC_AUTH_FAIL", new Object[] {}, locale) + ": " + message);
 		return status;
 	}
-
+	public Status USER_SESSION_EXPIRED(String message, Locale locale) {
+		status.setCode(StatusCode.FUNC_USER_SESSION_EXPIRED);
+		status.setMessage(messageSource.getMessage("StatusMessage.FUNC_SESSION_EXPIRED", new Object[] {}, locale) + ": " + message);
+		return status;
+	}
 	public Status DATA_NOT_EXIST(String message, Locale locale) {
 		status.setCode(StatusCode.FUNC_DATA_NOT_EXIST);
 		status.setMessage(messageSource.getMessage("StatusMessage.FUNC_DATA_NOT_EXIST", new Object[] {}, locale) + ": " + message);
