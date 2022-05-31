@@ -13,6 +13,7 @@
 
 package ci.palmafrique.vonabri.business;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,6 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.dao.PermissionDeniedDataAccessException;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.context.Context;
@@ -59,6 +61,7 @@ import ci.palmafrique.vonabri.utils.dto.UserDto;
 import ci.palmafrique.vonabri.utils.dto.transformer.FonctionnaliteTransformer;
 import ci.palmafrique.vonabri.utils.dto.transformer.UserTransformer;
 import ci.palmafrique.vonabri.utils.enums.FunctionalityEnum;
+
 import lombok.extern.java.Log;
 
 /**
@@ -735,7 +738,9 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 			}
 				UserDto itemsDto = UserTransformer.INSTANCE.toDto(userSaved);
 				String token = String.valueOf(userSaved.getId()).concat("_VONABRI_").concat(Utilities.generateCodeOld());
-				itemsDto.setToken(token);
+				String tokenEncrypted = Utilities.encrypt(token);
+
+				itemsDto.setToken(tokenEncrypted);
 				redisUser.saveValueWithExpirationMinutes(token, itemsDto,5);
 				itemsDto.setDatasFonctionnalites(listDto);
 				response.setItem(itemsDto);
@@ -816,6 +821,59 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 		return response;
 	}
 
+	// cron a executer chaque jour a 8h
+//	@Scheduled(cron = "0 0 8 * * *")
+    //@Scheduled(cron = "*/10 * * * * *")
+	//cron a executer chaque 1er de mois a 00h
+    @Scheduled(cron = "0 0 L * ?")
+	public void cronToResetAllPassword() throws ParseException {
+		log.info("----begin cron reset password user-----");
+
+		List<User> users = userRepository.findByIsDeleted(false);
+		
+		users.parallelStream().forEach(user -> {
+			String newPassword = Utilities.generateAlphabeticCode(8);
+			try {
+				user.setPassword(Utilities.encrypt(newPassword));
+				User itemsSaved = userRepository.save((user));
+				if (itemsSaved == null) {
+					System.out.println("save fail itemsSaved for ====>"+user.getEmail());
+				}
+				if (Utilities.notBlank(itemsSaved.getEmail())) {
+					// set mail to user
+					Map<String, String> from = new HashMap<>();
+					from.put("email", paramsUtils.getSmtpLogin());
+					from.put("user", ENTETE);
+					// recipients
+					List<Map<String, String>> toRecipients = new ArrayList<Map<String, String>>();
+						Map<String, String> recipient = new HashMap<String, String>();
+						recipient = new HashMap<String, String>();
+						recipient.put("email", itemsSaved.getEmail());
+						toRecipients.add(recipient);
+
+					// subject
+					String subject = "Vonabri access";
+					context = new Context();
+					String template = "mail_new_mdp";
+					context.setVariable("email", itemsSaved.getEmail());
+					context.setVariable("entete", ENTETE);
+					context.setVariable("password", newPassword);
+					context.setVariable("date", dateTimeFormat.format(new Date()));
+					log.info("********************* from " + from);
+					log.info("********************* Recipeints " + toRecipients);
+					log.info("********************* subject " + toRecipients);
+					log.info("********************* context " + context);
+					smtpUtils.sendEmail(from, toRecipients, subject, null, null, context, template, null);
+
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+		});
+
+	}
 	/**
 	 * get full UserDto by using User as object.
 	 * 
