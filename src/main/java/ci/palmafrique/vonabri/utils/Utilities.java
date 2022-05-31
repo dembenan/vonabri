@@ -15,7 +15,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidKeyException;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.text.DateFormat;
 import java.text.Normalizer;
@@ -43,6 +46,11 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.spec.SecretKeySpec;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 
@@ -638,6 +646,72 @@ public class Utilities {
 		return false;
 	}
 
+	  @SuppressWarnings("unused")
+	  public static String encryptWalletKeyString(String token) {
+	              String secretKey = "vonabri";
+	              String dataToEncrypt = token;
+		        try {
+		            byte[] key = secretKey.getBytes("UTF-8");
+		            MessageDigest sha = MessageDigest.getInstance("SHA-1");
+		            key = sha.digest(key);
+		            key = Arrays.copyOf(key, 16);
+		            SecretKeySpec secretKeySpec = new SecretKeySpec(key, "AES");
+		            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+		            cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
+		            byte[] encryptedData = cipher.doFinal(dataToEncrypt.getBytes("UTF-8"));
+		            String encryptedValue = Base64.getEncoder().encodeToString(encryptedData);
+					System.out.println("WALLET QRCODE ENCRYPT===>"+ encryptedValue);
+		            return encryptedValue;
+		        } catch (UnsupportedEncodingException ex) {
+		            ex.printStackTrace();
+		        } catch (NoSuchAlgorithmException ex) {
+		            ex.printStackTrace();
+		        } catch (NoSuchPaddingException ex) {
+		            ex.printStackTrace();
+		        } catch (InvalidKeyException ex) {
+		            ex.printStackTrace();
+		        } catch (BadPaddingException ex) {
+		            ex.printStackTrace();
+		        } catch (IllegalBlockSizeException ex) {
+		            ex.printStackTrace();
+		        }
+		        return null;
+		}
+
+
+  @SuppressWarnings("unused")
+	public static String decryptWalletKeyString(String qrcode) {
+       String secretKey = "vonabri";
+		String walletKey = qrcode;
+		System.out.println("WALLET STRING KEY TO DECRYPT===>"+walletKey);
+      try {
+          byte[] key = secretKey.getBytes("UTF-8");
+          MessageDigest sha = MessageDigest.getInstance("SHA-1");
+          key = sha.digest(key);
+          key = Arrays.copyOf(key, 16);
+          SecretKeySpec secretKeySpec = new SecretKeySpec(key, "AES");
+          Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+          cipher.init(Cipher.DECRYPT_MODE, secretKeySpec);
+          byte[] decryptedData = cipher.doFinal(Base64.getDecoder().decode(walletKey));
+          String decryptedValue = new String(decryptedData);
+			System.out.println("WALLET ID AFTER DECRYPT===>"+decryptedValue);
+
+          return decryptedValue ;
+      } catch (UnsupportedEncodingException ex) {
+          ex.printStackTrace();
+      } catch (NoSuchAlgorithmException ex) {
+          ex.printStackTrace();
+      } catch (NoSuchPaddingException ex) {
+          ex.printStackTrace();
+      } catch (InvalidKeyException ex) {
+          ex.printStackTrace();
+      } catch (BadPaddingException ex) {
+          ex.printStackTrace();
+      } catch (IllegalBlockSizeException ex) {
+          ex.printStackTrace();
+      }
+      return null;
+  }
 	public static String generateAlphanumericCode(Integer nbreCaractere) {
 		String formatted = null;
 		formatted = RandomStringUtils.randomAlphanumeric(nbreCaractere).toUpperCase();
