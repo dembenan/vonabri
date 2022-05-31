@@ -101,7 +101,7 @@ public class SmtpUtils {
 			javaMailSender.setPort(smtpProperties.getPort());
 			javaMailSender.setUsername(smtpProperties.getLogin());
 			javaMailSender.setPassword(smtpProperties.getPassword());
-			
+			javaMailSender.setProtocol("smtp");
 			// ADD NEW CONFIG
 			MailcapCommandMap mc = (MailcapCommandMap) CommandMap.getDefaultCommandMap();
 			mc.addMailcap("text/html;; x-java-content-handler=com.sun.mail.handlers.text_html");

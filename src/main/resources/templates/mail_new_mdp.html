@@ -91,7 +91,7 @@
         }
         .button-td:hover,
         .button-a:hover {
-            border-color: #aeaeae !important;
+            border-color: red !important;
             color: #fff !important;
         }
 
@@ -160,7 +160,7 @@
     <table cellspacing="0" cellpadding="0" border="0" align="center" width="800" style="margin: auto;" class="email-container">
         <tr>
            <td style="padding: 10px 0; text-align: center">
-               <img th:src="@{images/logo.jpg}" width="325px" alt="logo" border="0"/>             
+               <img src="http://www.palmafrique.com/wp-content/themes/palmafrique/images/logo_palmafrique.jpg" width="325px" alt="logo" border="0"/>             
             </td> 
         </tr>
        <!--   <tr style=" text-align: center;">
@@ -171,8 +171,7 @@
                 </tr> -->
         <tr>
             <td style="padding: 10px 0; text-align: center">
-                <h4><b style="font-size: 25px;color: #414042;"> Street - Administrator </b><br/><br/>
-                <span style="font-weight: 100;font-size: 15px;color: #414042;">Application WEB</span>
+                <h4><b style="font-size: 25px;color: #414042;"> VONABRI - Administrator </b><br/><br/>
                 </h4>
             </td>
         </tr>
@@ -186,24 +185,25 @@
         <!-- 1 Column Text : BEGIN -->
         <tr>
             <td style="padding: 40px; text-align: center; font-family: sans-serif; font-size: 15px; mso-height-rule: exactly; line-height: 20px; color: #5a595c;">
-                <span style="color: #008fe1;"><b>Registration date : </b> <span th:utext="${email}" >${date}</span> </span>
+                <span style="color: rgb(7, 131, 0);"><b>Registration date : </b> <span th:utext="${date}" >${date}</span> </span>
                 <br/>
-                <span>Thanks please to use those credencials for your  next connexion : </span>
+                <span>Veillez utiliser les access suivant pour vous connectez </span>
                 <br/><br/>
-                <span style="color: #008fe1;"><b>Email : </b> <span th:utext="${email}" >${email}</span> </span>
+                <span style="color: rgb(7, 131, 0);">Email : </span> <span th:utext="${email}" >${email}</span>
                 <br/>
-                <span style="color: #008fe1;"><b>Password : </b> <span th:utext="${password}" >${password}</span> </span>
+                <span style="color: rgb(7, 131, 0);">Password : </span> <span th:utext="${password}" >${password}</span>
                 <br/>
                 <br/>
-                <span><i>Il serait préférable de changer votre mot de passe par défaut après avoir utilisé celui généré pour plus de sécurité</i> </span>
+                <span style="color: rgb(218, 42, 55); font-weight:bold;"><b>NB : </b> <span >Par mesure de sécurité , un nouveau mot de passe vous sera attribuer chaque fin de mois</span> </span>
+
                 <br/>
                 <br/>
                 <!-- Button : Begin -->
                 <table cellspacing="0" cellpadding="0" border="0" align="center" style="margin: auto">
                     <tr>
-                         <td style="border-radius: 3px; background: #222222; text-align: center;" class="button-td">
-                            <a href="#" th:href="${appLink}" style="background: #008fe1;border: 15px solid #008fe1;font-family: sans-serif;font-size: 13px;line-height: 1.1;text-align: center;text-decoration: none;display: block;border-radius: 3px;font-weight: bold;" class="button-a">
-                                &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#FFF">clic here to connect with your cridentials</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                         <td style="border-radius: 3px; background: rgb(7, 131, 0); text-align: center;" class="button-td">
+                            <a href="https://api-vonabri.cip-palmafrique.com/" style="background: rgb(7, 131, 0);border: 15px solid #fff;font-family: sans-serif;font-size: 20px;line-height: 1.1;text-align: center;text-decoration: none;display: block;border-radius: 3px;font-weight: bold;" class="button-a">
+                               <span style="color:#FFF ;padding:2%">cliquez-ici pour vous connecter</span>
                             </a>
                         </td> 
                     </tr>
@@ -218,13 +218,13 @@
     <!-- Email Body : END -->
 
     <!-- Email Footer : BEGIN -->
-    <table cellspacing="0" cellpadding="0" border="0" align="center" width="600" style="margin: auto;" class="email-container">
+    <!--  <table cellspacing="0" cellpadding="0" border="0" align="center" width="600" style="margin: auto;" class="email-container">
         <tr>
             <td style="padding: 20px 10px;width: 100%;font-size: 14px; font-family: sans-serif; mso-height-rule: exactly; line-height:18px; text-align: center; color: #888888;">
                 <span style="color:#F81766"><i>Ce mail est automatique, merci de ne pas y répondre !</i> </span>
             </td>
         </tr>
-     <!--    <tr style=" text-align: center;">
+       <tr style=" text-align: center;">
                     <td>
                         © <span th:utext="${nomMinistere}" >${nomMinistere}</span> <br/><br/><br/><br/>
                     </td>

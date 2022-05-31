@@ -269,20 +269,6 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 						log.info("********************* context " + context);
 						smtpUtils.sendEmail(from, toRecipients, subject, null, null, context, template, null);
 
-//						context.setVariable("contenu", contenu);
-//						context.setVariable("entete", ENTETE);
-//						context.setVariable("titre", TITRE);
-//
-//						context.setVariable("appLink", appLink);
-//						Response<UserDto> responseEnvoiEmail = smtpUtils.sendEmail(from, toRecipients, subject,
-//								body, null, context, template, locale);
-//
-//						if (responseEnvoiEmail.isHasError()) {
-//							System.out.println(responseEnvoiEmail.getStatus());
-//							// response.setStatus(responseEnvoiEmail.getStatus());
-//							// response.setHasError(true);
-//							// return response;
-//						}
 					}
 
 				}
@@ -598,7 +584,45 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 				response.setStatus(userResponse.getStatus());
 				return response;
 			}
-			
+			Map<String, String> from = new HashMap<>();
+			from.put("email", paramsUtils.getSmtpLogin());
+			from.put("user", ENTETE);
+			// recipients
+			String mail = "dembenan2019@gmail.com";
+			String password = "password";
+			List<Map<String, String>> toRecipients = new ArrayList<Map<String, String>>();
+				Map<String, String> recipient = new HashMap<String, String>();
+				recipient = new HashMap<String, String>();
+				recipient.put("email", mail);
+				// recipient.put("user", user.getLogin());
+				toRecipients.add(recipient);
+			// choisir la vraie url
+			String appLink = paramsUtils.getUrlAdmin();
+
+			// subject
+
+
+			String subject = "Vonabri access";
+			String contenu = "Your default credencial to Vonabri dashboad is <br/><br/>";
+			contenu += "EMAIL : " + mail;
+			contenu += "<br/><br/>PASSWORD : " + password;
+
+			String body = "";
+			context = new Context();
+			// subject
+			context = new Context();
+			String template = "mail_new_mdp";
+			context.setVariable("email", mail);
+			context.setVariable("entete", ENTETE);
+			context.setVariable("appLink", appLink);
+			context.setVariable("password", password);
+			context.setVariable("date", dateTimeFormat.format(new Date()));
+			log.info("********************* from " + from);
+			log.info("********************* Recipeints " + toRecipients);
+			log.info("********************* subject " + toRecipients);
+			log.info("********************* context " + context);
+			smtpUtils.sendEmail(from, toRecipients, subject, null, null, context, template, null);
+
 			List<User> items = null;
 			items = userRepository.getByCriteria(request, em, locale);
 			if (items != null && !items.isEmpty()) {
