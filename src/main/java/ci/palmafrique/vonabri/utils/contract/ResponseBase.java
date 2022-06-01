@@ -26,4 +26,7 @@ public class ResponseBase {
 	protected String	sessionUser;
 	protected Integer	user;
 	protected Long		count;
+	protected Integer	code;
+	protected String	message;
+
 }
