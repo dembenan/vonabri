@@ -7,17 +7,10 @@
 
 package ci.palmafrique.vonabri.rest;
 
-import java.util.Locale;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.http.MediaType;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
-
-import com.google.gson.Gson;
-
-import ci.palmafrique.vonabri.utils.contract.Response;
 
 public class RestInterceptor extends HandlerInterceptorAdapter {
 
@@ -43,35 +36,6 @@ public class RestInterceptor extends HandlerInterceptorAdapter {
 		} else {
 			req.setAttribute("CURRENT_LANGUAGE_IDENTIFIER", defaultLanguage);
 		}
-
-		return false;
+		return true;
 	}
-	public String ReturnAccesDenied(HttpServletRequest req, HttpServletResponse res) {
-		String responseValue = "";
-		try {
-			Response respObj = new Response();
-			respObj.setHasError(Boolean.TRUE);
-			String lang = req.getHeader("lang");
-			Locale locale = null;
-			if (lang != null) {
-				locale = new Locale(lang, "");
-			} else {
-				locale = new Locale("en", "");
-			}
-			res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-			respObj.setCode(HttpServletResponse.SC_UNAUTHORIZED);
-			respObj.setMessage("Access denied");
-
-//			Status status = new Status();
-//			status.setCode(StatusCode.FUNC_ACCESS_DENIED);
-//			status.setMessage(StatusMessage.FUNC_ACCESS_DENIED);
-//			respObj.setStatus(status);
-			responseValue = new Gson().toJson(respObj, Response.class);
-			res.setContentType(MediaType.APPLICATION_JSON_VALUE);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return responseValue;
-	}
-	
 }
