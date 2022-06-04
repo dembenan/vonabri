@@ -337,13 +337,14 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 		try {
 
 
-			Response<UserDto> userResponse = isGranted(request, FunctionalityEnum.CREATE_USER.getValue(), locale);
+			Response<UserDto> userResponse = isGranted(request, FunctionalityEnum.UPDATE_USER.getValue(), locale);
 			if (userResponse.isHasError()) {
 				response.setHasError(true);
 				response.setStatus(userResponse.getStatus());
 				return response;
 			}
 
+			String email = null;
 			List<User> items = new ArrayList<User>();
 			
 			for (UserDto dto : request.getDatas()) {
@@ -388,9 +389,7 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 				if (Utilities.notBlank(dto.getEmail())) {
 					entityToSave.setEmail(dto.getEmail());
 				}
-				if (Utilities.notBlank(dto.getPassword())) {
-					entityToSave.setPassword(dto.getPassword());
-				}
+
 				if (dto.getIsLocked() != null) {
 					entityToSave.setIsLocked(dto.getIsLocked());
 				}
@@ -429,6 +428,7 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 				List<String>  listOfError      = Collections.synchronizedList(new ArrayList<String>());
 				itemsDto.parallelStream().forEach(dto -> {
 					try {
+						dto.getEmail();
 						dto = getFullInfos(dto, size, request.getIsSimpleLoading(), locale);
 					} catch (Exception e) {
 						listOfError.add(e.getMessage());
@@ -721,6 +721,7 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 				return response;
 			}
 				UserDto itemsDto = UserTransformer.INSTANCE.toDto(userSaved);
+				itemsDto.setPassword(null);
 				//String token = String.valueOf(userSaved.getId()).concat("_VONABRI_").concat(Utilities.generateCodeOld());
 				//String tokenEncrypted = Utilities.encryptWalletKeyString(token);
 				redisUser.saveValueWithExpirationMinutes(accessToken, itemsDto,5);
@@ -839,6 +840,130 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 		});
 
 	}
+    
+	@SuppressWarnings("unused")
+	@Transactional(rollbackFor = { RuntimeException.class, Exception.class })
+	public Response<UserDto> resetPassword(Request<UserDto> request, Locale locale)  {
+		log.info("----begin resetPassword User-----");
+		
+		response = new Response<UserDto>();
+
+		
+		try {
+
+
+			Response<UserDto> userResponse = isGranted(request, FunctionalityEnum.RESET_PASSWORD_USER.getValue(), locale);
+			if (userResponse.isHasError()) {
+				response.setHasError(true);
+				response.setStatus(userResponse.getStatus());
+				return response;
+			}
+
+			List<User> items = new ArrayList<User>();
+			Map<String, java.lang.Object> generate = new HashMap<String, java.lang.Object>();
+
+			for (UserDto dto : request.getDatas()) {
+				// Definir les parametres obligatoires
+				Map<String, java.lang.Object> fieldsToVerify = new HashMap<String, java.lang.Object>();
+				fieldsToVerify.put("id", dto.getId());
+				if (!Validate.RequiredValue(fieldsToVerify).isGood()) {
+					response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
+					response.setHasError(true);
+					return response;
+				}
+
+				// Verifier si la user existe
+				User entityToSave = null;
+				entityToSave = userRepository.findOne(dto.getId(), false);
+				if (entityToSave == null) {
+					response.setStatus(functionalError.DATA_NOT_EXIST("user id -> " + dto.getId(), locale));
+					response.setHasError(true);
+					return response;
+				}
+				String pass = Utilities.generateAlphabeticCode(8);
+				generate.put("password", pass);
+				entityToSave.setPassword(Utilities.encrypt(pass));
+				items.add(entityToSave);
+			}
+
+			if (!items.isEmpty()) {
+				List<User> itemsSaved = null;
+				// maj les donnees en base
+				itemsSaved = userRepository.saveAll((Iterable<User>) items);
+				if (itemsSaved == null) {
+					response.setStatus(functionalError.SAVE_FAIL("user", locale));
+					response.setHasError(true);
+					return response;
+				}
+				List<UserDto> itemsDto = (Utilities.isTrue(request.getIsSimpleLoading())) ? UserTransformer.INSTANCE.toLiteDtos(itemsSaved) : UserTransformer.INSTANCE.toDtos(itemsSaved);
+
+				final int size = itemsSaved.size();
+				List<String>  listOfError      = Collections.synchronizedList(new ArrayList<String>());
+				itemsDto.parallelStream().forEach(dto -> {
+					try {
+						System.out.println("password generate ====>"+generate.get("password"));
+						dto = getFullInfos(dto, size, request.getIsSimpleLoading(), locale);
+						String email = dto.getEmail() ;
+							
+							Map<String, String> from = new HashMap<>();
+							from.put("email", paramsUtils.getSmtpLogin()); 
+							from.put("user", ENTETE);
+							// recipients
+							List<Map<String, String>> toRecipients = new ArrayList<Map<String, String>>();
+								Map<String, String> recipient = new HashMap<String, String>();
+								recipient = new HashMap<String, String>();
+								recipient.put("email", email);
+								// recipient.put("user", user.getLogin());
+								toRecipients.add(recipient);
+							// choisir la vraie url
+							String appLink = paramsUtils.getUrlAdmin();
+							// subject
+							String subject = "Vonabri forgot password";
+							context = new Context();
+							String template = "mail_new_mdp";
+							context.setVariable("email", email);
+							context.setVariable("entete", ENTETE);
+							context.setVariable("appLink", appLink);
+							context.setVariable("password", generate.get("password"));
+							context.setVariable("date", dateTimeFormat.format(new Date()));
+							log.info("********************* from " + from);
+							log.info("********************* Recipeints " + toRecipients);
+							log.info("********************* subject " + toRecipients);
+							log.info("********************* context " + context);
+							smtpUtils.sendEmail(from, toRecipients, subject, null, null, context, template, null);
+					} catch (Exception e) {
+						listOfError.add(e.getMessage());
+						e.printStackTrace();
+					}
+				});
+				if (Utilities.isNotEmpty(listOfError)) {
+					Object[] objArray = listOfError.stream().distinct().toArray();
+					throw new RuntimeException(StringUtils.join(objArray, ", "));
+				}
+				response.setItems(itemsDto);
+				response.setHasError(false);
+			}
+
+			log.info("----end resetPassword User-----");
+		} catch (PermissionDeniedDataAccessException e) {
+			exceptionUtils.PERMISSION_DENIED_DATA_ACCESS_EXCEPTION(response, locale, e);
+		} catch (DataAccessResourceFailureException e) {
+			exceptionUtils.DATA_ACCESS_RESOURCE_FAILURE_EXCEPTION(response, locale, e);
+		} catch (DataAccessException e) {
+			exceptionUtils.DATA_ACCESS_EXCEPTION(response, locale, e);
+		} catch (RuntimeException e) {
+			exceptionUtils.RUNTIME_EXCEPTION(response, locale, e);
+		} catch (Exception e) {
+			exceptionUtils.EXCEPTION(response, locale, e);
+		} finally {
+			if (response.isHasError() && response.getStatus() != null) {
+				log.info(String.format("Erreur| code: {} -  message: {}", response.getStatus().getCode(), response.getStatus().getMessage()));
+				throw new RuntimeException(response.getStatus().getCode() + ";" + response.getStatus().getMessage());
+			}
+		}
+		return response;
+	}
+
 	/**
 	 * get full UserDto by using User as object.
 	 * 
