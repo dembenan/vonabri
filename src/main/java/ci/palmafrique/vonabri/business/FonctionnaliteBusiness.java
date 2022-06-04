@@ -111,13 +111,7 @@ public class FonctionnaliteBusiness implements IBasicBusiness<Request<Fonctionna
 		response = new Response<FonctionnaliteDto>();
 		
 		try {
-			Map<String, java.lang.Object> fieldsToVerifyUser = new HashMap<String, java.lang.Object>();
-			fieldsToVerifyUser.put("token", request.getToken());
-			if (!Validate.RequiredValue(fieldsToVerifyUser).isGood()) {
-				response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
-				response.setHasError(true);
-				return response;
-			}
+
 
 			Response<UserDto> userResponse = userBusiness.isGranted(request, FunctionalityEnum.CREATE_USER.getValue(), locale);
 			if (userResponse.isHasError()) {
@@ -280,13 +274,7 @@ public class FonctionnaliteBusiness implements IBasicBusiness<Request<Fonctionna
 		response = new Response<FonctionnaliteDto>();
 		
 		try {
-			Map<String, java.lang.Object> fieldsToVerifyUser = new HashMap<String, java.lang.Object>();
-			fieldsToVerifyUser.put("token", request.getToken());
-			if (!Validate.RequiredValue(fieldsToVerifyUser).isGood()) {
-				response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
-				response.setHasError(true);
-				return response;
-			}
+
 
 			Response<UserDto> userResponse = userBusiness.isGranted(request, FunctionalityEnum.CREATE_USER.getValue(), locale);
 			if (userResponse.isHasError()) {
@@ -425,13 +413,7 @@ public class FonctionnaliteBusiness implements IBasicBusiness<Request<Fonctionna
 		response = new Response<FonctionnaliteDto>();
 		
 		try {
-			Map<String, java.lang.Object> fieldsToVerifyUser = new HashMap<String, java.lang.Object>();
-			fieldsToVerifyUser.put("token", request.getToken());
-			if (!Validate.RequiredValue(fieldsToVerifyUser).isGood()) {
-				response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
-				response.setHasError(true);
-				return response;
-			}
+
 
 			Response<UserDto> userResponse = userBusiness.isGranted(request, FunctionalityEnum.CREATE_USER.getValue(), locale);
 			if (userResponse.isHasError()) {
@@ -529,13 +511,7 @@ public class FonctionnaliteBusiness implements IBasicBusiness<Request<Fonctionna
 		response = new Response<FonctionnaliteDto>();
 		
 		try {
-			Map<String, java.lang.Object> fieldsToVerifyUser = new HashMap<String, java.lang.Object>();
-			fieldsToVerifyUser.put("token", request.getToken());
-			if (!Validate.RequiredValue(fieldsToVerifyUser).isGood()) {
-				response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
-				response.setHasError(true);
-				return response;
-			}
+
 
 			Response<UserDto> userResponse = userBusiness.isGranted(request, FunctionalityEnum.CREATE_USER.getValue(), locale);
 			if (userResponse.isHasError()) {

@@ -36,6 +36,8 @@ public class RestInterceptor extends HandlerInterceptorAdapter {
 		} else {
 			req.setAttribute("CURRENT_LANGUAGE_IDENTIFIER", defaultLanguage);
 		}
+		
+
 		return true;
 	}
 }

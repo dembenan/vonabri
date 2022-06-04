@@ -9,28 +9,37 @@
 
 package ci.palmafrique.vonabri.rest.api;
 
-import java.text.ParseException;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.CannotCreateTransactionException;
 import org.springframework.transaction.TransactionSystemException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import ci.palmafrique.vonabri.utils.dto.*;
-import ci.palmafrique.vonabri.utils.contract.*;
+import ci.palmafrique.vonabri.business.UserBusiness;
+import ci.palmafrique.vonabri.jwt.JwtTokenUtil;
+import ci.palmafrique.vonabri.jwt.UserDetailsServiceImpl;
+import ci.palmafrique.vonabri.utils.ExceptionUtils;
+import ci.palmafrique.vonabri.utils.FunctionalError;
+import ci.palmafrique.vonabri.utils.StatusCode;
+import ci.palmafrique.vonabri.utils.StatusMessage;
+import ci.palmafrique.vonabri.utils.Validate;
 import ci.palmafrique.vonabri.utils.contract.Request;
 import ci.palmafrique.vonabri.utils.contract.Response;
-import ci.palmafrique.vonabri.utils.*;
-import ci.palmafrique.vonabri.business.*;
+import ci.palmafrique.vonabri.utils.dto.UserDto;
 
 
 /**
@@ -52,6 +61,10 @@ public class UserController {
 
 	@Autowired
 	private ExceptionUtils			exceptionUtils;
+	@Autowired
+	private JwtTokenUtil jwtTokenUtil;
+	@Autowired
+	private UserDetailsServiceImpl userDetailsService;
 
 	private Logger slf4jLogger = LoggerFactory.getLogger(getClass());
 	
@@ -179,6 +192,10 @@ public class UserController {
     public Response<UserDto> getByCriteria(@RequestBody Request<UserDto> request) {
     	slf4jLogger.info("start method /user/getByCriteria");
         Response<UserDto> response = new Response<UserDto>();
+        
+        	  	
+	  	System.out.println("HttpServletRequest tokent=======>  "+requestBasic.getHeader("Authorization"));
+
 
         String languageID = (String)requestBasic.getAttribute("CURRENT_LANGUAGE_IDENTIFIER");
         Locale locale = new Locale(languageID, "");
@@ -212,20 +229,88 @@ public class UserController {
 		slf4jLogger.info("end method /user/getByCriteria");
         return response;
     }
+//	@RequestMapping(value="/login",method=RequestMethod.POST,consumes = {"application/json"},produces={"application/json"})
+//    public Response<UserDto> login(@RequestBody Request<UserDto> request) {
+//    	slf4jLogger.info("start method /user/login");
+//        Response<UserDto> response = new Response<UserDto>();
+//
+//        String languageID = (String)requestBasic.getAttribute("CURRENT_LANGUAGE_IDENTIFIER");
+//        Locale locale = new Locale(languageID, "");
+//
+//        try {
+//
+//        	response = Validate.validateObject(request, response, functionalError, locale);
+//        	if(!response.isHasError()){
+//               response = userBusiness.login(request, locale);
+//        	}else{
+//        	   slf4jLogger.info("Erreur| code: {} -  message: {}", response.getStatus().getCode(), response.getStatus().getMessage());
+//        	   return response;
+//        	}
+//        	
+//        	if(!response.isHasError()){
+//        	  	slf4jLogger.info("end method login");
+//          	  	slf4jLogger.info("code: {} -  message: {}", StatusCode.SUCCESS, StatusMessage.SUCCESS);  
+//            }else{
+//              	slf4jLogger.info("Erreur| code: {} -  message: {}", response.getStatus().getCode(), response.getStatus().getMessage());
+//            }
+// 
+//        } catch (CannotCreateTransactionException e) {
+//			exceptionUtils.CANNOT_CREATE_TRANSACTION_EXCEPTION(response, locale, e);
+//		} catch (TransactionSystemException e) {
+//			exceptionUtils.TRANSACTION_SYSTEM_EXCEPTION(response, locale, e);
+//		} catch (RuntimeException e) {
+//			exceptionUtils.RUNTIME_EXCEPTION(response, locale, e);
+//		} catch (Exception e) {
+//			exceptionUtils.EXCEPTION(response, locale, e);
+//		}
+//		slf4jLogger.info("end method /user/login");
+//        return response;
+//    }
+
+	
 	@RequestMapping(value="/login",method=RequestMethod.POST,consumes = {"application/json"},produces={"application/json"})
-    public Response<UserDto> login(@RequestBody Request<UserDto> request) {
+	@ResponseBody
+	public Response<UserDto> login(@RequestBody Request<UserDto> request,@RequestHeader(value="versionCode",required = false) String versionCode,HttpServletRequest httpServletRequest,HttpServletResponse httpServletResponse) {
     	slf4jLogger.info("start method /user/login");
         Response<UserDto> response = new Response<UserDto>();
 
         String languageID = (String)requestBasic.getAttribute("CURRENT_LANGUAGE_IDENTIFIER");
         Locale locale = new Locale(languageID, "");
 
+
+
         try {
 
-        	response = Validate.validateObject(request, response, functionalError, locale);
-        	if(!response.isHasError()){
-               response = userBusiness.login(request, locale);
-        	}else{
+
+			new UsernamePasswordAuthenticationToken(request.getData().getEmail(), request.getData().getPassword());
+			// Authentication authentication =
+			// authenticationManager.authenticate(usernamePasswordAuthenticationToken);
+			final UserDetails userDetails = userDetailsService.loadUserByUsername(request.getData().getEmail());
+			if(userDetails == null) {
+				httpServletResponse.setStatus(HttpServletResponse.SC_CONFLICT);
+				response.setCode(HttpServletResponse.SC_CONFLICT);
+				response.setMessage("Aucun compte associé à ce numero; veillez créer un nouveau compte");
+				response.setHasError(true);
+				return response;
+			}
+//			if(userDetails.getPassword().equals(Utilities.encrypt(request.getData().getPasscode()))) {
+//				httpServletResponse.setStatus(HttpServletResponse.SC_CONFLICT);
+//				response.setCode("405");
+//				response.setMessage("Mot de passe incorrect");
+//				response.setHasError(true);
+//				return response;
+//			}
+
+			final String token = jwtTokenUtil.generateToken(userDetails);
+
+			String emailUser = jwtTokenUtil.getUsernameFromToken(token);
+			System.out.println("===============================>USERNAME emailUser===>"+emailUser+"================================>");
+			
+			response = Validate.validateObject(request, response, functionalError, locale);
+			if (!response.isHasError()) {
+//				request.getData().setToken(token);
+				response = userBusiness.login(request,token, locale);
+			}else{
         	   slf4jLogger.info("Erreur| code: {} -  message: {}", response.getStatus().getCode(), response.getStatus().getMessage());
         	   return response;
         	}
@@ -250,6 +335,8 @@ public class UserController {
         return response;
     }
 
+	
+	
 	@RequestMapping(value="/logout",method=RequestMethod.POST,consumes = {"application/json"},produces={"application/json"})
     public Response<UserDto> logout(@RequestBody Request<UserDto> request) {
     	slf4jLogger.info("start method /user/logout");

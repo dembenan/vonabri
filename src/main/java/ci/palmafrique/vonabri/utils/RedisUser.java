@@ -33,7 +33,6 @@ public class RedisUser  implements RedisValue<UserDto> {
 			// TODO: handle exception
 		}		return null;
 	}
-
 	
 	public void saveValueWithoutExpiration(String key, UserDto userDto) {
 		try {
@@ -46,6 +45,20 @@ public class RedisUser  implements RedisValue<UserDto> {
 			e.printStackTrace();
 //			log.warning("saveValueWithExpiration : " + e.getCause(), e.getMessage());
 		}
+	}
+
+	public long getExpiration(String key) {
+		try {
+			System.out.println("REDIS KEY"+key+"========EXPIRE AT=============================>"+redisUserTemplate.getExpire(key));
+
+			return redisUserTemplate.getExpire(key);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+//			log.warning("saveValueWithExpiration : " + e.getCause(), e.getMessage());
+		}
+		return 0;
+		
 	}
 
 	@Override
@@ -142,6 +155,16 @@ public class RedisUser  implements RedisValue<UserDto> {
 		try {
 			//set to 6Hours / minutes before
 			redisUserTemplate.opsForValue().set(key,cmdsTosave,expiration,TimeUnit.MINUTES);
+		} catch (Exception e) {
+			e.printStackTrace();
+			//log.warn("saveValueWithExpiration : " + e.getCause(), e.getMessage());
+		}
+	}
+	public void setExpiration(String key,int expiration) {
+		try {
+			//set to 6Hours / minutes before
+			redisUserTemplate.expire(key,expiration, TimeUnit.MINUTES);
+			//redisUserTemplate.opsForValue().set(key,cmdsTosave,expiration,TimeUnit.MINUTES);
 		} catch (Exception e) {
 			e.printStackTrace();
 			//log.warn("saveValueWithExpiration : " + e.getCause(), e.getMessage());
