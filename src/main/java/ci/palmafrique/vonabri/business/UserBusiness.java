@@ -319,6 +319,165 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 		return response;
 	}
 
+	@SuppressWarnings("unused")
+	@Transactional(rollbackFor = { RuntimeException.class, Exception.class })
+	public Response<UserDto> resetPassword(Request<UserDto> request, Locale locale)  {
+		log.info("----begin resetPassword User-----");
+		
+		response = new Response<UserDto>();
+
+		try {
+
+
+			Response<UserDto> userResponse = isGranted(request, FunctionalityEnum.RESET_PASSWORD_USER.getValue(), locale);
+			if (userResponse.isHasError()) {
+				response.setHasError(true);
+				response.setStatus(userResponse.getStatus());
+				return response;
+			}
+			
+			List<User> items = new ArrayList<User>();
+			List<UserDto> itemsSend = new ArrayList<UserDto>();
+
+			for (UserDto dto : request.getDatas()) {
+				// Definir les parametres obligatoires
+				Map<String, java.lang.Object> fieldsToVerify = new HashMap<String, java.lang.Object>();
+				fieldsToVerify.put("id", dto.getId() );
+				if (!Validate.RequiredValue(fieldsToVerify).isGood()) {
+					response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
+					response.setHasError(true);
+					return response;
+				}
+
+				// Verify if user to insert do not exist
+				User existingEntity = null;
+				if (existingEntity != null) {
+					response.setStatus(functionalError.DATA_EXIST("user id -> " + dto.getId(), locale));
+					response.setHasError(true);
+					return response;
+				}
+
+				// verif unique email in db
+				existingEntity = userRepository.findOne(dto.getId(), false);
+				if (existingEntity == null) {
+					response.setStatus(functionalError.DATA_NOT_EXIST("user  -> " + dto.getId(), locale));
+					response.setHasError(true);
+					return response;
+				}
+				String password = Utilities.generateAlphabeticCode(8);
+				UserDto userSend = new UserDto();
+				userSend.setEmail(existingEntity.getEmail());
+				userSend.setPassword(password);
+				itemsSend.add(userSend);
+				log.info("********************* password GENERATE " + password);
+
+				existingEntity.setPassword(Utilities.encrypt(password));
+				existingEntity.setUpdatedAt(Utilities.getCurrentDate());
+				existingEntity.setUpdatedBy(request.getUser());
+				items.add(existingEntity);
+			}
+
+			if (!items.isEmpty()) {
+				List<User> itemsSaved = null;
+				// inserer les donnees en base de donnees
+				itemsSaved = userRepository.saveAll((Iterable<User>) items);
+				if (itemsSaved == null) {
+					response.setStatus(functionalError.SAVE_FAIL("user", locale));
+					response.setHasError(true);
+					return response;
+				}
+
+				
+				if (!itemsSend.isEmpty()) {
+					
+					for (UserDto dto : itemsSend) {
+						
+						log.info("********************* password GENERATE AFTER AVED" + dto.getPassword());
+
+						if (Utilities.notBlank(dto.getEmail())) {
+							// set mail to user
+							Map<String, String> from = new HashMap<>();
+							from.put("email", paramsUtils.getSmtpLogin());
+							from.put("user", ENTETE);
+							// recipients
+							List<Map<String, String>> toRecipients = new ArrayList<Map<String, String>>();
+							items.stream().forEach(user -> {
+								Map<String, String> recipient = new HashMap<String, String>();
+								recipient = new HashMap<String, String>();
+								recipient.put("email", dto.getEmail());
+								// recipient.put("user", user.getLogin());
+								toRecipients.add(recipient);
+							});
+							// choisir la vraie url
+							String appLink = paramsUtils.getUrlAdmin();
+
+							// subject
+							String subject = "Vonabri reset password";
+							String contenu = "Your default credencial to Vonabri dashboad is <br/><br/>";
+							contenu += "EMAIL : " + dto.getEmail();
+							contenu += "<br/><br/>PASSWORD : " + dto.getPassword();
+
+							String body = "";
+							context = new Context();
+							// subject
+							context = new Context();
+							String template = "mail_new_mdp";
+							context.setVariable("email", dto.getEmail());
+							context.setVariable("entete", ENTETE);
+							context.setVariable("appLink", appLink);
+							context.setVariable("password", dto.getPassword());
+							context.setVariable("date", dateTimeFormat.format(new Date()));
+							log.info("********************* from " + from);
+							log.info("********************* Recipeints " + toRecipients);
+							log.info("********************* subject " + toRecipients);
+							log.info("********************* context " + context);
+							smtpUtils.sendEmail(from, toRecipients, subject, null, null, context, template, null);
+
+						}
+
+					}
+				}
+
+				List<UserDto> itemsDto = (Utilities.isTrue(request.getIsSimpleLoading())) ? UserTransformer.INSTANCE.toLiteDtos(itemsSaved) : UserTransformer.INSTANCE.toDtos(itemsSaved);
+				
+				final int size = itemsSaved.size();
+				List<String>  listOfError      = Collections.synchronizedList(new ArrayList<String>());
+				itemsDto.parallelStream().forEach(dto -> {
+					try {	
+						dto = getFullInfos(dto, size, request.getIsSimpleLoading(), locale);
+					} catch (Exception e) {
+						listOfError.add(e.getMessage());
+						e.printStackTrace();
+					}
+				});
+				if (Utilities.isNotEmpty(listOfError)) {
+					Object[] objArray = listOfError.stream().distinct().toArray();
+					throw new RuntimeException(StringUtils.join(objArray, ", "));
+				}
+				response.setItems(itemsDto);
+				response.setHasError(false);
+			}
+
+			log.info("----end resetPassword User-----");
+		} catch (PermissionDeniedDataAccessException e) {
+			exceptionUtils.PERMISSION_DENIED_DATA_ACCESS_EXCEPTION(response, locale, e);
+		} catch (DataAccessResourceFailureException e) {
+			exceptionUtils.DATA_ACCESS_RESOURCE_FAILURE_EXCEPTION(response, locale, e);
+		} catch (DataAccessException e) {
+			exceptionUtils.DATA_ACCESS_EXCEPTION(response, locale, e);
+		} catch (RuntimeException e) {
+			exceptionUtils.RUNTIME_EXCEPTION(response, locale, e);
+		} catch (Exception e) {
+			exceptionUtils.EXCEPTION(response, locale, e);
+		} finally {
+			if (response.isHasError() && response.getStatus() != null) {
+				log.info(String.format("Erreur| code: {} -  message: {}", response.getStatus().getCode(), response.getStatus().getMessage()));
+				throw new RuntimeException(response.getStatus().getCode() + ";" + response.getStatus().getMessage());
+			}
+		}
+		return response;
+	}
+
 	/**
 	 * update User by using UserDto as object.
 	 * 
@@ -851,7 +1010,7 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 	 */
 	private UserDto getFullInfos(UserDto dto, Integer size, Boolean isSimpleLoading, Locale locale) throws Exception {
 		// put code here
-
+		dto.setPassword(null);
 		if (Utilities.isTrue(isSimpleLoading)) {
 			return dto;
 		}
@@ -878,6 +1037,19 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 		return token;
 	}
 	
+	public  String getEmailByToken(String tokenFromHeader) {
+		
+		String email = null;
+ 			//String token = tokenFromHeader.substring(7, tokenFromHeader.length());
+ 			email = jwtTokenUtil.getUsernameFromToken(tokenFromHeader);
+ 			System.out.println("===============================>USERNAME PHONE"+email+"================================>");
+// 			Client currentClientEntity = clientRepository.findByPhoneNumber(phoneClient, false);
+// 			System.out.println("CLIENT FROM JWT PHONE NUMBER"+currentClientEntity);
+
+ 			System.out.println("jwtTokenjwtToken=========================>"+tokenFromHeader);
+
+		return email;
+	}
 	public void getUserAgent() {
 
 	    String browserType = requestBasic.getHeader("User-Agent"); // This is the line you're after
@@ -905,6 +1077,7 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
  			}
 			getUserAgent();
 			redisUser.getExpiration(token);
+			
 			User currentUser = userRepository.findOne(getRedisSaved.getId(), false);
 			if (currentUser == null) {
 				response.setStatus(functionalError.DATA_NOT_EXIST("Utilisateur -> " + getRedisSaved.getId(), locale));

@@ -194,6 +194,8 @@ public class FonctionnaliteController {
         	}
         	
         	if(!response.isHasError()){
+				response.setStatus(functionalError.SUCCESS("", locale));
+
         	  	slf4jLogger.info("end method getByCriteria");
           	  	slf4jLogger.info("code: {} -  message: {}", StatusCode.SUCCESS, StatusMessage.SUCCESS);  
             }else{

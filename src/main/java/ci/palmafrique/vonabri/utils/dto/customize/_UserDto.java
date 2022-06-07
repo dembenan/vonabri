@@ -27,5 +27,7 @@ import lombok.Data;
 public class _UserDto {
 	private List<FonctionnaliteDto> datasFonctionnalites;
 	private String token;
+	
+
 
 }

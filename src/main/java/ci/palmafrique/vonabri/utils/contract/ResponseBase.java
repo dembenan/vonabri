@@ -28,5 +28,5 @@ public class ResponseBase {
 	protected Long		count;
 	protected Integer	code;
 	protected String	message;
-
+	protected String	generatePassword;
 }
