@@ -8,13 +8,10 @@
 
 package ci.palmafrique.vonabri.utils.dto.customize;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
-import ci.palmafrique.vonabri.utils.contract.*;
+import lombok.Data;
 
 /**
  * DTO customize for table "travailleur"
@@ -22,7 +19,9 @@ import ci.palmafrique.vonabri.utils.contract.*;
  * @author Geo
  *
  */
+@Data
 @JsonInclude(Include.NON_NULL)
 public class _TravailleurDto {
 
+	private Boolean isUser;
 }

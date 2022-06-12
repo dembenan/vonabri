@@ -129,8 +129,6 @@ public class AncienneteBusiness implements IBasicBusiness<Request<AncienneteDto>
 				fieldsToVerify.put("code", dto.getCode());
 				fieldsToVerify.put("libelle", dto.getLibelle());
 				fieldsToVerify.put("ancienneteTypeId", dto.getAncienneteTypeId());
-				fieldsToVerify.put("deletedAt", dto.getDeletedAt());
-				fieldsToVerify.put("deletedBy", dto.getDeletedBy());
 				if (!Validate.RequiredValue(fieldsToVerify).isGood()) {
 					response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
 					response.setHasError(true);
@@ -160,18 +158,18 @@ public class AncienneteBusiness implements IBasicBusiness<Request<AncienneteDto>
 				}
 
 				// verif unique libelle in db
-				existingEntity = ancienneteRepository.findByLibelle(dto.getLibelle(), false);
-				if (existingEntity != null) {
-					response.setStatus(functionalError.DATA_EXIST("anciennete libelle -> " + dto.getLibelle(), locale));
-					response.setHasError(true);
-					return response;
-				}
-				// verif unique libelle in items to save
-				if (items.stream().anyMatch(a -> a.getLibelle().equalsIgnoreCase(dto.getLibelle()))) {
-					response.setStatus(functionalError.DATA_DUPLICATE(" libelle ", locale));
-					response.setHasError(true);
-					return response;
-				}
+//				existingEntity = ancienneteRepository.findByLibelle(dto.getLibelle(), false);
+//				if (existingEntity != null) {
+//					response.setStatus(functionalError.DATA_EXIST("anciennete libelle -> " + dto.getLibelle(), locale));
+//					response.setHasError(true);
+//					return response;
+//				}
+//				// verif unique libelle in items to save
+//				if (items.stream().anyMatch(a -> a.getLibelle().equalsIgnoreCase(dto.getLibelle()))) {
+//					response.setStatus(functionalError.DATA_DUPLICATE(" libelle ", locale));
+//					response.setHasError(true);
+//					return response;
+//				}
 
 				// Verify if ancienneteType exist
 				AncienneteType existingAncienneteType = null;

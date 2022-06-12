@@ -125,8 +125,6 @@ public class StatutBusiness implements IBasicBusiness<Request<StatutDto>, Respon
 				Map<String, java.lang.Object> fieldsToVerify = new HashMap<String, java.lang.Object>();
 				fieldsToVerify.put("code", dto.getCode());
 				fieldsToVerify.put("libelle", dto.getLibelle());
-				fieldsToVerify.put("deletedAt", dto.getDeletedAt());
-				fieldsToVerify.put("deletedBy", dto.getDeletedBy());
 				if (!Validate.RequiredValue(fieldsToVerify).isGood()) {
 					response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
 					response.setHasError(true);

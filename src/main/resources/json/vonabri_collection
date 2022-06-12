@@ -1,0 +1,1934 @@
+{
+    "info": {
+        "_postman_id": "project.id",
+        "name": "ci_palmafrique_vonabri",
+        "schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "anciennete",
+            "item": [
+                {
+                    "name": "anciennete-getByCriteria",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"isSimpleLoading\":false,\n\t\"data\":{\n  \t\t\"id\": \"\",\n\t\t\"code\": \"\",\n\t\t\"libelle\": \"\",\n\t\t\"ancienneteTypeId\": \"\",\n\t\t\"createdAt\": \"\",\n\t\t\"deletedAt\": \"\",\n\t\t\"updatedAt\": \"\",\n\t\t\"createdBy\": \"\",\n\t\t\"updatedBy\": \"\",\n\t\t\"deletedBy\": \"\",\n\t\t\"isDeleted\": \"\"\n\t}  \n}"
+                        },
+                        "url": "{{main_url}}/anciennete/getByCriteria"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "anciennete-create",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"ancienneteTypeId\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/anciennete/create"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "anciennete-update",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\",\n\t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"ancienneteTypeId\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/anciennete/update"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "anciennete-delete",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/anciennete/delete"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "ancienneteType",
+            "item": [
+                {
+                    "name": "ancienneteType-getByCriteria",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"isSimpleLoading\":false,\n\t\"data\":{\n  \t\t\"id\": \"\",\n\t\t\"code\": \"\",\n\t\t\"libelle\": \"\",\n\t\t\"createdAt\": \"\",\n\t\t\"deletedAt\": \"\",\n\t\t\"updatedAt\": \"\",\n\t\t\"createdBy\": \"\",\n\t\t\"updatedBy\": \"\",\n\t\t\"deletedBy\": \"\",\n\t\t\"isDeleted\": \"\"\n\t}  \n}"
+                        },
+                        "url": "{{main_url}}/ancienneteType/getByCriteria"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "ancienneteType-create",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/ancienneteType/create"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "ancienneteType-update",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\",\n\t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/ancienneteType/update"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "ancienneteType-delete",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/ancienneteType/delete"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "direction",
+            "item": [
+                {
+                    "name": "direction-getByCriteria",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"isSimpleLoading\":false,\n\t\"data\":{\n  \t\t\"id\": \"\",\n\t\t\"code\": \"\",\n\t\t\"libelle\": \"\",\n\t\t\"createdAt\": \"\",\n\t\t\"deletedAt\": \"\",\n\t\t\"updatedAt\": \"\",\n\t\t\"createdBy\": \"\",\n\t\t\"updatedBy\": \"\",\n\t\t\"deletedBy\": \"\",\n\t\t\"isDeleted\": \"\"\n\t}  \n}"
+                        },
+                        "url": "{{main_url}}/direction/getByCriteria"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "direction-create",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/direction/create"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "direction-update",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\",\n\t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/direction/update"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "direction-delete",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/direction/delete"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "element",
+            "item": [
+                {
+                    "name": "element-getByCriteria",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"isSimpleLoading\":false,\n\t\"data\":{\n  \t\t\"id\": \"\",\n\t\t\"code\": \"\",\n\t\t\"libelle\": \"\",\n\t\t\"icon\": \"\",\n\t\t\"titre\": \"\",\n\t\t\"champsListing\": \"\",\n\t\t\"champsCreation\": \"\",\n\t\t\"parentId\": \"\",\n\t\t\"elementTypeId\": \"\",\n\t\t\"createdAt\": \"\",\n\t\t\"deletedAt\": \"\",\n\t\t\"updatedAt\": \"\",\n\t\t\"createdBy\": \"\",\n\t\t\"updatedBy\": \"\",\n\t\t\"deletedBy\": \"\",\n\t\t\"isDeleted\": \"\"\n\t}  \n}"
+                        },
+                        "url": "{{main_url}}/element/getByCriteria"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "element-create",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"icon\": \"\",\n\t\t\t\"titre\": \"\",\n\t\t\t\"champsListing\": \"\",\n\t\t\t\"champsCreation\": \"\",\n\t\t\t\"parentId\": \"\",\n\t\t\t\"elementTypeId\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/element/create"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "element-update",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\",\n\t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"icon\": \"\",\n\t\t\t\"titre\": \"\",\n\t\t\t\"champsListing\": \"\",\n\t\t\t\"champsCreation\": \"\",\n\t\t\t\"parentId\": \"\",\n\t\t\t\"elementTypeId\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/element/update"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "element-delete",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/element/delete"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "elementType",
+            "item": [
+                {
+                    "name": "elementType-getByCriteria",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"isSimpleLoading\":false,\n\t\"data\":{\n  \t\t\"id\": \"\",\n\t\t\"code\": \"\",\n\t\t\"libelle\": \"\",\n\t\t\"createdAt\": \"\",\n\t\t\"updatedAt\": \"\",\n\t\t\"deletedAt\": \"\",\n\t\t\"createdBy\": \"\",\n\t\t\"updatedBy\": \"\",\n\t\t\"deletedBy\": \"\",\n\t\t\"isDeleted\": \"\"\n\t}  \n}"
+                        },
+                        "url": "{{main_url}}/elementType/getByCriteria"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "elementType-create",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/elementType/create"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "elementType-update",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\",\n\t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/elementType/update"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "elementType-delete",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/elementType/delete"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "employeur",
+            "item": [
+                {
+                    "name": "employeur-getByCriteria",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"isSimpleLoading\":false,\n\t\"data\":{\n  \t\t\"id\": \"\",\n\t\t\"code\": \"\",\n\t\t\"libelle\": \"\",\n\t\t\"createdAt\": \"\",\n\t\t\"deletedAt\": \"\",\n\t\t\"updatedAt\": \"\",\n\t\t\"createdBy\": \"\",\n\t\t\"updatedBy\": \"\",\n\t\t\"deletedBy\": \"\",\n\t\t\"isDeleted\": \"\"\n\t}  \n}"
+                        },
+                        "url": "{{main_url}}/employeur/getByCriteria"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "employeur-create",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/employeur/create"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "employeur-update",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\",\n\t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/employeur/update"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "employeur-delete",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/employeur/delete"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "ethnie",
+            "item": [
+                {
+                    "name": "ethnie-getByCriteria",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"isSimpleLoading\":false,\n\t\"data\":{\n  \t\t\"id\": \"\",\n\t\t\"code\": \"\",\n\t\t\"libelle\": \"\",\n\t\t\"createdAt\": \"\",\n\t\t\"deletedAt\": \"\",\n\t\t\"updatedAt\": \"\",\n\t\t\"createdBy\": \"\",\n\t\t\"updatedBy\": \"\",\n\t\t\"deletedBy\": \"\",\n\t\t\"isDeleted\": \"\"\n\t}  \n}"
+                        },
+                        "url": "{{main_url}}/ethnie/getByCriteria"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "ethnie-create",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/ethnie/create"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "ethnie-update",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\",\n\t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/ethnie/update"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "ethnie-delete",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/ethnie/delete"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "fonction",
+            "item": [
+                {
+                    "name": "fonction-getByCriteria",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"isSimpleLoading\":false,\n\t\"data\":{\n  \t\t\"id\": \"\",\n\t\t\"code\": \"\",\n\t\t\"libelle\": \"\",\n\t\t\"createdAt\": \"\",\n\t\t\"deletedAt\": \"\",\n\t\t\"updatedAt\": \"\",\n\t\t\"createdBy\": \"\",\n\t\t\"updatedBy\": \"\",\n\t\t\"deletedBy\": \"\",\n\t\t\"isDeleted\": \"\"\n\t}  \n}"
+                        },
+                        "url": "{{main_url}}/fonction/getByCriteria"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "fonction-create",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/fonction/create"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "fonction-update",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\",\n\t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/fonction/update"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "fonction-delete",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/fonction/delete"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "fonctionnalite",
+            "item": [
+                {
+                    "name": "fonctionnalite-getByCriteria",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"isSimpleLoading\":false,\n\t\"data\":{\n  \t\t\"id\": \"\",\n\t\t\"code\": \"\",\n\t\t\"libelle\": \"\",\n\t\t\"icon\": \"\",\n\t\t\"parentId\": \"\",\n\t\t\"createdAt\": \"\",\n\t\t\"deletedAt\": \"\",\n\t\t\"updatedAt\": \"\",\n\t\t\"createdBy\": \"\",\n\t\t\"updatedBy\": \"\",\n\t\t\"deletedBy\": \"\",\n\t\t\"isDeleted\": \"\"\n\t}  \n}"
+                        },
+                        "url": "{{main_url}}/fonctionnalite/getByCriteria"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "fonctionnalite-create",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"icon\": \"\",\n\t\t\t\"parentId\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/fonctionnalite/create"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "fonctionnalite-update",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\",\n\t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"icon\": \"\",\n\t\t\t\"parentId\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/fonctionnalite/update"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "fonctionnalite-delete",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/fonctionnalite/delete"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "gestionDeBien",
+            "item": [
+                {
+                    "name": "gestionDeBien-getByCriteria",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"isSimpleLoading\":false,\n\t\"data\":{\n  \t\t\"id\": \"\",\n\t\t\"code\": \"\",\n\t\t\"libelle\": \"\",\n\t\t\"createdAt\": \"\",\n\t\t\"deletedAt\": \"\",\n\t\t\"updatedAt\": \"\",\n\t\t\"createdBy\": \"\",\n\t\t\"updatedBy\": \"\",\n\t\t\"deletedBy\": \"\",\n\t\t\"isDeleted\": \"\"\n\t}  \n}"
+                        },
+                        "url": "{{main_url}}/gestionDeBien/getByCriteria"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "gestionDeBien-create",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/gestionDeBien/create"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "gestionDeBien-update",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\",\n\t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/gestionDeBien/update"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "gestionDeBien-delete",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/gestionDeBien/delete"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "nationnalite",
+            "item": [
+                {
+                    "name": "nationnalite-getByCriteria",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"isSimpleLoading\":false,\n\t\"data\":{\n  \t\t\"id\": \"\",\n\t\t\"code\": \"\",\n\t\t\"libelle\": \"\",\n\t\t\"createdAt\": \"\",\n\t\t\"deletedAt\": \"\",\n\t\t\"updatedAt\": \"\",\n\t\t\"createdBy\": \"\",\n\t\t\"updatedBy\": \"\",\n\t\t\"deletedBy\": \"\",\n\t\t\"isDeleted\": \"\"\n\t}  \n}"
+                        },
+                        "url": "{{main_url}}/nationnalite/getByCriteria"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "nationnalite-create",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/nationnalite/create"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "nationnalite-update",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\",\n\t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/nationnalite/update"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "nationnalite-delete",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/nationnalite/delete"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "posteDeTravail",
+            "item": [
+                {
+                    "name": "posteDeTravail-getByCriteria",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"isSimpleLoading\":false,\n\t\"data\":{\n  \t\t\"id\": \"\",\n\t\t\"code\": \"\",\n\t\t\"libelle\": \"\",\n\t\t\"createdAt\": \"\",\n\t\t\"deletedAt\": \"\",\n\t\t\"updatedAt\": \"\",\n\t\t\"createdBy\": \"\",\n\t\t\"updatedBy\": \"\",\n\t\t\"deletedBy\": \"\",\n\t\t\"isDeleted\": \"\"\n\t}  \n}"
+                        },
+                        "url": "{{main_url}}/posteDeTravail/getByCriteria"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "posteDeTravail-create",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/posteDeTravail/create"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "posteDeTravail-update",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\",\n\t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/posteDeTravail/update"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "posteDeTravail-delete",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/posteDeTravail/delete"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "profil",
+            "item": [
+                {
+                    "name": "profil-getByCriteria",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"isSimpleLoading\":false,\n\t\"data\":{\n  \t\t\"id\": \"\",\n\t\t\"code\": \"\",\n\t\t\"libelle\": \"\",\n\t\t\"createdAt\": \"\",\n\t\t\"updatedAt\": \"\",\n\t\t\"deletedAt\": \"\",\n\t\t\"createdBy\": \"\",\n\t\t\"updatedBy\": \"\",\n\t\t\"deletedBy\": \"\",\n\t\t\"isDeleted\": \"\"\n\t}  \n}"
+                        },
+                        "url": "{{main_url}}/profil/getByCriteria"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "profil-create",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/profil/create"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "profil-update",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\",\n\t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/profil/update"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "profil-delete",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/profil/delete"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "profilFonctionnalite",
+            "item": [
+                {
+                    "name": "profilFonctionnalite-getByCriteria",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"isSimpleLoading\":false,\n\t\"data\":{\n  \t\t\"id\": \"\",\n\t\t\"code\": \"\",\n\t\t\"libelle\": \"\",\n\t\t\"profilId\": \"\",\n\t\t\"fonctionnaliteId\": \"\",\n\t\t\"createdAt\": \"\",\n\t\t\"updatedAt\": \"\",\n\t\t\"deletedAt\": \"\",\n\t\t\"createdBy\": \"\",\n\t\t\"updatedBy\": \"\",\n\t\t\"isDeleted\": \"\"\n\t}  \n}"
+                        },
+                        "url": "{{main_url}}/profilFonctionnalite/getByCriteria"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "profilFonctionnalite-create",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"profilId\": \"\",\n\t\t\t\"fonctionnaliteId\": \"\",\n\t\t\t\"deletedAt\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/profilFonctionnalite/create"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "profilFonctionnalite-update",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\",\n\t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"profilId\": \"\",\n\t\t\t\"fonctionnaliteId\": \"\",\n\t\t\t\"deletedAt\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/profilFonctionnalite/update"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "profilFonctionnalite-delete",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/profilFonctionnalite/delete"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "regime",
+            "item": [
+                {
+                    "name": "regime-getByCriteria",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"isSimpleLoading\":false,\n\t\"data\":{\n  \t\t\"id\": \"\",\n\t\t\"code\": \"\",\n\t\t\"libelle\": \"\",\n\t\t\"createdAt\": \"\",\n\t\t\"deletedAt\": \"\",\n\t\t\"updatedAt\": \"\",\n\t\t\"createdBy\": \"\",\n\t\t\"updatedBy\": \"\",\n\t\t\"deletedBy\": \"\",\n\t\t\"isDeleted\": \"\"\n\t}  \n}"
+                        },
+                        "url": "{{main_url}}/regime/getByCriteria"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "regime-create",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/regime/create"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "regime-update",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\",\n\t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/regime/update"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "regime-delete",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/regime/delete"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "site",
+            "item": [
+                {
+                    "name": "site-getByCriteria",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"isSimpleLoading\":false,\n\t\"data\":{\n  \t\t\"id\": \"\",\n\t\t\"code\": \"\",\n\t\t\"libelle\": \"\",\n\t\t\"createdAt\": \"\",\n\t\t\"deletedAt\": \"\",\n\t\t\"updatedAt\": \"\",\n\t\t\"createdBy\": \"\",\n\t\t\"updatedBy\": \"\",\n\t\t\"deletedBy\": \"\",\n\t\t\"isDeleted\": \"\"\n\t}  \n}"
+                        },
+                        "url": "{{main_url}}/site/getByCriteria"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "site-create",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/site/create"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "site-update",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\",\n\t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/site/update"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "site-delete",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/site/delete"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "sousPosteDeTravail",
+            "item": [
+                {
+                    "name": "sousPosteDeTravail-getByCriteria",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"isSimpleLoading\":false,\n\t\"data\":{\n  \t\t\"id\": \"\",\n\t\t\"code\": \"\",\n\t\t\"libelle\": \"\",\n\t\t\"posteDeTravailId\": \"\",\n\t\t\"createdAt\": \"\",\n\t\t\"deletedAt\": \"\",\n\t\t\"updatedAt\": \"\",\n\t\t\"createdBy\": \"\",\n\t\t\"updatedBy\": \"\",\n\t\t\"deletedBy\": \"\",\n\t\t\"isDeleted\": \"\"\n\t}  \n}"
+                        },
+                        "url": "{{main_url}}/sousPosteDeTravail/getByCriteria"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "sousPosteDeTravail-create",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"posteDeTravailId\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/sousPosteDeTravail/create"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "sousPosteDeTravail-update",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\",\n\t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"posteDeTravailId\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/sousPosteDeTravail/update"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "sousPosteDeTravail-delete",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/sousPosteDeTravail/delete"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "sousSite",
+            "item": [
+                {
+                    "name": "sousSite-getByCriteria",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"isSimpleLoading\":false,\n\t\"data\":{\n  \t\t\"id\": \"\",\n\t\t\"code\": \"\",\n\t\t\"libelle\": \"\",\n\t\t\"siteId\": \"\",\n\t\t\"createdAt\": \"\",\n\t\t\"deletedAt\": \"\",\n\t\t\"updatedAt\": \"\",\n\t\t\"createdBy\": \"\",\n\t\t\"updatedBy\": \"\",\n\t\t\"deletedBy\": \"\",\n\t\t\"isDeleted\": \"\"\n\t}  \n}"
+                        },
+                        "url": "{{main_url}}/sousSite/getByCriteria"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "sousSite-create",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"siteId\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/sousSite/create"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "sousSite-update",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\",\n\t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"siteId\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/sousSite/update"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "sousSite-delete",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/sousSite/delete"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "statut",
+            "item": [
+                {
+                    "name": "statut-getByCriteria",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"isSimpleLoading\":false,\n\t\"data\":{\n  \t\t\"id\": \"\",\n\t\t\"code\": \"\",\n\t\t\"libelle\": \"\",\n\t\t\"createdAt\": \"\",\n\t\t\"deletedAt\": \"\",\n\t\t\"updatedAt\": \"\",\n\t\t\"createdBy\": \"\",\n\t\t\"updatedBy\": \"\",\n\t\t\"deletedBy\": \"\",\n\t\t\"isDeleted\": \"\"\n\t}  \n}"
+                        },
+                        "url": "{{main_url}}/statut/getByCriteria"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "statut-create",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/statut/create"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "statut-update",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\",\n\t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/statut/update"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "statut-delete",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/statut/delete"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "statutMatrimonial",
+            "item": [
+                {
+                    "name": "statutMatrimonial-getByCriteria",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"isSimpleLoading\":false,\n\t\"data\":{\n  \t\t\"id\": \"\",\n\t\t\"code\": \"\",\n\t\t\"libelle\": \"\",\n\t\t\"createdAt\": \"\",\n\t\t\"deletedAt\": \"\",\n\t\t\"updatedAt\": \"\",\n\t\t\"createdBy\": \"\",\n\t\t\"updatedBy\": \"\",\n\t\t\"deletedBy\": \"\",\n\t\t\"isDeleted\": \"\"\n\t}  \n}"
+                        },
+                        "url": "{{main_url}}/statutMatrimonial/getByCriteria"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "statutMatrimonial-create",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/statutMatrimonial/create"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "statutMatrimonial-update",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\",\n\t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/statutMatrimonial/update"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "statutMatrimonial-delete",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/statutMatrimonial/delete"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "travailleur",
+            "item": [
+                {
+                    "name": "travailleur-getByCriteria",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"isSimpleLoading\":false,\n\t\"data\":{\n  \t\t\"id\": \"\",\n\t\t\"nom\": \"\",\n\t\t\"prenom\": \"\",\n\t\t\"email\": \"\",\n\t\t\"contact1\": \"\",\n\t\t\"contact2\": \"\",\n\t\t\"domicile\": \"\",\n\t\t\"dateEmbauche\": \"\",\n\t\t\"matricule\": \"\",\n\t\t\"siteId\": \"\",\n\t\t\"sousSiteId\": \"\",\n\t\t\"statutId\": \"\",\n\t\t\"employeurId\": \"\",\n\t\t\"directionId\": \"\",\n\t\t\"fonctionId\": \"\",\n\t\t\"posteDeTravailId\": \"\",\n\t\t\"sousPosteDeTravailId\": \"\",\n\t\t\"ancienneteSocieteId\": \"\",\n\t\t\"anciennetePosteId\": \"\",\n\t\t\"ethniePereId\": \"\",\n\t\t\"ethnieMereId\": \"\",\n\t\t\"statutMatrimonialId\": \"\",\n\t\t\"typeMariageId\": \"\",\n\t\t\"regimeId\": \"\",\n\t\t\"gestionDeBienId\": \"\",\n\t\t\"nombreEpouse\": \"\",\n\t\t\"nombreEnfants\": \"\",\n\t\t\"nombreFilles\": \"\",\n\t\t\"nombreGarcons\": \"\",\n\t\t\"nombreAdoption\": \"\",\n\t\t\"nombreEnfantSousTutelleDirect\": \"\",\n\t\t\"nombreEnfantSousTutelleIndirect\": \"\",\n\t\t\"createdAt\": \"\",\n\t\t\"deletedAt\": \"\",\n\t\t\"updatedAt\": \"\",\n\t\t\"createdBy\": \"\",\n\t\t\"updatedBy\": \"\",\n\t\t\"deletedBy\": \"\",\n\t\t\"isDeleted\": \"\"\n\t}  \n}"
+                        },
+                        "url": "{{main_url}}/travailleur/getByCriteria"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "travailleur-create",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"nom\": \"\",\n\t\t\t\"prenom\": \"\",\n\t\t\t\"email\": \"\",\n\t\t\t\"contact1\": \"\",\n\t\t\t\"contact2\": \"\",\n\t\t\t\"domicile\": \"\",\n\t\t\t\"dateEmbauche\": \"\",\n\t\t\t\"matricule\": \"\",\n\t\t\t\"siteId\": \"\",\n\t\t\t\"sousSiteId\": \"\",\n\t\t\t\"statutId\": \"\",\n\t\t\t\"employeurId\": \"\",\n\t\t\t\"directionId\": \"\",\n\t\t\t\"fonctionId\": \"\",\n\t\t\t\"posteDeTravailId\": \"\",\n\t\t\t\"sousPosteDeTravailId\": \"\",\n\t\t\t\"ancienneteSocieteId\": \"\",\n\t\t\t\"anciennetePosteId\": \"\",\n\t\t\t\"ethniePereId\": \"\",\n\t\t\t\"ethnieMereId\": \"\",\n\t\t\t\"statutMatrimonialId\": \"\",\n\t\t\t\"typeMariageId\": \"\",\n\t\t\t\"regimeId\": \"\",\n\t\t\t\"gestionDeBienId\": \"\",\n\t\t\t\"nombreEpouse\": \"\",\n\t\t\t\"nombreEnfants\": \"\",\n\t\t\t\"nombreFilles\": \"\",\n\t\t\t\"nombreGarcons\": \"\",\n\t\t\t\"nombreAdoption\": \"\",\n\t\t\t\"nombreEnfantSousTutelleDirect\": \"\",\n\t\t\t\"nombreEnfantSousTutelleIndirect\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/travailleur/create"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "travailleur-update",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\",\n\t\t\t\"nom\": \"\",\n\t\t\t\"prenom\": \"\",\n\t\t\t\"email\": \"\",\n\t\t\t\"contact1\": \"\",\n\t\t\t\"contact2\": \"\",\n\t\t\t\"domicile\": \"\",\n\t\t\t\"dateEmbauche\": \"\",\n\t\t\t\"matricule\": \"\",\n\t\t\t\"siteId\": \"\",\n\t\t\t\"sousSiteId\": \"\",\n\t\t\t\"statutId\": \"\",\n\t\t\t\"employeurId\": \"\",\n\t\t\t\"directionId\": \"\",\n\t\t\t\"fonctionId\": \"\",\n\t\t\t\"posteDeTravailId\": \"\",\n\t\t\t\"sousPosteDeTravailId\": \"\",\n\t\t\t\"ancienneteSocieteId\": \"\",\n\t\t\t\"anciennetePosteId\": \"\",\n\t\t\t\"ethniePereId\": \"\",\n\t\t\t\"ethnieMereId\": \"\",\n\t\t\t\"statutMatrimonialId\": \"\",\n\t\t\t\"typeMariageId\": \"\",\n\t\t\t\"regimeId\": \"\",\n\t\t\t\"gestionDeBienId\": \"\",\n\t\t\t\"nombreEpouse\": \"\",\n\t\t\t\"nombreEnfants\": \"\",\n\t\t\t\"nombreFilles\": \"\",\n\t\t\t\"nombreGarcons\": \"\",\n\t\t\t\"nombreAdoption\": \"\",\n\t\t\t\"nombreEnfantSousTutelleDirect\": \"\",\n\t\t\t\"nombreEnfantSousTutelleIndirect\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/travailleur/update"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "travailleur-delete",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/travailleur/delete"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "travailleurNationnalite",
+            "item": [
+                {
+                    "name": "travailleurNationnalite-getByCriteria",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"isSimpleLoading\":false,\n\t\"data\":{\n  \t\t\"id\": \"\",\n\t\t\"travailleurId\": \"\",\n\t\t\"nationnaliteId\": \"\",\n\t\t\"createdAt\": \"\",\n\t\t\"deletedAt\": \"\",\n\t\t\"updatedAt\": \"\",\n\t\t\"createdBy\": \"\",\n\t\t\"updatedBy\": \"\",\n\t\t\"deletedBy\": \"\",\n\t\t\"isDeleted\": \"\"\n\t}  \n}"
+                        },
+                        "url": "{{main_url}}/travailleurNationnalite/getByCriteria"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "travailleurNationnalite-create",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"travailleurId\": \"\",\n\t\t\t\"nationnaliteId\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/travailleurNationnalite/create"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "travailleurNationnalite-update",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\",\n\t\t\t\"travailleurId\": \"\",\n\t\t\t\"nationnaliteId\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/travailleurNationnalite/update"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "travailleurNationnalite-delete",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/travailleurNationnalite/delete"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "typeMariage",
+            "item": [
+                {
+                    "name": "typeMariage-getByCriteria",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"isSimpleLoading\":false,\n\t\"data\":{\n  \t\t\"id\": \"\",\n\t\t\"code\": \"\",\n\t\t\"libelle\": \"\",\n\t\t\"createdAt\": \"\",\n\t\t\"deletedAt\": \"\",\n\t\t\"updatedAt\": \"\",\n\t\t\"createdBy\": \"\",\n\t\t\"updatedBy\": \"\",\n\t\t\"deletedBy\": \"\",\n\t\t\"isDeleted\": \"\"\n\t}  \n}"
+                        },
+                        "url": "{{main_url}}/typeMariage/getByCriteria"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "typeMariage-create",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/typeMariage/create"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "typeMariage-update",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\",\n\t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/typeMariage/update"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "typeMariage-delete",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/typeMariage/delete"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "user",
+            "item": [
+                {
+                    "name": "user-getByCriteria",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"isSimpleLoading\":false,\n\t\"data\":{\n  \t\t\"id\": \"\",\n\t\t\"email\": \"\",\n\t\t\"password\": \"\",\n\t\t\"profilId\": \"\",\n\t\t\"userTypeId\": \"\",\n\t\t\"isLocked\": \"\",\n\t\t\"isConnected\": \"\",\n\t\t\"isSuperAdmin\": \"\",\n\t\t\"createdAt\": \"\",\n\t\t\"updatedAt\": \"\",\n\t\t\"deletedAt\": \"\",\n\t\t\"createdBy\": \"\",\n\t\t\"updatedBy\": \"\",\n\t\t\"deletedBy\": \"\",\n\t\t\"isDeleted\": \"\"\n\t}  \n}"
+                        },
+                        "url": "{{main_url}}/user/getByCriteria"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "user-create",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"email\": \"\",\n\t\t\t\"password\": \"\",\n\t\t\t\"profilId\": \"\",\n\t\t\t\"userTypeId\": \"\",\n\t\t\t\"isLocked\": \"\",\n\t\t\t\"isConnected\": \"\",\n\t\t\t\"isSuperAdmin\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/user/create"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "user-update",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\",\n\t\t\t\"email\": \"\",\n\t\t\t\"password\": \"\",\n\t\t\t\"profilId\": \"\",\n\t\t\t\"userTypeId\": \"\",\n\t\t\t\"isLocked\": \"\",\n\t\t\t\"isConnected\": \"\",\n\t\t\t\"isSuperAdmin\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/user/update"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "user-delete",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/user/delete"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "userType",
+            "item": [
+                {
+                    "name": "userType-getByCriteria",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"isSimpleLoading\":false,\n\t\"data\":{\n  \t\t\"id\": \"\",\n\t\t\"code\": \"\",\n\t\t\"libelle\": \"\",\n\t\t\"createdAt\": \"\",\n\t\t\"updatedAt\": \"\",\n\t\t\"deletedAt\": \"\",\n\t\t\"createdBy\": \"\",\n\t\t\"updatedBy\": \"\",\n\t\t\"deletedBy\": \"\",\n\t\t\"isDeleted\": \"\"\n\t}  \n}"
+                        },
+                        "url": "{{main_url}}/userType/getByCriteria"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "userType-create",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/userType/create"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "userType-update",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\",\n\t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/userType/update"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "userType-delete",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/userType/delete"
+                    },
+                    "response": []
+                }
+            ]
+        }
+    ]
+}

@@ -170,7 +170,7 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 				//fieldsToVerify.put("password", dto.getPassword());
 				fieldsToVerify.put("profilId", dto.getProfilId());
 				fieldsToVerify.put("userTypeId", dto.getUserTypeId());
-				fieldsToVerify.put("travailleurId", dto.getTravailleurId());
+				//fieldsToVerify.put("travailleurId", dto.getTravailleurId());
 
 //				fieldsToVerify.put("isLocked", dto.getIsLocked());
 //				fieldsToVerify.put("isConnected", dto.getIsConnected());

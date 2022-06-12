@@ -122,7 +122,7 @@ public class ElementBusiness implements IBasicBusiness<Request<ElementDto>, Resp
 				fieldsToVerify.put("code", dto.getCode());
 				fieldsToVerify.put("libelle", dto.getLibelle());
 				//fieldsToVerify.put("icon", dto.getIcon());
-				fieldsToVerify.put("parentId", dto.getParentId());
+				//fieldsToVerify.put("parentId", dto.getParentId());
 				fieldsToVerify.put("elementTypeId", dto.getElementTypeId());
 				if (!Validate.RequiredValue(fieldsToVerify).isGood()) {
 					response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));

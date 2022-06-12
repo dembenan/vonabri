@@ -128,9 +128,7 @@ public class SousPosteDeTravailBusiness implements IBasicBusiness<Request<SousPo
 				Map<String, java.lang.Object> fieldsToVerify = new HashMap<String, java.lang.Object>();
 				fieldsToVerify.put("code", dto.getCode());
 				fieldsToVerify.put("libelle", dto.getLibelle());
-				fieldsToVerify.put("posteDeTravailId", dto.getPosteDeTravailId());
-				fieldsToVerify.put("deletedAt", dto.getDeletedAt());
-				fieldsToVerify.put("deletedBy", dto.getDeletedBy());
+				//fieldsToVerify.put("posteDeTravailId", dto.getPosteDeTravailId());
 				if (!Validate.RequiredValue(fieldsToVerify).isGood()) {
 					response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
 					response.setHasError(true);
@@ -145,33 +143,33 @@ public class SousPosteDeTravailBusiness implements IBasicBusiness<Request<SousPo
 					return response;
 				}
 
-				// verif unique code in db
-				existingEntity = sousPosteDeTravailRepository.findByCode(dto.getCode(), false);
-				if (existingEntity != null) {
-					response.setStatus(functionalError.DATA_EXIST("sousPosteDeTravail code -> " + dto.getCode(), locale));
-					response.setHasError(true);
-					return response;
-				}
-				// verif unique code in items to save
-				if (items.stream().anyMatch(a -> a.getCode().equalsIgnoreCase(dto.getCode()))) {
-					response.setStatus(functionalError.DATA_DUPLICATE(" code ", locale));
-					response.setHasError(true);
-					return response;
-				}
-
-				// verif unique libelle in db
-				existingEntity = sousPosteDeTravailRepository.findByLibelle(dto.getLibelle(), false);
-				if (existingEntity != null) {
-					response.setStatus(functionalError.DATA_EXIST("sousPosteDeTravail libelle -> " + dto.getLibelle(), locale));
-					response.setHasError(true);
-					return response;
-				}
-				// verif unique libelle in items to save
-				if (items.stream().anyMatch(a -> a.getLibelle().equalsIgnoreCase(dto.getLibelle()))) {
-					response.setStatus(functionalError.DATA_DUPLICATE(" libelle ", locale));
-					response.setHasError(true);
-					return response;
-				}
+//				// verif unique code in db
+//				existingEntity = sousPosteDeTravailRepository.findByCode(dto.getCode(), false);
+//				if (existingEntity != null) {
+//					response.setStatus(functionalError.DATA_EXIST("sousPosteDeTravail code -> " + dto.getCode(), locale));
+//					response.setHasError(true);
+//					return response;
+//				}
+//				// verif unique code in items to save
+//				if (items.stream().anyMatch(a -> a.getCode().equalsIgnoreCase(dto.getCode()))) {
+//					response.setStatus(functionalError.DATA_DUPLICATE(" code ", locale));
+//					response.setHasError(true);
+//					return response;
+//				}
+//
+//				// verif unique libelle in db
+//				existingEntity = sousPosteDeTravailRepository.findByLibelle(dto.getLibelle(), false);
+//				if (existingEntity != null) {
+//					response.setStatus(functionalError.DATA_EXIST("sousPosteDeTravail libelle -> " + dto.getLibelle(), locale));
+//					response.setHasError(true);
+//					return response;
+//				}
+//				// verif unique libelle in items to save
+//				if (items.stream().anyMatch(a -> a.getLibelle().equalsIgnoreCase(dto.getLibelle()))) {
+//					response.setStatus(functionalError.DATA_DUPLICATE(" libelle ", locale));
+//					response.setHasError(true);
+//					return response;
+//				}
 
 				// Verify if posteDeTravail exist
 				PosteDeTravail existingPosteDeTravail = null;
