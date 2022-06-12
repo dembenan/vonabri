@@ -39,11 +39,13 @@ import org.thymeleaf.context.Context;
 
 import ci.palmafrique.vonabri.dao.entity.Fonctionnalite;
 import ci.palmafrique.vonabri.dao.entity.Profil;
+import ci.palmafrique.vonabri.dao.entity.Travailleur;
 import ci.palmafrique.vonabri.dao.entity.User;
 import ci.palmafrique.vonabri.dao.entity.UserType;
 import ci.palmafrique.vonabri.dao.repository.FonctionnaliteRepository;
 import ci.palmafrique.vonabri.dao.repository.ProfilFonctionnaliteRepository;
 import ci.palmafrique.vonabri.dao.repository.ProfilRepository;
+import ci.palmafrique.vonabri.dao.repository.TravailleurRepository;
 import ci.palmafrique.vonabri.dao.repository.UserRepository;
 import ci.palmafrique.vonabri.dao.repository.UserTypeRepository;
 import ci.palmafrique.vonabri.jwt.JwtTokenUtil;
@@ -81,6 +83,8 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 	private UserRepository userRepository;
 	@Autowired
 	private UserTypeRepository userTypeRepository;
+	@Autowired
+	private TravailleurRepository travailleurRepository;
 	@Autowired
 	private ProfilRepository profilRepository;
 	@Autowired
@@ -143,7 +147,13 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 		String password = null;
 
 		try {
-
+			Map<String, java.lang.Object> fieldsToVerifyUser = new HashMap<String, java.lang.Object>();
+			fieldsToVerifyUser.put("user", request.getUser());
+			if (!Validate.RequiredValue(fieldsToVerifyUser).isGood()) {
+				response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
+				response.setHasError(true);
+				return response;
+			}
 
 			Response<UserDto> userResponse = isGranted(request, FunctionalityEnum.CREATE_USER.getValue(), locale);
 			if (userResponse.isHasError()) {
@@ -160,6 +170,8 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 				//fieldsToVerify.put("password", dto.getPassword());
 				fieldsToVerify.put("profilId", dto.getProfilId());
 				fieldsToVerify.put("userTypeId", dto.getUserTypeId());
+				fieldsToVerify.put("travailleurId", dto.getTravailleurId());
+
 //				fieldsToVerify.put("isLocked", dto.getIsLocked());
 //				fieldsToVerify.put("isConnected", dto.getIsConnected());
 				if (!Validate.RequiredValue(fieldsToVerify).isGood()) {
@@ -210,8 +222,18 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 						return response;
 					}
 				}
+				// Verify if travailleur exist
+				Travailleur existingTravailleur = null;
+				if (dto.getTravailleurId() != null && dto.getTravailleurId() > 0){
+					existingTravailleur = travailleurRepository.findOne(dto.getTravailleurId(), false);
+					if (existingTravailleur == null) {
+						response.setStatus(functionalError.DATA_NOT_EXIST("travailleur travailleurId -> " + dto.getTravailleurId(), locale));
+						response.setHasError(true);
+						return response;
+					}
+				}
 				User entityToSave = null;
-				entityToSave = UserTransformer.INSTANCE.toEntity(dto, existingUserType, existingProfil);
+				entityToSave = UserTransformer.INSTANCE.toEntity(dto, existingUserType, existingProfil,existingTravailleur);
 				password = Utilities.generateAlphabeticCode(8);
 
 				entityToSave.setPassword(Utilities.encrypt(password));
@@ -328,7 +350,13 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 
 		try {
 
-
+			Map<String, java.lang.Object> fieldsToVerifyUser = new HashMap<String, java.lang.Object>();
+			fieldsToVerifyUser.put("user", request.getUser());
+			if (!Validate.RequiredValue(fieldsToVerifyUser).isGood()) {
+				response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
+				response.setHasError(true);
+				return response;
+			}
 			Response<UserDto> userResponse = isGranted(request, FunctionalityEnum.RESET_PASSWORD_USER.getValue(), locale);
 			if (userResponse.isHasError()) {
 				response.setHasError(true);
@@ -348,7 +376,6 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 					response.setHasError(true);
 					return response;
 				}
-
 				// Verify if user to insert do not exist
 				User existingEntity = null;
 				if (existingEntity != null) {
@@ -495,7 +522,13 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 		
 		try {
 
-
+			Map<String, java.lang.Object> fieldsToVerifyUser = new HashMap<String, java.lang.Object>();
+			fieldsToVerifyUser.put("user", request.getUser());
+			if (!Validate.RequiredValue(fieldsToVerifyUser).isGood()) {
+				response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
+				response.setHasError(true);
+				return response;
+			}
 			Response<UserDto> userResponse = isGranted(request, FunctionalityEnum.CREATE_USER.getValue(), locale);
 			if (userResponse.isHasError()) {
 				response.setHasError(true);
@@ -639,7 +672,13 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 		
 		try {
 
-
+			Map<String, java.lang.Object> fieldsToVerifyUser = new HashMap<String, java.lang.Object>();
+			fieldsToVerifyUser.put("user", request.getUser());
+			if (!Validate.RequiredValue(fieldsToVerifyUser).isGood()) {
+				response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
+				response.setHasError(true);
+				return response;
+			}
 			Response<UserDto> userResponse = isGranted(request, FunctionalityEnum.CREATE_USER.getValue(), locale);
 			if (userResponse.isHasError()) {
 				response.setHasError(true);
@@ -722,7 +761,13 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 		response = new Response<UserDto>();
 		
 		try {
-
+			Map<String, java.lang.Object> fieldsToVerifyUser = new HashMap<String, java.lang.Object>();
+			fieldsToVerifyUser.put("user", request.getUser());
+			if (!Validate.RequiredValue(fieldsToVerifyUser).isGood()) {
+				response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
+				response.setHasError(true);
+				return response;
+			}
 
 			Response<UserDto> userResponse = isGranted(request, FunctionalityEnum.CREATE_USER.getValue(), locale);
 			if (userResponse.isHasError()) {
@@ -882,7 +927,7 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 				UserDto itemsDto = UserTransformer.INSTANCE.toDto(userSaved);
 				//String token = String.valueOf(userSaved.getId()).concat("_VONABRI_").concat(Utilities.generateCodeOld());
 				//String tokenEncrypted = Utilities.encryptWalletKeyString(token);
-				redisUser.saveValueWithExpirationMinutes(accessToken, itemsDto,5);
+				redisUser.saveValueWithExpirationMinutes(accessToken, itemsDto,60);
 				itemsDto.setToken(accessToken);
 				itemsDto.setDatasFonctionnalites(listDto);
 				response.setItem(itemsDto);
@@ -1122,7 +1167,7 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 //					}
 //				}
 //			}
-			redisUser.setExpiration(token,5);
+			redisUser.setExpiration(token,60);
 			redisUser.getExpiration(token);
 
 			request.setUser(currentUser.getId());

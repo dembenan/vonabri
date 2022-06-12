@@ -36,6 +36,8 @@ public class UserDto extends _UserDto implements Cloneable{
     private String     password             ;
     private Integer    profilId             ;
     private Integer    userTypeId           ;
+    private Integer    travailleurId           ;
+
     private Boolean    isLocked             ;
 	private String     createdAt            ;
 	private String     updatedAt            ;
@@ -59,12 +61,16 @@ public class UserDto extends _UserDto implements Cloneable{
 	private String profilCode;
 	private String profilLibelle;
 
+	private String travailleurNom;
+	private String travailleurPrenom;
 	// Search param
 	private SearchParam<Integer>  idParam               ;                     
 	private SearchParam<String>   emailParam            ;                     
 	private SearchParam<String>   passwordParam         ;                     
 	private SearchParam<Integer>  profilIdParam         ;                     
-	private SearchParam<Integer>  userTypeIdParam       ;                     
+	private SearchParam<Integer>  userTypeIdParam       ;  
+	private SearchParam<Integer>  travailleurIdParam       ;                     
+
 	private SearchParam<Boolean>  isLockedParam         ;                     
 	private SearchParam<String>   createdAtParam        ;                     
 	private SearchParam<String>   updatedAtParam        ;                     

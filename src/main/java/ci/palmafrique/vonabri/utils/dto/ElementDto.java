@@ -1,7 +1,7 @@
 
 /*
  * Java dto for entity table element 
- * Created on 2022-05-05 ( Time 15:22:34 )
+ * Created on 2022-06-11 ( Time 20:31:14 )
  * Generator tool : Telosys Tools Generator ( version 3.3.0 )
  * Copyright 2018 Geo. All Rights Reserved.
  */
@@ -36,6 +36,9 @@ public class ElementDto extends _ElementDto implements Cloneable{
     private String     code                 ;
     private String     libelle              ;
     private String     icon                 ;
+    private String     titre                ;
+    private String     champsListing        ;
+    private String     champsCreation       ;
     private Integer    parentId             ;
     private Integer    elementTypeId        ;
 	private String     createdAt            ;
@@ -59,6 +62,9 @@ public class ElementDto extends _ElementDto implements Cloneable{
 	private SearchParam<String>   codeParam             ;                     
 	private SearchParam<String>   libelleParam          ;                     
 	private SearchParam<String>   iconParam             ;                     
+	private SearchParam<String>   titreParam            ;                     
+	private SearchParam<String>   champsListingParam    ;                     
+	private SearchParam<String>   champsCreationParam   ;                     
 	private SearchParam<Integer>  parentIdParam         ;                     
 	private SearchParam<Integer>  elementTypeIdParam    ;                     
 	private SearchParam<String>   createdAtParam        ;                     

@@ -44,6 +44,9 @@ public interface UserTransformer {
 		@Mapping(source="entity.userType.code", target="userTypeCode"),
 		@Mapping(source="entity.userType.libelle", target="userTypeLibelle"),
 		@Mapping(source="entity.profil.id", target="profilId"),
+		@Mapping(source="entity.travailleur.nom", target="travailleurNom"),
+		@Mapping(source="entity.travailleur.id", target="travailleurId"),
+		@Mapping(source="entity.travailleur.prenom", target="travailleurPrenom"),
 		@Mapping(source="entity.profil.code", target="profilCode"),
 		@Mapping(source="entity.profil.libelle", target="profilLibelle"),
 	})
@@ -88,8 +91,10 @@ public interface UserTransformer {
 		@Mapping(source="dto.isConnected", target="isConnected"),
 		@Mapping(source="userType", target="userType"),
 		@Mapping(source="profil", target="profil"),
+		@Mapping(source="travailleur", target="travailleur"),
+
 	})
-    User toEntity(UserDto dto, UserType userType, Profil profil) throws ParseException;
+    User toEntity(UserDto dto, UserType userType, Profil profil,Travailleur travailleur) throws ParseException;
 
     //List<User> toEntities(List<UserDto> dtos) throws ParseException;
 

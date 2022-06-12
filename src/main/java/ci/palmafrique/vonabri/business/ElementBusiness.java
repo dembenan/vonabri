@@ -107,7 +107,7 @@ public class ElementBusiness implements IBasicBusiness<Request<ElementDto>, Resp
 		try {
 
 
-			Response<UserDto> userResponse = userBusiness.isGranted(request, FunctionalityEnum.CREATE_USER.getValue(), locale);
+			Response<UserDto> userResponse = userBusiness.isGranted(request, FunctionalityEnum.CREATE_ELEMENT.getValue(), locale);
 			if (userResponse.isHasError()) {
 				response.setHasError(true);
 				response.setStatus(userResponse.getStatus());
@@ -121,7 +121,7 @@ public class ElementBusiness implements IBasicBusiness<Request<ElementDto>, Resp
 				Map<String, java.lang.Object> fieldsToVerify = new HashMap<String, java.lang.Object>();
 				fieldsToVerify.put("code", dto.getCode());
 				fieldsToVerify.put("libelle", dto.getLibelle());
-				fieldsToVerify.put("icon", dto.getIcon());
+				//fieldsToVerify.put("icon", dto.getIcon());
 				fieldsToVerify.put("parentId", dto.getParentId());
 				fieldsToVerify.put("elementTypeId", dto.getElementTypeId());
 				if (!Validate.RequiredValue(fieldsToVerify).isGood()) {
@@ -175,7 +175,18 @@ public class ElementBusiness implements IBasicBusiness<Request<ElementDto>, Resp
 						response.setHasError(true);
 						return response;
 					}
+					if(existingElementType.getCode().equals(UtilsEnum.ELEMENT_TYPE_FORMULAIRE.getValue())) {
+						fieldsToVerify.put("titre", dto.getTitre());
+						fieldsToVerify.put("champsListing", dto.getChampsListing());
+						fieldsToVerify.put("champsCreation", dto.getChampsCreation());
+						if (!Validate.RequiredValue(fieldsToVerify).isGood()) {
+							response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
+							response.setHasError(true);
+							return response;
+						}
+					}
 				}
+
 				// Verify if element exist
 				Element existingElement = null;
 				if (dto.getParentId() != null && dto.getParentId() > 0){
@@ -492,7 +503,7 @@ public class ElementBusiness implements IBasicBusiness<Request<ElementDto>, Resp
 		
 		try {
 
-			Response<UserDto> userResponse = userBusiness.isGranted(request, FunctionalityEnum.CREATE_USER.getValue(), locale);
+			Response<UserDto> userResponse = userBusiness.isGranted(request, FunctionalityEnum.VIEW_ELEMENT.getValue(), locale);
 			if (userResponse.isHasError()) {
 				response.setHasError(true);
 				response.setStatus(userResponse.getStatus());
@@ -541,7 +552,6 @@ public class ElementBusiness implements IBasicBusiness<Request<ElementDto>, Resp
 				response.setCount(elementRepository.count(request, em, locale));
 				response.setHasError(false);
 			} else {
-
 				response.setStatus(functionalError.DATA_EMPTY("fonctionnalite", locale));
 				response.setHasError(false);
 				return response;
@@ -629,6 +639,7 @@ public class ElementBusiness implements IBasicBusiness<Request<ElementDto>, Resp
 	 */
 	private ElementDto getFullInfos(ElementDto dto, Integer size, Boolean isSimpleLoading, Locale locale) throws Exception {
 		// put code here
+
 
 		if (Utilities.isTrue(isSimpleLoading)) {
 			return dto;

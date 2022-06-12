@@ -2,7 +2,7 @@
 
 /*
  * Java transformer for entity table element 
- * Created on 2022-05-05 ( Time 15:22:34 )
+ * Created on 2022-06-11 ( Time 20:31:14 )
  * Generator tool : Telosys Tools Generator ( version 3.3.0 )
  * Copyright 2018 Geo. All Rights Reserved.
  */
@@ -37,6 +37,9 @@ public interface ElementTransformer {
 
 	@FullTransformerQualifier
 	@Mappings({
+		@Mapping(source="entity.titre", target="titre"),
+		@Mapping(source="entity.champsListing", target="champsListing"),
+		@Mapping(source="entity.champsCreation", target="champsCreation"),
 		@Mapping(source="entity.createdAt", dateFormat="dd/MM/yyyy",target="createdAt"),
 		@Mapping(source="entity.deletedAt", dateFormat="dd/MM/yyyy",target="deletedAt"),
 		@Mapping(source="entity.updatedAt", dateFormat="dd/MM/yyyy",target="updatedAt"),
@@ -46,6 +49,7 @@ public interface ElementTransformer {
 		@Mapping(source="entity.element.id", target="parentId"),
 		@Mapping(source="entity.element.code", target="elementCode"),
 		@Mapping(source="entity.element.libelle", target="elementLibelle"),
+
 	})
 	ElementDto toDto(Element entity) throws ParseException;
 
@@ -78,6 +82,9 @@ public interface ElementTransformer {
 		@Mapping(source="dto.code", target="code"),
 		@Mapping(source="dto.libelle", target="libelle"),
 		@Mapping(source="dto.icon", target="icon"),
+		@Mapping(source="dto.titre", target="titre"),
+		@Mapping(source="dto.champsListing", target="champsListing"),
+		@Mapping(source="dto.champsCreation", target="champsCreation"),
 		@Mapping(source="dto.createdAt", dateFormat="dd/MM/yyyy",target="createdAt"),
 		@Mapping(source="dto.deletedAt", dateFormat="dd/MM/yyyy",target="deletedAt"),
 		@Mapping(source="dto.updatedAt", dateFormat="dd/MM/yyyy",target="updatedAt"),

@@ -2,6 +2,78 @@
 	"user": 1,
 	"datas": [
 		{
+			"code": "ANCIENNETE",
+			"name": "ANCIENNETE"
+		},
+		{
+			"code": "VIEW_ANCIENNETE",
+			"parentCode": "ANCIENNETE",
+			"name": "VIEW ANCIENNETE"
+		},
+		{
+			"code": "CREATE_ANCIENNETE",
+			"parentCode": "ANCIENNETE",
+			"name": "CREATE ANCIENNETE"
+		},
+		{
+			"code": "UPDATE_ANCIENNETE",
+			"parentCode": "ANCIENNETE",
+			"name": "UPDATE ANCIENNETE"
+		},
+		{
+			"code": "DELETE_ANCIENNETE",
+			"parentCode": "ANCIENNETE",
+			"name": "DELETE ANCIENNETE"
+		},
+		{
+			"code": "ANCIENNETE_TYPE",
+			"name": "ANCIENNETE_TYPE"
+		},
+		{
+			"code": "VIEW_ANCIENNETE_TYPE",
+			"parentCode": "ANCIENNETE_TYPE",
+			"name": "VIEW ANCIENNETE_TYPE"
+		},
+		{
+			"code": "CREATE_ANCIENNETE_TYPE",
+			"parentCode": "ANCIENNETE_TYPE",
+			"name": "CREATE ANCIENNETE_TYPE"
+		},
+		{
+			"code": "UPDATE_ANCIENNETE_TYPE",
+			"parentCode": "ANCIENNETE_TYPE",
+			"name": "UPDATE ANCIENNETE_TYPE"
+		},
+		{
+			"code": "DELETE_ANCIENNETE_TYPE",
+			"parentCode": "ANCIENNETE_TYPE",
+			"name": "DELETE ANCIENNETE_TYPE"
+		},
+		{
+			"code": "DIRECTION",
+			"name": "DIRECTION"
+		},
+		{
+			"code": "VIEW_DIRECTION",
+			"parentCode": "DIRECTION",
+			"name": "VIEW DIRECTION"
+		},
+		{
+			"code": "CREATE_DIRECTION",
+			"parentCode": "DIRECTION",
+			"name": "CREATE DIRECTION"
+		},
+		{
+			"code": "UPDATE_DIRECTION",
+			"parentCode": "DIRECTION",
+			"name": "UPDATE DIRECTION"
+		},
+		{
+			"code": "DELETE_DIRECTION",
+			"parentCode": "DIRECTION",
+			"name": "DELETE DIRECTION"
+		},
+		{
 			"code": "ELEMENT",
 			"name": "ELEMENT"
 		},
@@ -50,6 +122,78 @@
 			"name": "DELETE ELEMENT_TYPE"
 		},
 		{
+			"code": "EMPLOYEUR",
+			"name": "EMPLOYEUR"
+		},
+		{
+			"code": "VIEW_EMPLOYEUR",
+			"parentCode": "EMPLOYEUR",
+			"name": "VIEW EMPLOYEUR"
+		},
+		{
+			"code": "CREATE_EMPLOYEUR",
+			"parentCode": "EMPLOYEUR",
+			"name": "CREATE EMPLOYEUR"
+		},
+		{
+			"code": "UPDATE_EMPLOYEUR",
+			"parentCode": "EMPLOYEUR",
+			"name": "UPDATE EMPLOYEUR"
+		},
+		{
+			"code": "DELETE_EMPLOYEUR",
+			"parentCode": "EMPLOYEUR",
+			"name": "DELETE EMPLOYEUR"
+		},
+		{
+			"code": "ETHNIE",
+			"name": "ETHNIE"
+		},
+		{
+			"code": "VIEW_ETHNIE",
+			"parentCode": "ETHNIE",
+			"name": "VIEW ETHNIE"
+		},
+		{
+			"code": "CREATE_ETHNIE",
+			"parentCode": "ETHNIE",
+			"name": "CREATE ETHNIE"
+		},
+		{
+			"code": "UPDATE_ETHNIE",
+			"parentCode": "ETHNIE",
+			"name": "UPDATE ETHNIE"
+		},
+		{
+			"code": "DELETE_ETHNIE",
+			"parentCode": "ETHNIE",
+			"name": "DELETE ETHNIE"
+		},
+		{
+			"code": "FONCTION",
+			"name": "FONCTION"
+		},
+		{
+			"code": "VIEW_FONCTION",
+			"parentCode": "FONCTION",
+			"name": "VIEW FONCTION"
+		},
+		{
+			"code": "CREATE_FONCTION",
+			"parentCode": "FONCTION",
+			"name": "CREATE FONCTION"
+		},
+		{
+			"code": "UPDATE_FONCTION",
+			"parentCode": "FONCTION",
+			"name": "UPDATE FONCTION"
+		},
+		{
+			"code": "DELETE_FONCTION",
+			"parentCode": "FONCTION",
+			"name": "DELETE FONCTION"
+		},
+		{
 			"code": "FONCTIONNALITE",
 			"name": "FONCTIONNALITE"
 		},
@@ -72,6 +216,78 @@
 			"code": "DELETE_FONCTIONNALITE",
 			"parentCode": "FONCTIONNALITE",
 			"name": "DELETE FONCTIONNALITE"
+		},
+		{
+			"code": "GESTION_DE_BIEN",
+			"name": "GESTION_DE_BIEN"
+		},
+		{
+			"code": "VIEW_GESTION_DE_BIEN",
+			"parentCode": "GESTION_DE_BIEN",
+			"name": "VIEW GESTION_DE_BIEN"
+		},
+		{
+			"code": "CREATE_GESTION_DE_BIEN",
+			"parentCode": "GESTION_DE_BIEN",
+			"name": "CREATE GESTION_DE_BIEN"
+		},
+		{
+			"code": "UPDATE_GESTION_DE_BIEN",
+			"parentCode": "GESTION_DE_BIEN",
+			"name": "UPDATE GESTION_DE_BIEN"
+		},
+		{
+			"code": "DELETE_GESTION_DE_BIEN",
+			"parentCode": "GESTION_DE_BIEN",
+			"name": "DELETE GESTION_DE_BIEN"
+		},
+		{
+			"code": "NATIONNALITE",
+			"name": "NATIONNALITE"
+		},
+		{
+			"code": "VIEW_NATIONNALITE",
+			"parentCode": "NATIONNALITE",
+			"name": "VIEW NATIONNALITE"
+		},
+		{
+			"code": "CREATE_NATIONNALITE",
+			"parentCode": "NATIONNALITE",
+			"name": "CREATE NATIONNALITE"
+		},
+		{
+			"code": "UPDATE_NATIONNALITE",
+			"parentCode": "NATIONNALITE",
+			"name": "UPDATE NATIONNALITE"
+		},
+		{
+			"code": "DELETE_NATIONNALITE",
+			"parentCode": "NATIONNALITE",
+			"name": "DELETE NATIONNALITE"
+		},
+		{
+			"code": "POSTE_DE_TRAVAIL",
+			"name": "POSTE_DE_TRAVAIL"
+		},
+		{
+			"code": "VIEW_POSTE_DE_TRAVAIL",
+			"parentCode": "POSTE_DE_TRAVAIL",
+			"name": "VIEW POSTE_DE_TRAVAIL"
+		},
+		{
+			"code": "CREATE_POSTE_DE_TRAVAIL",
+			"parentCode": "POSTE_DE_TRAVAIL",
+			"name": "CREATE POSTE_DE_TRAVAIL"
+		},
+		{
+			"code": "UPDATE_POSTE_DE_TRAVAIL",
+			"parentCode": "POSTE_DE_TRAVAIL",
+			"name": "UPDATE POSTE_DE_TRAVAIL"
+		},
+		{
+			"code": "DELETE_POSTE_DE_TRAVAIL",
+			"parentCode": "POSTE_DE_TRAVAIL",
+			"name": "DELETE POSTE_DE_TRAVAIL"
 		},
 		{
 			"code": "PROFIL",
@@ -120,6 +336,222 @@
 			"code": "DELETE_PROFIL_FONCTIONNALITE",
 			"parentCode": "PROFIL_FONCTIONNALITE",
 			"name": "DELETE PROFIL_FONCTIONNALITE"
+		},
+		{
+			"code": "REGIME",
+			"name": "REGIME"
+		},
+		{
+			"code": "VIEW_REGIME",
+			"parentCode": "REGIME",
+			"name": "VIEW REGIME"
+		},
+		{
+			"code": "CREATE_REGIME",
+			"parentCode": "REGIME",
+			"name": "CREATE REGIME"
+		},
+		{
+			"code": "UPDATE_REGIME",
+			"parentCode": "REGIME",
+			"name": "UPDATE REGIME"
+		},
+		{
+			"code": "DELETE_REGIME",
+			"parentCode": "REGIME",
+			"name": "DELETE REGIME"
+		},
+		{
+			"code": "SITE",
+			"name": "SITE"
+		},
+		{
+			"code": "VIEW_SITE",
+			"parentCode": "SITE",
+			"name": "VIEW SITE"
+		},
+		{
+			"code": "CREATE_SITE",
+			"parentCode": "SITE",
+			"name": "CREATE SITE"
+		},
+		{
+			"code": "UPDATE_SITE",
+			"parentCode": "SITE",
+			"name": "UPDATE SITE"
+		},
+		{
+			"code": "DELETE_SITE",
+			"parentCode": "SITE",
+			"name": "DELETE SITE"
+		},
+		{
+			"code": "SOUS_POSTE_DE_TRAVAIL",
+			"name": "SOUS_POSTE_DE_TRAVAIL"
+		},
+		{
+			"code": "VIEW_SOUS_POSTE_DE_TRAVAIL",
+			"parentCode": "SOUS_POSTE_DE_TRAVAIL",
+			"name": "VIEW SOUS_POSTE_DE_TRAVAIL"
+		},
+		{
+			"code": "CREATE_SOUS_POSTE_DE_TRAVAIL",
+			"parentCode": "SOUS_POSTE_DE_TRAVAIL",
+			"name": "CREATE SOUS_POSTE_DE_TRAVAIL"
+		},
+		{
+			"code": "UPDATE_SOUS_POSTE_DE_TRAVAIL",
+			"parentCode": "SOUS_POSTE_DE_TRAVAIL",
+			"name": "UPDATE SOUS_POSTE_DE_TRAVAIL"
+		},
+		{
+			"code": "DELETE_SOUS_POSTE_DE_TRAVAIL",
+			"parentCode": "SOUS_POSTE_DE_TRAVAIL",
+			"name": "DELETE SOUS_POSTE_DE_TRAVAIL"
+		},
+		{
+			"code": "SOUS_SITE",
+			"name": "SOUS_SITE"
+		},
+		{
+			"code": "VIEW_SOUS_SITE",
+			"parentCode": "SOUS_SITE",
+			"name": "VIEW SOUS_SITE"
+		},
+		{
+			"code": "CREATE_SOUS_SITE",
+			"parentCode": "SOUS_SITE",
+			"name": "CREATE SOUS_SITE"
+		},
+		{
+			"code": "UPDATE_SOUS_SITE",
+			"parentCode": "SOUS_SITE",
+			"name": "UPDATE SOUS_SITE"
+		},
+		{
+			"code": "DELETE_SOUS_SITE",
+			"parentCode": "SOUS_SITE",
+			"name": "DELETE SOUS_SITE"
+		},
+		{
+			"code": "STATUT",
+			"name": "STATUT"
+		},
+		{
+			"code": "VIEW_STATUT",
+			"parentCode": "STATUT",
+			"name": "VIEW STATUT"
+		},
+		{
+			"code": "CREATE_STATUT",
+			"parentCode": "STATUT",
+			"name": "CREATE STATUT"
+		},
+		{
+			"code": "UPDATE_STATUT",
+			"parentCode": "STATUT",
+			"name": "UPDATE STATUT"
+		},
+		{
+			"code": "DELETE_STATUT",
+			"parentCode": "STATUT",
+			"name": "DELETE STATUT"
+		},
+		{
+			"code": "STATUT_MATRIMONIAL",
+			"name": "STATUT_MATRIMONIAL"
+		},
+		{
+			"code": "VIEW_STATUT_MATRIMONIAL",
+			"parentCode": "STATUT_MATRIMONIAL",
+			"name": "VIEW STATUT_MATRIMONIAL"
+		},
+		{
+			"code": "CREATE_STATUT_MATRIMONIAL",
+			"parentCode": "STATUT_MATRIMONIAL",
+			"name": "CREATE STATUT_MATRIMONIAL"
+		},
+		{
+			"code": "UPDATE_STATUT_MATRIMONIAL",
+			"parentCode": "STATUT_MATRIMONIAL",
+			"name": "UPDATE STATUT_MATRIMONIAL"
+		},
+		{
+			"code": "DELETE_STATUT_MATRIMONIAL",
+			"parentCode": "STATUT_MATRIMONIAL",
+			"name": "DELETE STATUT_MATRIMONIAL"
+		},
+		{
+			"code": "TRAVAILLEUR",
+			"name": "TRAVAILLEUR"
+		},
+		{
+			"code": "VIEW_TRAVAILLEUR",
+			"parentCode": "TRAVAILLEUR",
+			"name": "VIEW TRAVAILLEUR"
+		},
+		{
+			"code": "CREATE_TRAVAILLEUR",
+			"parentCode": "TRAVAILLEUR",
+			"name": "CREATE TRAVAILLEUR"
+		},
+		{
+			"code": "UPDATE_TRAVAILLEUR",
+			"parentCode": "TRAVAILLEUR",
+			"name": "UPDATE TRAVAILLEUR"
+		},
+		{
+			"code": "DELETE_TRAVAILLEUR",
+			"parentCode": "TRAVAILLEUR",
+			"name": "DELETE TRAVAILLEUR"
+		},
+		{
+			"code": "TRAVAILLEUR_NATIONNALITE",
+			"name": "TRAVAILLEUR_NATIONNALITE"
+		},
+		{
+			"code": "VIEW_TRAVAILLEUR_NATIONNALITE",
+			"parentCode": "TRAVAILLEUR_NATIONNALITE",
+			"name": "VIEW TRAVAILLEUR_NATIONNALITE"
+		},
+		{
+			"code": "CREATE_TRAVAILLEUR_NATIONNALITE",
+			"parentCode": "TRAVAILLEUR_NATIONNALITE",
+			"name": "CREATE TRAVAILLEUR_NATIONNALITE"
+		},
+		{
+			"code": "UPDATE_TRAVAILLEUR_NATIONNALITE",
+			"parentCode": "TRAVAILLEUR_NATIONNALITE",
+			"name": "UPDATE TRAVAILLEUR_NATIONNALITE"
+		},
+		{
+			"code": "DELETE_TRAVAILLEUR_NATIONNALITE",
+			"parentCode": "TRAVAILLEUR_NATIONNALITE",
+			"name": "DELETE TRAVAILLEUR_NATIONNALITE"
+		},
+		{
+			"code": "TYPE_MARIAGE",
+			"name": "TYPE_MARIAGE"
+		},
+		{
+			"code": "VIEW_TYPE_MARIAGE",
+			"parentCode": "TYPE_MARIAGE",
+			"name": "VIEW TYPE_MARIAGE"
+		},
+		{
+			"code": "CREATE_TYPE_MARIAGE",
+			"parentCode": "TYPE_MARIAGE",
+			"name": "CREATE TYPE_MARIAGE"
+		},
+		{
+			"code": "UPDATE_TYPE_MARIAGE",
+			"parentCode": "TYPE_MARIAGE",
+			"name": "UPDATE TYPE_MARIAGE"
+		},
+		{
+			"code": "DELETE_TYPE_MARIAGE",
+			"parentCode": "TYPE_MARIAGE",
+			"name": "DELETE TYPE_MARIAGE"
 		},
 		{
 			"code": "USER",

@@ -69,6 +69,33 @@ public interface ElementRepository extends JpaRepository<Element, Integer>, _Ele
 	@Query("select e from Element e where e.icon = :icon and e.isDeleted = :isDeleted")
 	List<Element> findByIcon(@Param("icon")String icon, @Param("isDeleted")Boolean isDeleted);
 	/**
+	 * Finds Element by using titre as a search criteria.
+	 * 
+	 * @param titre
+	 * @return An Object Element whose titre is equals to the given titre. If
+	 *         no Element is found, this method returns null.
+	 */
+	@Query("select e from Element e where e.titre = :titre and e.isDeleted = :isDeleted")
+	List<Element> findByTitre(@Param("titre")String titre, @Param("isDeleted")Boolean isDeleted);
+	/**
+	 * Finds Element by using champsListing as a search criteria.
+	 * 
+	 * @param champsListing
+	 * @return An Object Element whose champsListing is equals to the given champsListing. If
+	 *         no Element is found, this method returns null.
+	 */
+	@Query("select e from Element e where e.champsListing = :champsListing and e.isDeleted = :isDeleted")
+	List<Element> findByChampsListing(@Param("champsListing")String champsListing, @Param("isDeleted")Boolean isDeleted);
+	/**
+	 * Finds Element by using champsCreation as a search criteria.
+	 * 
+	 * @param champsCreation
+	 * @return An Object Element whose champsCreation is equals to the given champsCreation. If
+	 *         no Element is found, this method returns null.
+	 */
+	@Query("select e from Element e where e.champsCreation = :champsCreation and e.isDeleted = :isDeleted")
+	List<Element> findByChampsCreation(@Param("champsCreation")String champsCreation, @Param("isDeleted")Boolean isDeleted);
+	/**
 	 * Finds Element by using createdAt as a search criteria.
 	 * 
 	 * @param createdAt
@@ -254,6 +281,15 @@ public interface ElementRepository extends JpaRepository<Element, Integer>, _Ele
 			}
 			if (Utilities.notBlank(dto.getIcon())) {
 				listOfQuery.add(CriteriaUtils.generateCriteria("icon", dto.getIcon(), "e.icon", "String", dto.getIconParam(), param, index, locale));
+			}
+			if (Utilities.notBlank(dto.getTitre())) {
+				listOfQuery.add(CriteriaUtils.generateCriteria("titre", dto.getTitre(), "e.titre", "String", dto.getTitreParam(), param, index, locale));
+			}
+			if (Utilities.notBlank(dto.getChampsListing())) {
+				listOfQuery.add(CriteriaUtils.generateCriteria("champsListing", dto.getChampsListing(), "e.champsListing", "String", dto.getChampsListingParam(), param, index, locale));
+			}
+			if (Utilities.notBlank(dto.getChampsCreation())) {
+				listOfQuery.add(CriteriaUtils.generateCriteria("champsCreation", dto.getChampsCreation(), "e.champsCreation", "String", dto.getChampsCreationParam(), param, index, locale));
 			}
 			if (Utilities.notBlank(dto.getCreatedAt())) {
 				listOfQuery.add(CriteriaUtils.generateCriteria("createdAt", dto.getCreatedAt(), "e.createdAt", "Date", dto.getCreatedAtParam(), param, index, locale));

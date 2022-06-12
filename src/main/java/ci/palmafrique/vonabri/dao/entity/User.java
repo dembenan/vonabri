@@ -42,7 +42,8 @@ public class User implements Serializable, Cloneable {
 
     //----------------------------------------------------------------------
     // ENTITY DATA FIELDS 
-    //----------------------------------------------------------------------    
+    //----------------------------------------------------------------------   
+    
     @Column(name="email", length=225)
     private String     email        ;
 
@@ -94,6 +95,10 @@ public class User implements Serializable, Cloneable {
     @ManyToOne
     @JoinColumn(name="profil_id", referencedColumnName="id")
     private Profil profil      ;
+
+    @ManyToOne
+    @JoinColumn(name="travailleur_id", referencedColumnName="id")
+    private Travailleur travailleur      ;
 
     //----------------------------------------------------------------------
     // CONSTRUCTOR(S)
