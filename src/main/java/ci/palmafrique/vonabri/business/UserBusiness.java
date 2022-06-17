@@ -144,7 +144,6 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 		log.info("----begin create User-----");
 		
 		response = new Response<UserDto>();
-		String password = null;
 
 		try {
 			Map<String, java.lang.Object> fieldsToVerifyUser = new HashMap<String, java.lang.Object>();
@@ -161,7 +160,8 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 				response.setStatus(userResponse.getStatus());
 				return response;
 			}
-			
+			Map<String, String> passwords = new HashMap<String, String>();
+
 			List<User> items = new ArrayList<User>();
 			for (UserDto dto : request.getDatas()) {
 				// Definir les parametres obligatoires
@@ -170,7 +170,7 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 				//fieldsToVerify.put("password", dto.getPassword());
 				fieldsToVerify.put("profilId", dto.getProfilId());
 				fieldsToVerify.put("userTypeId", dto.getUserTypeId());
-				//fieldsToVerify.put("travailleurId", dto.getTravailleurId());
+				fieldsToVerify.put("travailleurId", dto.getTravailleurId());
 
 //				fieldsToVerify.put("isLocked", dto.getIsLocked());
 //				fieldsToVerify.put("isConnected", dto.getIsConnected());
@@ -231,11 +231,14 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 						response.setHasError(true);
 						return response;
 					}
+					
 				}
 				User entityToSave = null;
 				entityToSave = UserTransformer.INSTANCE.toEntity(dto, existingUserType, existingProfil,existingTravailleur);
-				password = Utilities.generateAlphabeticCode(8);
-
+				String password = Utilities.generateAlphabeticCode(8);
+				passwords.put(dto.getEmail(), password);
+				
+				
 				entityToSave.setPassword(Utilities.encrypt(password));
 				if (dto.getIsSuperAdmin() != null) {
 					entityToSave.setIsSuperAdmin(dto.getIsSuperAdmin());
@@ -255,9 +258,10 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 					response.setHasError(true);
 					return response;
 				}
-				
+				System.out.println("passwords=======>"+passwords);
 				for (User dto : itemsSaved) {
 					if (Utilities.notBlank(dto.getEmail())) {
+						String password = passwords.get(dto.getEmail());
 						// set mail to user
 						Map<String, String> from = new HashMap<>();
 						from.put("email", paramsUtils.getSmtpLogin());

@@ -13,56 +13,76 @@
 
 package ci.palmafrique.vonabri.business;
 
-import lombok.extern.java.Log;
-import org.apache.commons.lang3.StringUtils;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Collections;
 
-import javax.persistence.PersistenceContext;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.dao.PermissionDeniedDataAccessException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import ci.palmafrique.vonabri.utils.*;
-import ci.palmafrique.vonabri.utils.dto.*;
-import ci.palmafrique.vonabri.utils.enums.*;
-import ci.palmafrique.vonabri.utils.contract.*;
+import ci.palmafrique.vonabri.dao.entity.Anciennete;
+import ci.palmafrique.vonabri.dao.entity.Direction;
+import ci.palmafrique.vonabri.dao.entity.Employeur;
+import ci.palmafrique.vonabri.dao.entity.Ethnie;
+import ci.palmafrique.vonabri.dao.entity.Fonction;
+import ci.palmafrique.vonabri.dao.entity.GestionDeBien;
+import ci.palmafrique.vonabri.dao.entity.PosteDeTravail;
+import ci.palmafrique.vonabri.dao.entity.Profil;
+import ci.palmafrique.vonabri.dao.entity.Regime;
+import ci.palmafrique.vonabri.dao.entity.Site;
+import ci.palmafrique.vonabri.dao.entity.SousPosteDeTravail;
+import ci.palmafrique.vonabri.dao.entity.SousSite;
+import ci.palmafrique.vonabri.dao.entity.Statut;
+import ci.palmafrique.vonabri.dao.entity.StatutMatrimonial;
+import ci.palmafrique.vonabri.dao.entity.Travailleur;
+import ci.palmafrique.vonabri.dao.entity.TravailleurNationnalite;
+import ci.palmafrique.vonabri.dao.entity.TypeMariage;
+import ci.palmafrique.vonabri.dao.entity.UserType;
+import ci.palmafrique.vonabri.dao.repository.AncienneteRepository;
+import ci.palmafrique.vonabri.dao.repository.DirectionRepository;
+import ci.palmafrique.vonabri.dao.repository.EmployeurRepository;
+import ci.palmafrique.vonabri.dao.repository.EthnieRepository;
+import ci.palmafrique.vonabri.dao.repository.FonctionRepository;
+import ci.palmafrique.vonabri.dao.repository.GestionDeBienRepository;
+import ci.palmafrique.vonabri.dao.repository.PosteDeTravailRepository;
+import ci.palmafrique.vonabri.dao.repository.ProfilRepository;
+import ci.palmafrique.vonabri.dao.repository.RegimeRepository;
+import ci.palmafrique.vonabri.dao.repository.SiteRepository;
+import ci.palmafrique.vonabri.dao.repository.SousPosteDeTravailRepository;
+import ci.palmafrique.vonabri.dao.repository.SousSiteRepository;
+import ci.palmafrique.vonabri.dao.repository.StatutMatrimonialRepository;
+import ci.palmafrique.vonabri.dao.repository.StatutRepository;
+import ci.palmafrique.vonabri.dao.repository.TravailleurNationnaliteRepository;
+import ci.palmafrique.vonabri.dao.repository.TravailleurRepository;
+import ci.palmafrique.vonabri.dao.repository.TypeMariageRepository;
+import ci.palmafrique.vonabri.dao.repository.UserRepository;
+import ci.palmafrique.vonabri.dao.repository.UserTypeRepository;
+import ci.palmafrique.vonabri.rest.api.UserController;
+import ci.palmafrique.vonabri.utils.ExceptionUtils;
+import ci.palmafrique.vonabri.utils.FunctionalError;
+import ci.palmafrique.vonabri.utils.TechnicalError;
+import ci.palmafrique.vonabri.utils.Utilities;
+import ci.palmafrique.vonabri.utils.Validate;
 import ci.palmafrique.vonabri.utils.contract.IBasicBusiness;
 import ci.palmafrique.vonabri.utils.contract.Request;
 import ci.palmafrique.vonabri.utils.contract.Response;
-import ci.palmafrique.vonabri.utils.dto.transformer.*;
-import ci.palmafrique.vonabri.dao.entity.Travailleur;
-import ci.palmafrique.vonabri.dao.entity.SousPosteDeTravail;
-import ci.palmafrique.vonabri.dao.entity.Employeur;
-import ci.palmafrique.vonabri.dao.entity.Site;
-import ci.palmafrique.vonabri.dao.entity.Anciennete;
-import ci.palmafrique.vonabri.dao.entity.Regime;
-import ci.palmafrique.vonabri.dao.entity.Anciennete;
-import ci.palmafrique.vonabri.dao.entity.Ethnie;
-import ci.palmafrique.vonabri.dao.entity.Statut;
-import ci.palmafrique.vonabri.dao.entity.Ethnie;
-import ci.palmafrique.vonabri.dao.entity.GestionDeBien;
-import ci.palmafrique.vonabri.dao.entity.PosteDeTravail;
-import ci.palmafrique.vonabri.dao.entity.Fonction;
-import ci.palmafrique.vonabri.dao.entity.Direction;
-import ci.palmafrique.vonabri.dao.entity.TypeMariage;
-import ci.palmafrique.vonabri.dao.entity.StatutMatrimonial;
-import ci.palmafrique.vonabri.dao.entity.SousSite;
-import ci.palmafrique.vonabri.dao.entity.*;
-import ci.palmafrique.vonabri.dao.repository.*;
+import ci.palmafrique.vonabri.utils.dto.TravailleurDto;
+import ci.palmafrique.vonabri.utils.dto.UserDto;
+import ci.palmafrique.vonabri.utils.dto.transformer.TravailleurTransformer;
+import ci.palmafrique.vonabri.utils.enums.FunctionalityEnum;
+import lombok.extern.java.Log;
 
 /**
 BUSINESS for table "travailleur"
@@ -81,6 +101,14 @@ public class TravailleurBusiness implements IBasicBusiness<Request<TravailleurDt
 	private UserRepository userRepository;
 	@Autowired
 	private SousPosteDeTravailRepository sousPosteDeTravailRepository;
+	
+	@Autowired
+	private ProfilRepository profilRepository;
+	
+	@Autowired
+	private UserTypeRepository userTypeRepository;
+
+	
 	@Autowired
 	private EmployeurRepository employeurRepository;
 	@Autowired
@@ -117,6 +145,9 @@ public class TravailleurBusiness implements IBasicBusiness<Request<TravailleurDt
     @Autowired
     private UserBusiness userBusiness;
 
+    @Autowired
+    private UserController userController;
+    
 	@Autowired
 	private FunctionalError functionalError;
 	@Autowired
@@ -167,7 +198,12 @@ public class TravailleurBusiness implements IBasicBusiness<Request<TravailleurDt
 			}
 			
 			List<Travailleur> items = new ArrayList<Travailleur>();
+			List<UserDto> itemsUserDto = new ArrayList<UserDto>();
+			Request<UserDto> UserRequest = new Request<UserDto>();
+			UserRequest.setUser(request.getUser());
 			
+			
+			//Map<String, User> users = new HashMap<String, User>();
 			for (TravailleurDto dto : request.getDatas()) {
 				// Definir les parametres obligatoires
 				Map<String, java.lang.Object> fieldsToVerify = new HashMap<String, java.lang.Object>();
@@ -256,6 +292,33 @@ public class TravailleurBusiness implements IBasicBusiness<Request<TravailleurDt
 						response.setHasError(true);
 						return response;
 					}
+				}
+				if (dto.getProfilId() != null && dto.getProfilId() > 0 && dto.getUserTypeId() != null && dto.getUserTypeId() > 0){
+					System.out.println("DANS LE IF PROFIL APRES FOR  ======> ");
+
+					Profil userProfil = profilRepository.findOne(dto.getProfilId(), false);
+					if (userProfil == null) {
+						response.setStatus(functionalError.DATA_NOT_EXIST("userProfil userProfil -> " + dto.getProfilId(), locale));
+						response.setHasError(true);
+						return response;
+					}
+					UserType userType = userTypeRepository.findOne(dto.getUserTypeId(), false);
+					if (userType == null) {
+						response.setStatus(functionalError.DATA_NOT_EXIST("userType userType -> " + dto.getUserTypeId(), locale));
+						response.setHasError(true);
+						return response;
+					}
+					UserDto userDto = new UserDto();
+					if (dto.getIsSuperAdmin() != null) {
+						userDto.setIsSuperAdmin(dto.getIsSuperAdmin());
+					}
+					userDto.setEmail(dto.getEmail());
+					userDto.setProfilId(dto.getProfilId());
+					userDto.setUserTypeId(dto.getUserTypeId());
+					userDto.setMatricule(dto.getMatricule());
+					userDto.setTravailleurId(null);	
+					itemsUserDto.add(userDto);
+					
 				}
 				// Verify if employeur exist
 				Employeur existingEmployeur = null;
@@ -414,7 +477,7 @@ public class TravailleurBusiness implements IBasicBusiness<Request<TravailleurDt
 				entityToSave.setIsDeleted(false);
 				items.add(entityToSave);
 			}
-
+			
 			if (!items.isEmpty()) {
 				List<Travailleur> itemsSaved = null;
 				// inserer les donnees en base de donnees
@@ -424,12 +487,35 @@ public class TravailleurBusiness implements IBasicBusiness<Request<TravailleurDt
 					response.setHasError(true);
 					return response;
 				}
+
+				List<UserDto> datas = new ArrayList<UserDto>();
+				System.out.println("datas APRES FOR  ======> "+datas);
+
+				for (Travailleur travailleur : itemsSaved) {
+					for (UserDto data : itemsUserDto) {
+						if(data.getMatricule() != null && data.getMatricule().equals(travailleur.getMatricule())) {
+							data.setTravailleurId(travailleur.getId());	
+							datas.add(data);
+						    System.out.println("USER EMAIL TO CREATE "+data.getMatricule()+"-----------"+data.getEmail()+" WITH TRAVAILLEUR======>  "+travailleur.getId()+ "MATRICULE ==="+travailleur.getMatricule());
+
+						}
+					}
+					System.out.println("datas APRES FOR  ======> "+datas);
+
+					UserRequest.setDatas(datas);
+					System.out.println("UserRequest   ======> "+UserRequest);
+
+					userBusiness.create(UserRequest,locale);	
+					//System.out.println("responseUser USERS CREATED ======> "+responseUser.getItems());
+
+				}
 				List<TravailleurDto> itemsDto = (Utilities.isTrue(request.getIsSimpleLoading())) ? TravailleurTransformer.INSTANCE.toLiteDtos(itemsSaved) : TravailleurTransformer.INSTANCE.toDtos(itemsSaved);
 				
 				final int size = itemsSaved.size();
 				List<String>  listOfError      = Collections.synchronizedList(new ArrayList<String>());
 				itemsDto.parallelStream().forEach(dto -> {
 					try {
+
 						dto = getFullInfos(dto, size, request.getIsSimpleLoading(), locale);
 					} catch (Exception e) {
 						listOfError.add(e.getMessage());
@@ -696,6 +782,9 @@ public class TravailleurBusiness implements IBasicBusiness<Request<TravailleurDt
 				}
 				if (Utilities.notBlank(dto.getDateEmbauche())) {
 					entityToSave.setDateEmbauche(dateFormat.parse(dto.getDateEmbauche()));
+				}
+				if (Utilities.notBlank(dto.getDateDeNaissance())) {
+					entityToSave.setDateDeNaissance(dateFormat.parse(dto.getDateDeNaissance()));
 				}
 				if (Utilities.notBlank(dto.getMatricule())) {
 					entityToSave.setMatricule(dto.getMatricule());

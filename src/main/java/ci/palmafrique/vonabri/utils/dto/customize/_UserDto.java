@@ -28,6 +28,7 @@ public class _UserDto {
 	private List<FonctionnaliteDto> datasFonctionnalites;
 	private String token;
 	
+	private String     matricule            ;
 
 
 }

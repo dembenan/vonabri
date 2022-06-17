@@ -329,6 +329,21 @@ public class ElementBusiness implements IBasicBusiness<Request<ElementDto>, Resp
 				if (Utilities.notBlank(dto.getIcon())) {
 					entityToSave.setIcon(dto.getIcon());
 				}
+				
+				
+				
+				if (Utilities.notBlank(dto.getTitre())) {
+					entityToSave.setTitre(dto.getTitre());
+				}
+				if (Utilities.notBlank(dto.getChampsListing() )) {
+					entityToSave.setChampsListing(dto.getChampsListing());
+				}
+				if (Utilities.notBlank(dto.getChampsCreation() )) {
+					entityToSave.setChampsCreation(dto.getChampsCreation());
+				}
+				
+				
+
 				if (Utilities.notBlank(dto.getDeletedAt())) {
 					entityToSave.setDeletedAt(dateFormat.parse(dto.getDeletedAt()));
 				}
@@ -362,6 +377,8 @@ public class ElementBusiness implements IBasicBusiness<Request<ElementDto>, Resp
 				itemsDto.parallelStream().forEach(dto -> {
 					try {
 						dto = getFullInfos(dto, size, request.getIsSimpleLoading(), locale);
+						
+						System.out.println("dto.listing  "+dto.getChampsListing());
 					} catch (Exception e) {
 						listOfError.add(e.getMessage());
 						e.printStackTrace();

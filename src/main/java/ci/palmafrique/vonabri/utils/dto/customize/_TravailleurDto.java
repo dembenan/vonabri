@@ -24,4 +24,9 @@ import lombok.Data;
 public class _TravailleurDto {
 
 	private Boolean isUser;
+    private Integer    profilId  ;
+    private Integer    userTypeId  ;
+	protected Boolean 		isSuperAdmin;
+
+
 }
