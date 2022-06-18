@@ -56,10 +56,13 @@ public class Element implements Serializable, Cloneable {
     @Column(name="titre", length=255)
     private String     titre        ;
 
-    @Column(name="champs_listing", length=255)
+
+    @Lob
+    @Column(name="champs_listing" , columnDefinition = "MEDIUMBLOB")
     private String     champsListing ;
 
-    @Column(name="champs_creation", length=255)
+    @Lob
+    @Column(name="champs_creation",columnDefinition = "MEDIUMBLOB")
     private String     champsCreation ;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -99,6 +102,7 @@ public class Element implements Serializable, Cloneable {
     @JoinColumn(name="parent_id", referencedColumnName="id")
     private Element element     ;
 
+    
     //----------------------------------------------------------------------
     // CONSTRUCTOR(S)
     //----------------------------------------------------------------------
