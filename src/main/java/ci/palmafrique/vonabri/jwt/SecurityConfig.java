@@ -31,6 +31,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		
 		 web.ignoring().antMatchers("/user/login/**");
 		 web.ignoring().antMatchers("/user/passwordForgotten/**");
+		 web.ignoring().antMatchers("/resources/**", "/static/**", "/templates/**", "/error", "/media/**",
+				    "/webfonts/**", "/js/**", "/css/**", "/images/**");
 //		 web.ignoring().antMatchers("/client/auth/**");
 //		 web.ignoring().antMatchers("/resources/**");
 //		 web.ignoring().antMatchers("/wallet/getByCriteria/**");

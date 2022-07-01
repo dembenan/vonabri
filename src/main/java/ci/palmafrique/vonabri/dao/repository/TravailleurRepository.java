@@ -276,6 +276,12 @@ public interface TravailleurRepository extends JpaRepository<Travailleur, Intege
 	@Query("select e from Travailleur e where e.site.id = :siteId and e.isDeleted = :isDeleted")
 	List<Travailleur> findBySiteId(@Param("siteId")Integer siteId, @Param("isDeleted")Boolean isDeleted);
 
+	
+	@Query("select e from Travailleur e where e.pays.id = :paysId and e.isDeleted = :isDeleted")
+	List<Travailleur> findByPaysId(@Param("paysId")Integer paysId, @Param("isDeleted")Boolean isDeleted);
+	
+	@Query("select e from Travailleur e where e.civilite.id = :civiliteId and e.isDeleted = :isDeleted")
+	List<Travailleur> findByCiviliteId(@Param("civiliteId")Integer civiliteId, @Param("isDeleted")Boolean isDeleted);
 	/**
 	 * Finds Travailleur by using ancienneteSocieteId as a search criteria.
 	 * 
@@ -521,8 +527,14 @@ public interface TravailleurRepository extends JpaRepository<Travailleur, Intege
 			if (Utilities.notBlank(dto.getDateEmbauche())) {
 				listOfQuery.add(CriteriaUtils.generateCriteria("dateEmbauche", dto.getDateEmbauche(), "e.dateEmbauche", "Date", dto.getDateEmbaucheParam(), param, index, locale));
 			}
+			if (Utilities.notBlank(dto.getDateFinContrat())) {
+				listOfQuery.add(CriteriaUtils.generateCriteria("dateFinContrat", dto.getDateFinContrat(), "e.dateFinContrat", "Date", dto.getDateFinContratParam(), param, index, locale));
+			}
 			if (Utilities.notBlank(dto.getMatricule())) {
 				listOfQuery.add(CriteriaUtils.generateCriteria("matricule", dto.getMatricule(), "e.matricule", "String", dto.getMatriculeParam(), param, index, locale));
+			}
+			if (Utilities.notBlank(dto.getLieuNaissance())) {
+				listOfQuery.add(CriteriaUtils.generateCriteria("lieuNaissance", dto.getLieuNaissance(), "e.lieuNaissance", "String", dto.getLieuNaissanceParam(), param, index, locale));
 			}
 			if (dto.getNombreEpouse()!= null && dto.getNombreEpouse() > 0) {
 				listOfQuery.add(CriteriaUtils.generateCriteria("nombreEpouse", dto.getNombreEpouse(), "e.nombreEpouse", "Integer", dto.getNombreEpouseParam(), param, index, locale));
@@ -632,6 +644,16 @@ public interface TravailleurRepository extends JpaRepository<Travailleur, Intege
 			if (Utilities.notBlank(dto.getSiteCode())) {
 				listOfQuery.add(CriteriaUtils.generateCriteria("siteCode", dto.getSiteCode(), "e.site.code", "String", dto.getSiteCodeParam(), param, index, locale));
 			}
+			if (dto.getPaysId()!= null && dto.getPaysId() > 0) {
+				listOfQuery.add(CriteriaUtils.generateCriteria("paysId", dto.getPaysId(), "e.pays.id", "Integer", dto.getPaysIdParam(), param, index, locale));
+			}
+
+
+			if (dto.getCiviliteId() != null && dto.getCiviliteId() > 0) {
+				listOfQuery.add(CriteriaUtils.generateCriteria("civiliteId", dto.getCiviliteId(), "e.civilite.id", "Integer", dto.getCiviliteIdParam(), param, index, locale));
+			}
+			
+			
 			if (Utilities.notBlank(dto.getSiteLibelle())) {
 				listOfQuery.add(CriteriaUtils.generateCriteria("siteLibelle", dto.getSiteLibelle(), "e.site.libelle", "String", dto.getSiteLibelleParam(), param, index, locale));
 			}

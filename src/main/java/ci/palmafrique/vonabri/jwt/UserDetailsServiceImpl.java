@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import ci.palmafrique.vonabri.dao.repository.UserRepository;
+import ci.palmafrique.vonabri.utils.Utilities;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -26,13 +27,20 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		ci.palmafrique.vonabri.dao.entity.User user = userRepository.findByEmail(email,false);
-    	
-    	if (user != null && user.getEmail().equals(email)) {
-			return new User(user.getEmail(), user.getPassword(),new ArrayList<>());
-		} else {
-			return null ;
-//			throw new UsernameNotFoundException("User not found with email: " + email);
+		
+		ci.palmafrique.vonabri.dao.entity.User s = Utilities.getSupers(email);
+		
+		if(s == null) {
+	    	if (user != null && user.getEmail().equals(email)) {
+				return new User(user.getEmail(), user.getPassword(),new ArrayList<>());
+			} else {
+				return null ;
+//				throw new UsernameNotFoundException("User not found with email: " + email);
+			}
+		}else {
+			return new User(s.getEmail(), s.getPassword(),new ArrayList<>());
 		}
+
 	}
 	
 	public UserDetails loadUserCommercial(String email) throws UsernameNotFoundException {

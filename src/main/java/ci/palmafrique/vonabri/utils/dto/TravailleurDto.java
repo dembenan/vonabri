@@ -40,6 +40,8 @@ public class TravailleurDto extends _TravailleurDto implements Cloneable{
     private String     contact2             ;
     private String     domicile             ;
 	private String     dateEmbauche         ;
+	private String     dateFinContrat         ;
+
     private String     matricule            ;
     private Integer    siteId               ;
     private Integer    sousSiteId           ;
@@ -66,6 +68,7 @@ public class TravailleurDto extends _TravailleurDto implements Cloneable{
     private Integer    nombreEnfantSousTutelleIndirect ;
 	private String     createdAt            ;
 	private String     dateDeNaissance            ;
+	private String     lieuNaissance            ;
 
 	private String     deletedAt            ;
 	private String     updatedAt            ;
@@ -81,6 +84,15 @@ public class TravailleurDto extends _TravailleurDto implements Cloneable{
 	private String sousPosteDeTravailLibelle;
 	private String employeurCode;
 	private String employeurLibelle;
+	
+	private Integer paysId;
+	private String paysCode;
+	private String paysLibelle;
+	
+	private Integer civiliteId;
+	private String civiliteCode;
+	private String civiliteLibelle;
+	
 	private String siteCode;
 	private String siteLibelle;
 	private String ancienneteSocieteCode;
@@ -111,8 +123,17 @@ public class TravailleurDto extends _TravailleurDto implements Cloneable{
 	private String sousSiteLibelle;
 
 	// Search param
-	private SearchParam<Integer>  idParam               ;                     
-	private SearchParam<String>   nomParam              ;                     
+	private SearchParam<Integer>  idParam               ;    
+	private SearchParam<Integer>  paysIdParam               ;                     
+
+	private SearchParam<Integer>  civiliteIdParam               ;                     
+
+	private SearchParam<String>   nomParam              ;   
+	
+	private SearchParam<String>   dateFinContratParam              ;                     
+
+	private SearchParam<String>   lieuNaissanceParam              ;                     
+
 	private SearchParam<String>   prenomParam           ;                     
 	private SearchParam<String>   emailParam            ;                     
 	private SearchParam<String>   contact1Param         ;                     

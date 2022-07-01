@@ -160,6 +160,8 @@ public interface UserRepository extends JpaRepository<User, Integer>, _UserRepos
 	@Query("select e from User e where e.profil.id = :profilId and e.isDeleted = :isDeleted")
 	List<User> findByProfilId(@Param("profilId")Integer profilId, @Param("isDeleted")Boolean isDeleted);
 
+	@Query("select e from User e where e.travailleur.id = :travailleurId and e.isDeleted = :isDeleted")
+	User findByTravailleurId(@Param("travailleurId")Integer travailleurId, @Param("isDeleted")Boolean isDeleted);
 	/**
 	 * Finds List of User by using userDto as a search criteria.
 	 * 

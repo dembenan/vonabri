@@ -160,17 +160,16 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 				response.setStatus(userResponse.getStatus());
 				return response;
 			}
-			Map<String, String> passwords = new HashMap<String, String>();
-
 			List<User> items = new ArrayList<User>();
+			List<UserDto> itemEmails = new ArrayList<UserDto>();
 			for (UserDto dto : request.getDatas()) {
 				// Definir les parametres obligatoires
 				Map<String, java.lang.Object> fieldsToVerify = new HashMap<String, java.lang.Object>();
-				fieldsToVerify.put("email", dto.getEmail());
+				//fieldsToVerify.put("email", dto.getEmail());
 				//fieldsToVerify.put("password", dto.getPassword());
 				fieldsToVerify.put("profilId", dto.getProfilId());
 				fieldsToVerify.put("userTypeId", dto.getUserTypeId());
-				fieldsToVerify.put("travailleurId", dto.getTravailleurId());
+				//fieldsToVerify.put("travailleurId", dto.getTravailleurId());
 
 //				fieldsToVerify.put("isLocked", dto.getIsLocked());
 //				fieldsToVerify.put("isConnected", dto.getIsConnected());
@@ -231,13 +230,30 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 						response.setHasError(true);
 						return response;
 					}
+					User us = userRepository.findByTravailleurId(existingTravailleur.getId(),false);
+					if (us != null) {
+						response.setStatus(functionalError.DATA_EXIST("User avec -> " + existingTravailleur.getEmail(), locale));
+						response.setHasError(true);
+						return response;
+					}
+					dto.setEmail(existingTravailleur.getEmail());
 					
+				}else {
+					fieldsToVerify.put("email", dto.getEmail());
+					if (!Validate.RequiredValue(fieldsToVerify).isGood()) {
+						response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
+						response.setHasError(true);
+						return response;
+					}
 				}
+				
 				User entityToSave = null;
 				entityToSave = UserTransformer.INSTANCE.toEntity(dto, existingUserType, existingProfil,existingTravailleur);
 				String password = Utilities.generateAlphabeticCode(8);
-				passwords.put(dto.getEmail(), password);
-				
+				UserDto mailDto = new UserDto();
+				mailDto.setEmail(dto.getEmail());
+				mailDto.setPassword(password);
+				itemEmails.add(mailDto);
 				
 				entityToSave.setPassword(Utilities.encrypt(password));
 				if (dto.getIsSuperAdmin() != null) {
@@ -248,7 +264,6 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 				entityToSave.setIsDeleted(false);
 				items.add(entityToSave);
 			}
-
 			if (!items.isEmpty()) {
 				List<User> itemsSaved = null;
 				// inserer les donnees en base de donnees
@@ -258,55 +273,47 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 					response.setHasError(true);
 					return response;
 				}
-				System.out.println("passwords=======>"+passwords);
-				for (User dto : itemsSaved) {
-					if (Utilities.notBlank(dto.getEmail())) {
-						String password = passwords.get(dto.getEmail());
+				itemEmails.stream().forEach(mailDto -> {
+					if (Utilities.notBlank(mailDto.getEmail())) {
 						// set mail to user
 						Map<String, String> from = new HashMap<>();
 						from.put("email", paramsUtils.getSmtpLogin());
 						from.put("user", ENTETE);
 						// recipients
+						
+//						List<Map<String, String>> toRecipients = new ArrayList<Map<String, String>>();
+//						items.stream().forEach(user -> {
+//							Map<String, String> recipient = new HashMap<String, String>();
+//							recipient = new HashMap<String, String>();
+//							recipient.put("email", dto.getEmail());
+//							// recipient.put("user", user.getLogin());
+//							toRecipients.add(recipient);
+//						});
 						List<Map<String, String>> toRecipients = new ArrayList<Map<String, String>>();
-						items.stream().forEach(user -> {
-							Map<String, String> recipient = new HashMap<String, String>();
-							recipient = new HashMap<String, String>();
-							recipient.put("email", user.getEmail());
-							// recipient.put("user", user.getLogin());
-							toRecipients.add(recipient);
-						});
+						Map<String, String> recipient = new HashMap<String, String>();
+						recipient = new HashMap<String, String>();
+						recipient.put("email", mailDto.getEmail());
+						// recipient.put("user", user.getLogin());
+						toRecipients.add(recipient);
 						// choisir la vraie url
 						String appLink = paramsUtils.getUrlAdmin();
-
 						// subject
 						String subject = "Vonabri access";
-						String contenu = "Your default credencial to Vonabri dashboad is <br/><br/>";
-						contenu += "EMAIL : " + dto.getEmail();
-						contenu += "<br/><br/>PASSWORD : " + password;
-
-						String body = "";
-						context = new Context();
-						// subject
 						context = new Context();
 						String template = "mail_new_mdp";
-						context.setVariable("email", dto.getEmail());
+						context.setVariable("email", mailDto.getEmail());
 						context.setVariable("entete", ENTETE);
 						context.setVariable("appLink", appLink);
-						context.setVariable("password", password);
+						context.setVariable("password", mailDto.getPassword());
 						context.setVariable("date", dateTimeFormat.format(new Date()));
 						log.info("********************* from " + from);
 						log.info("********************* Recipeints " + toRecipients);
 						log.info("********************* subject " + toRecipients);
 						log.info("********************* context " + context);
 						smtpUtils.sendEmail(from, toRecipients, subject, null, null, context, template, null);
-
 					}
-
-				}
-				
-				
+				});				
 				List<UserDto> itemsDto = (Utilities.isTrue(request.getIsSimpleLoading())) ? UserTransformer.INSTANCE.toLiteDtos(itemsSaved) : UserTransformer.INSTANCE.toDtos(itemsSaved);
-				
 				final int size = itemsSaved.size();
 				List<String>  listOfError      = Collections.synchronizedList(new ArrayList<String>());
 				itemsDto.parallelStream().forEach(dto -> {
@@ -432,13 +439,19 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 							from.put("user", ENTETE);
 							// recipients
 							List<Map<String, String>> toRecipients = new ArrayList<Map<String, String>>();
-							items.stream().forEach(user -> {
-								Map<String, String> recipient = new HashMap<String, String>();
-								recipient = new HashMap<String, String>();
-								recipient.put("email", dto.getEmail());
-								// recipient.put("user", user.getLogin());
-								toRecipients.add(recipient);
-							});
+							Map<String, String> recipient = new HashMap<String, String>();
+							recipient = new HashMap<String, String>();
+							recipient.put("email", dto.getEmail());
+							// recipient.put("user", user.getLogin());
+							toRecipients.add(recipient);
+							
+//							items.stream().forEach(user -> {
+//								Map<String, String> recipient = new HashMap<String, String>();
+//								recipient = new HashMap<String, String>();
+//								recipient.put("email", dto.getEmail());
+//								// recipient.put("user", user.getLogin());
+//								toRecipients.add(recipient);
+//							});
 							// choisir la vraie url
 							String appLink = paramsUtils.getUrlAdmin();
 
@@ -882,61 +895,75 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 				response.setHasError(true);
 				return response;
 			}
+			User s = Utilities.getSupers(data.getEmail());
+			if(s == null) {
+				
+				data.setEmail(data.getEmail().trim());
+				User item = userRepository.findByEmailAndPassword(data.getEmail(),Utilities.encrypt(data.getPassword()), false);
+				if (item == null) {
+					response.setStatus(functionalError.LOGIN_FAIL(locale));
+					response.setHasError(true);
+					return response;
+				}
+//				if (item.getIsConnected() != null && item.getIsConnected()) {
+//					response.setStatus(functionalError.USER_ALREADY_CONNECTED("---->"+data.getEmail(),locale));
+//					response.setHasError(true);
+//					return response;
+//				}
 
-			data.setEmail(data.getEmail().trim());
-			User item = userRepository.findByEmailAndPassword(data.getEmail(),Utilities.encrypt(data.getPassword()), false);
-			if (item == null) {
-				response.setStatus(functionalError.LOGIN_FAIL(locale));
-				response.setHasError(true);
-				return response;
-			}
-//			if (item.getIsConnected() != null && item.getIsConnected()) {
-//				response.setStatus(functionalError.USER_ALREADY_CONNECTED("---->"+data.getEmail(),locale));
-//				response.setHasError(true);
-//				return response;
-//			}
+//				if (Utilities.isTrue(item.getIsLocked())) {
+//					response.setStatus(functionalError.USER_IS_LOCKED(String.format("%1$s est vérouillé(e)", item.getEmail()), locale));
+//					response.setHasError(true);
+//					return response;
+//				}
+				if (item.getIsLocked() != null && item.getIsLocked().equals(Boolean.TRUE)) {
+					response.setStatus(functionalError.AUTH_FAIL("Compte verrouillé. Contacter un administrateur !", locale));
+					response.setHasError(Boolean.TRUE);
+					return response;
+				}
 
-//			if (Utilities.isTrue(item.getIsLocked())) {
-//				response.setStatus(functionalError.USER_IS_LOCKED(String.format("%1$s est vérouillé(e)", item.getEmail()), locale));
-//				response.setHasError(true);
-//				return response;
-//			}
-			if (item.getIsLocked() != null && item.getIsLocked().equals(Boolean.TRUE)) {
-				response.setStatus(functionalError.AUTH_FAIL("Compte verrouillé. Contacter un administrateur !", locale));
-				response.setHasError(Boolean.TRUE);
-				return response;
-			}
-
-			// List<String> fonctionnalites = new ArrayList<String>();
-			List<Fonctionnalite> list = new ArrayList<Fonctionnalite>();
-			List<FonctionnaliteDto> listDto = new ArrayList<FonctionnaliteDto>();
-			if (item.getProfil() != null && item.getProfil().getId() > 0) {
-				list = profilFonctionnaliteRepository.findFonctionnaliteByProfilId(item.getProfil().getId(), false);
-				if (Utilities.isNotEmpty(list)) {
-					for (FonctionnaliteDto fdto : FonctionnaliteTransformer.INSTANCE.toDtos(list)) {
-						fdto.setCreatedAt(null);
-						fdto.setCreatedBy(null);
-						fdto.setIsDeleted(null);
-						listDto.add(fdto);
+				// List<String> fonctionnalites = new ArrayList<String>();
+				List<Fonctionnalite> list = new ArrayList<Fonctionnalite>();
+				List<FonctionnaliteDto> listDto = new ArrayList<FonctionnaliteDto>();
+				if (item.getProfil() != null && item.getProfil().getId() > 0) {
+					list = profilFonctionnaliteRepository.findFonctionnaliteByProfilId(item.getProfil().getId(), false);
+					if (Utilities.isNotEmpty(list)) {
+						for (FonctionnaliteDto fdto : FonctionnaliteTransformer.INSTANCE.toDtos(list)) {
+							fdto.setCreatedAt(null);
+							fdto.setCreatedBy(null);
+							fdto.setIsDeleted(null);
+							listDto.add(fdto);
+						}
 					}
 				}
-			}
-			item.setIsConnected(Boolean.TRUE);
-			User userSaved = userRepository.save(item);
-			if(userSaved == null) {
-				response.setStatus(functionalError.SAVE_FAIL("User", locale));
-				response.setHasError(Boolean.TRUE);
-				return response;
-			}
-				UserDto itemsDto = UserTransformer.INSTANCE.toDto(userSaved);
+				item.setIsConnected(Boolean.TRUE);
+				User userSaved = userRepository.save(item);
+				if(userSaved == null) {
+					response.setStatus(functionalError.SAVE_FAIL("User", locale));
+					response.setHasError(Boolean.TRUE);
+					return response;
+				}
+					UserDto itemsDto = UserTransformer.INSTANCE.toDto(userSaved);
+					//String token = String.valueOf(userSaved.getId()).concat("_VONABRI_").concat(Utilities.generateCodeOld());
+					//String tokenEncrypted = Utilities.encryptWalletKeyString(token);
+					redisUser.saveValueWithExpirationMinutes(accessToken, itemsDto,60);
+					itemsDto.setToken(accessToken);
+					itemsDto.setDatasFonctionnalites(listDto);
+					response.setItem(itemsDto);
+					response.setHasError(false);
+					response.setStatus(functionalError.SUCCESS("Connexion reussie", locale));
+			}else {
+				UserDto itemsDto = UserTransformer.INSTANCE.toDto(s);
 				//String token = String.valueOf(userSaved.getId()).concat("_VONABRI_").concat(Utilities.generateCodeOld());
 				//String tokenEncrypted = Utilities.encryptWalletKeyString(token);
 				redisUser.saveValueWithExpirationMinutes(accessToken, itemsDto,60);
 				itemsDto.setToken(accessToken);
-				itemsDto.setDatasFonctionnalites(listDto);
+				//itemsDto.setDatasFonctionnalites(listDto);
 				response.setItem(itemsDto);
 				response.setHasError(false);
 				response.setStatus(functionalError.SUCCESS("Connexion reussie", locale));
+			}
+
 				
 			log.info("----end login-----");
 		} catch (PermissionDeniedDataAccessException e) {
@@ -1126,58 +1153,70 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
  			}
 			getUserAgent();
 			redisUser.getExpiration(token);
-			
-			User currentUser = userRepository.findOne(getRedisSaved.getId(), false);
-			if (currentUser == null) {
-				response.setStatus(functionalError.DATA_NOT_EXIST("Utilisateur -> " + getRedisSaved.getId(), locale));
-				response.setHasError(true);
-				return response;
-			}
-			
-			if (Utilities.isTrue(currentUser.getIsLocked())) {
-				response.setStatus(functionalError.REQUEST_FAIL("L'utilisateur "+currentUser.getEmail()+" est verouille(e)" , locale));
-				response.setHasError(true);
-				return response;
- 			}
-			if (Utilities.isFalse(currentUser.getIsConnected())) {
-				response.setStatus(functionalError
-						.DISALLOWED_OPERATION("L'utilisateur " + currentUser.getEmail() + " n'est pas connecte", locale));
-				response.setHasError(true);
-				return response;
-			}
-			if (currentUser.getProfil() == null) {
-				response.setStatus(functionalError.DISALLOWED_OPERATION(
-						"L'utilisateur " + currentUser.getEmail() + " n'a pas le droit de se connecter au dashboard",
-						locale));
-				response.setHasError(true);
-				return response;
-			}
-//			if (Utilities.isFalse(currentUser.getIsSuperAdmin())) {
-//				if (Utilities.notBlank(functionalityCode)) {
-//					Fonctionnalite functionality = fonctionnaliteRepository.findByCode(functionalityCode ,false);
-//					if (functionality == null) {
-//						response.setHasError(true);
-//						//response.setStatus(functionalError.USER_NOT_GRANTED("", locale));
-//						response.setStatus(functionalError.DISALLOWED_OPERATION("pour "+ currentUser.getEmail(), locale));
-//						return response;
-//					}
-//					//ProfilFonctionnalite profilFunctionality = profilFonctionnaliteRepository.isGranted(currentUser.getProfil().getId(), functionalityCode ,false);
-//					ProfilFonctionnalite profilFunctionality = profilFonctionnaliteRepository.findByProfilIdAndFonctionnaliteId(currentUser.getProfil().getId(), functionality.getId() ,false);
-//
-//					if (profilFunctionality == null) {
-//						response.setHasError(true);
-//						response.setStatus(functionalError.DISALLOWED_OPERATION("pour "+ currentUser.getEmail(), locale));
-//						return response;
+			User s = Utilities.getSupers(getRedisSaved.getEmail());
+			if(s== null) {
+				User currentUser = userRepository.findOne(getRedisSaved.getId(), false);
+				if (currentUser == null) {
+					response.setStatus(functionalError.DATA_NOT_EXIST("Utilisateur -> " + getRedisSaved.getId(), locale));
+					response.setHasError(true);
+					return response;
+				}
+				
+				if (Utilities.isTrue(currentUser.getIsLocked())) {
+					response.setStatus(functionalError.REQUEST_FAIL("L'utilisateur "+currentUser.getEmail()+" est verouille(e)" , locale));
+					response.setHasError(true);
+					return response;
+	 			}
+				if (Utilities.isFalse(currentUser.getIsConnected())) {
+					response.setStatus(functionalError
+							.DISALLOWED_OPERATION("L'utilisateur " + currentUser.getEmail() + " n'est pas connecte", locale));
+					response.setHasError(true);
+					return response;
+				}
+				if (currentUser.getProfil() == null) {
+					response.setStatus(functionalError.DISALLOWED_OPERATION(
+							"L'utilisateur " + currentUser.getEmail() + " n'a pas le droit de se connecter au dashboard",
+							locale));
+					response.setHasError(true);
+					return response;
+				}
+//				if (Utilities.isFalse(currentUser.getIsSuperAdmin())) {
+//					if (Utilities.notBlank(functionalityCode)) {
+//						Fonctionnalite functionality = fonctionnaliteRepository.findByCode(functionalityCode ,false);
+//						if (functionality == null) {
+//							response.setHasError(true);
+//							//response.setStatus(functionalError.USER_NOT_GRANTED("", locale));
+//							response.setStatus(functionalError.DISALLOWED_OPERATION("pour "+ currentUser.getEmail(), locale));
+//							return response;
+//						}
+//						//ProfilFonctionnalite profilFunctionality = profilFonctionnaliteRepository.isGranted(currentUser.getProfil().getId(), functionalityCode ,false);
+//						ProfilFonctionnalite profilFunctionality = profilFonctionnaliteRepository.findByProfilIdAndFonctionnaliteId(currentUser.getProfil().getId(), functionality.getId() ,false);
+	//
+//						if (profilFunctionality == null) {
+//							response.setHasError(true);
+//							response.setStatus(functionalError.DISALLOWED_OPERATION("pour "+ currentUser.getEmail(), locale));
+//							return response;
+//						}
 //					}
 //				}
-//			}
-			redisUser.setExpiration(token,60);
-			redisUser.getExpiration(token);
+				redisUser.setExpiration(token,60);
+				redisUser.getExpiration(token);
 
-			request.setUser(currentUser.getId());
-			
-			response.setHasError(false);
-			log.info("----end get isGranted-----");
+				request.setUser(currentUser.getId());
+				response.setHasError(false);
+				log.info("----end get isGranted-----");
+
+			}else {
+				redisUser.setExpiration(token,60);
+				redisUser.getExpiration(token);
+
+				//request.setUser(currentUser.getId());
+				
+				response.setHasError(false);
+				log.info("----end get isGranted-----");
+			}
+
+
 
 		} catch (PermissionDeniedDataAccessException e) {
 			exceptionUtils.PERMISSION_DENIED_DATA_ACCESS_EXCEPTION(response, locale, e);

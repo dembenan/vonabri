@@ -30,12 +30,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import ci.palmafrique.vonabri.business.UserBusiness;
+import ci.palmafrique.vonabri.dao.entity.User;
 import ci.palmafrique.vonabri.jwt.JwtTokenUtil;
 import ci.palmafrique.vonabri.jwt.UserDetailsServiceImpl;
 import ci.palmafrique.vonabri.utils.ExceptionUtils;
 import ci.palmafrique.vonabri.utils.FunctionalError;
 import ci.palmafrique.vonabri.utils.StatusCode;
 import ci.palmafrique.vonabri.utils.StatusMessage;
+import ci.palmafrique.vonabri.utils.Utilities;
 import ci.palmafrique.vonabri.utils.Validate;
 import ci.palmafrique.vonabri.utils.contract.Request;
 import ci.palmafrique.vonabri.utils.contract.Response;
@@ -310,7 +312,7 @@ public class UserController {
 	
 	@RequestMapping(value="/login",method=RequestMethod.POST,consumes = {"application/json"},produces={"application/json"})
 	@ResponseBody
-	public Response<UserDto> login(@RequestBody Request<UserDto> request,@RequestHeader(value="versionCode",required = false) String versionCode,HttpServletRequest httpServletRequest,HttpServletResponse httpServletResponse) {
+	public Response<UserDto> login(@RequestBody Request<UserDto> request,HttpServletRequest httpServletRequest,HttpServletResponse httpServletResponse) {
     	slf4jLogger.info("start method /user/login");
         Response<UserDto> response = new Response<UserDto>();
 
@@ -321,6 +323,7 @@ public class UserController {
 
         try {
 
+			
 
 			new UsernamePasswordAuthenticationToken(request.getData().getEmail(), request.getData().getPassword());
 			// Authentication authentication =

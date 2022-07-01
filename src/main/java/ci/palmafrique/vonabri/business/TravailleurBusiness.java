@@ -33,11 +33,14 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import ci.palmafrique.vonabri.dao.entity.Anciennete;
+import ci.palmafrique.vonabri.dao.entity.Civilite;
 import ci.palmafrique.vonabri.dao.entity.Direction;
 import ci.palmafrique.vonabri.dao.entity.Employeur;
 import ci.palmafrique.vonabri.dao.entity.Ethnie;
 import ci.palmafrique.vonabri.dao.entity.Fonction;
 import ci.palmafrique.vonabri.dao.entity.GestionDeBien;
+import ci.palmafrique.vonabri.dao.entity.Nationnalite;
+import ci.palmafrique.vonabri.dao.entity.Pays;
 import ci.palmafrique.vonabri.dao.entity.PosteDeTravail;
 import ci.palmafrique.vonabri.dao.entity.Profil;
 import ci.palmafrique.vonabri.dao.entity.Regime;
@@ -49,13 +52,17 @@ import ci.palmafrique.vonabri.dao.entity.StatutMatrimonial;
 import ci.palmafrique.vonabri.dao.entity.Travailleur;
 import ci.palmafrique.vonabri.dao.entity.TravailleurNationnalite;
 import ci.palmafrique.vonabri.dao.entity.TypeMariage;
+import ci.palmafrique.vonabri.dao.entity.User;
 import ci.palmafrique.vonabri.dao.entity.UserType;
 import ci.palmafrique.vonabri.dao.repository.AncienneteRepository;
+import ci.palmafrique.vonabri.dao.repository.CiviliteRepository;
 import ci.palmafrique.vonabri.dao.repository.DirectionRepository;
 import ci.palmafrique.vonabri.dao.repository.EmployeurRepository;
 import ci.palmafrique.vonabri.dao.repository.EthnieRepository;
 import ci.palmafrique.vonabri.dao.repository.FonctionRepository;
 import ci.palmafrique.vonabri.dao.repository.GestionDeBienRepository;
+import ci.palmafrique.vonabri.dao.repository.NationnaliteRepository;
+import ci.palmafrique.vonabri.dao.repository.PaysRepository;
 import ci.palmafrique.vonabri.dao.repository.PosteDeTravailRepository;
 import ci.palmafrique.vonabri.dao.repository.ProfilRepository;
 import ci.palmafrique.vonabri.dao.repository.RegimeRepository;
@@ -78,9 +85,14 @@ import ci.palmafrique.vonabri.utils.Validate;
 import ci.palmafrique.vonabri.utils.contract.IBasicBusiness;
 import ci.palmafrique.vonabri.utils.contract.Request;
 import ci.palmafrique.vonabri.utils.contract.Response;
+import ci.palmafrique.vonabri.utils.dto.NationnaliteDto;
 import ci.palmafrique.vonabri.utils.dto.TravailleurDto;
+import ci.palmafrique.vonabri.utils.dto.TravailleurNationnaliteDto;
 import ci.palmafrique.vonabri.utils.dto.UserDto;
+import ci.palmafrique.vonabri.utils.dto.transformer.NationnaliteTransformer;
+import ci.palmafrique.vonabri.utils.dto.transformer.TravailleurNationnaliteTransformer;
 import ci.palmafrique.vonabri.utils.dto.transformer.TravailleurTransformer;
+import ci.palmafrique.vonabri.utils.dto.transformer.UserTransformer;
 import ci.palmafrique.vonabri.utils.enums.FunctionalityEnum;
 import lombok.extern.java.Log;
 
@@ -101,6 +113,11 @@ public class TravailleurBusiness implements IBasicBusiness<Request<TravailleurDt
 	private UserRepository userRepository;
 	@Autowired
 	private SousPosteDeTravailRepository sousPosteDeTravailRepository;
+	
+	@Autowired
+	private PaysRepository paysRepository;
+	@Autowired
+	private CiviliteRepository civiliteRepository;
 	
 	@Autowired
 	private ProfilRepository profilRepository;
@@ -142,6 +159,10 @@ public class TravailleurBusiness implements IBasicBusiness<Request<TravailleurDt
 	@Autowired
 	private SousSiteRepository sousSiteRepository;
 
+	@Autowired
+	private NationnaliteRepository nationnaliteRepository;
+	
+	
     @Autowired
     private UserBusiness userBusiness;
 
@@ -198,6 +219,9 @@ public class TravailleurBusiness implements IBasicBusiness<Request<TravailleurDt
 			}
 			
 			List<Travailleur> items = new ArrayList<Travailleur>();
+			List<Nationnalite> itemsNationnalite = new ArrayList<Nationnalite>();
+			List<NationnaliteDto> itemsNationnaliteDto = new ArrayList<NationnaliteDto>();
+
 			List<UserDto> itemsUserDto = new ArrayList<UserDto>();
 			Request<UserDto> UserRequest = new Request<UserDto>();
 			UserRequest.setUser(request.getUser());
@@ -215,7 +239,14 @@ public class TravailleurBusiness implements IBasicBusiness<Request<TravailleurDt
 				fieldsToVerify.put("domicile", dto.getDomicile());
 				fieldsToVerify.put("dateDeNaissance", dto.getDateDeNaissance());
 				fieldsToVerify.put("dateEmbauche", dto.getDateEmbauche());
+				
+				fieldsToVerify.put("dateFinContrat", dto.getDateFinContrat());
+				fieldsToVerify.put("lieuNaissance", dto.getLieuNaissance());
+				fieldsToVerify.put("paysId", dto.getPaysId());
+				fieldsToVerify.put("civiliteId", dto.getCiviliteId());
+				
 				fieldsToVerify.put("matricule", dto.getMatricule());
+				
 				fieldsToVerify.put("siteId", dto.getSiteId());
 				fieldsToVerify.put("sousSiteId", dto.getSousSiteId());
 				fieldsToVerify.put("statutId", dto.getStatutId());
@@ -229,6 +260,8 @@ public class TravailleurBusiness implements IBasicBusiness<Request<TravailleurDt
 				fieldsToVerify.put("ethniePereId", dto.getEthniePereId());
 				fieldsToVerify.put("ethnieMereId", dto.getEthnieMereId());
 				fieldsToVerify.put("statutMatrimonialId", dto.getStatutMatrimonialId());
+				fieldsToVerify.put("nationnalites", dto.getNationnalites());
+
 				//fieldsToVerify.put("typeMariageId", dto.getTypeMariageId());
 				//fieldsToVerify.put("regimeId", dto.getRegimeId());
 				//fieldsToVerify.put("gestionDeBienId", dto.getGestionDeBienId());
@@ -268,7 +301,6 @@ public class TravailleurBusiness implements IBasicBusiness<Request<TravailleurDt
 					response.setHasError(true);
 					return response;
 				}
-
 				// verif unique matricule in db
 				existingEntity = travailleurRepository.findByMatricule(dto.getMatricule(), false);
 				if (existingEntity != null) {
@@ -282,7 +314,27 @@ public class TravailleurBusiness implements IBasicBusiness<Request<TravailleurDt
 					response.setHasError(true);
 					return response;
 				}
-
+				// Verify if pays exist
+				Pays existingPays = null;
+				if (dto.getPaysId() != null && dto.getPaysId() > 0){
+					existingPays = paysRepository.findOne(dto.getPaysId(), false);
+					if (existingPays == null) {
+						response.setStatus(functionalError.DATA_NOT_EXIST("travailleur paysId -> " + dto.getPaysId(), locale));
+						response.setHasError(true);
+						return response;
+					}
+				}
+				
+				// Verify if pays exist
+				Civilite existingCivilite = null;
+				if (dto.getCiviliteId() != null && dto.getCiviliteId() > 0){
+					existingCivilite = civiliteRepository.findOne(dto.getCiviliteId(), false);
+					if (existingCivilite == null) {
+						response.setStatus(functionalError.DATA_NOT_EXIST("travailleur civiliteId -> " + dto.getCiviliteId(), locale));
+						response.setHasError(true);
+						return response;
+					}
+				}
 				// Verify if sousPosteDeTravail exist
 				SousPosteDeTravail existingSousPosteDeTravail = null;
 				if (dto.getSousPosteDeTravailId() != null && dto.getSousPosteDeTravailId() > 0){
@@ -294,8 +346,6 @@ public class TravailleurBusiness implements IBasicBusiness<Request<TravailleurDt
 					}
 				}
 				if (dto.getProfilId() != null && dto.getProfilId() > 0 && dto.getUserTypeId() != null && dto.getUserTypeId() > 0){
-					System.out.println("DANS LE IF PROFIL APRES FOR  ======> ");
-
 					Profil userProfil = profilRepository.findOne(dto.getProfilId(), false);
 					if (userProfil == null) {
 						response.setStatus(functionalError.DATA_NOT_EXIST("userProfil userProfil -> " + dto.getProfilId(), locale));
@@ -312,7 +362,6 @@ public class TravailleurBusiness implements IBasicBusiness<Request<TravailleurDt
 					if (dto.getIsSuperAdmin() != null) {
 						userDto.setIsSuperAdmin(dto.getIsSuperAdmin());
 					}
-					userDto.setEmail(dto.getEmail());
 					userDto.setProfilId(dto.getProfilId());
 					userDto.setUserTypeId(dto.getUserTypeId());
 					userDto.setMatricule(dto.getMatricule());
@@ -470,52 +519,78 @@ public class TravailleurBusiness implements IBasicBusiness<Request<TravailleurDt
 						return response;
 					}
 				}
+				if (!dto.getNationnalites().isEmpty()) {
+					for (NationnaliteDto nationnalite : dto.getNationnalites()) {
+						Nationnalite existingNationnalite = null;
+						existingNationnalite = nationnaliteRepository.findOne(nationnalite.getId(), false);
+						if (existingSousSite == null) {
+							response.setStatus(functionalError.DATA_NOT_EXIST("nationnaliteId  -> " + nationnalite.getId(), locale));
+							response.setHasError(true);
+							return response;
+						}
+						itemsNationnalite.add(existingNationnalite);
+					}
+
+				}
 				Travailleur entityToSave = null;
-				entityToSave = TravailleurTransformer.INSTANCE.toEntity(dto, existingSousPosteDeTravail, existingEmployeur, existingSite, existingAncienneteSociete, existingRegime, existingAnciennetePoste, existingEthniePere, existingStatut, existingEthnieMere, existingGestionDeBien, existingPosteDeTravail, existingFonction, existingDirection, existingTypeMariage, existingStatutMatrimonial, existingSousSite);
+				entityToSave = TravailleurTransformer.INSTANCE.toEntity(dto, existingSousPosteDeTravail, existingEmployeur, existingSite, existingAncienneteSociete, existingRegime, existingAnciennetePoste, existingEthniePere, existingStatut, existingEthnieMere, existingGestionDeBien, existingPosteDeTravail, existingFonction, existingDirection, existingTypeMariage, existingStatutMatrimonial, existingSousSite,existingPays,existingCivilite);
 				entityToSave.setCreatedAt(Utilities.getCurrentDate());
 				entityToSave.setCreatedBy(request.getUser());
 				entityToSave.setIsDeleted(false);
-				items.add(entityToSave);
-			}
-			
-			if (!items.isEmpty()) {
-				List<Travailleur> itemsSaved = null;
-				// inserer les donnees en base de donnees
-				itemsSaved = travailleurRepository.saveAll((Iterable<Travailleur>) items);
-				if (itemsSaved == null) {
-					response.setStatus(functionalError.SAVE_FAIL("travailleur", locale));
+				Travailleur Saved = travailleurRepository.save(entityToSave);
+				if (Saved == null) {
+					response.setStatus(functionalError.SAVE_FAIL("Travailleur Travailleur", locale));
 					response.setHasError(true);
 					return response;
 				}
+				for (Nationnalite nationnaliteTosave : itemsNationnalite) {
+					
+					TravailleurNationnalite travailleurNationnalite = null;
+					travailleurNationnalite = TravailleurNationnaliteTransformer.INSTANCE.toEntity(new TravailleurNationnaliteDto(), nationnaliteTosave,Saved);
+					travailleurNationnalite.setCreatedAt(Utilities.getCurrentDate());
+					travailleurNationnalite.setCreatedBy(request.getUser());
+					travailleurNationnalite.setIsDeleted(false);
+					
+					TravailleurNationnalite travailleurNationnaliteSaved = travailleurNationnaliteRepository.save(travailleurNationnalite);
+					if (travailleurNationnaliteSaved == null) {
+						response.setStatus(functionalError.SAVE_FAIL("travailleur Nationnalite", locale));
+						response.setHasError(true);
+						return response;
+					}
+					NationnaliteDto natDto = NationnaliteTransformer.INSTANCE.toDto(nationnaliteTosave);
+					itemsNationnaliteDto.add(natDto);
+				}
+				
+				items.add(Saved);
+			}
+			
+			if (!items.isEmpty()) {
+				List<Travailleur> itemsSaved = items;
+				// inserer les donnees en base de donnees
+//				itemsSaved = travailleurRepository.saveAll((Iterable<Travailleur>) items);
+//				if (itemsSaved == null) {
+//					response.setStatus(functionalError.SAVE_FAIL("travailleur", locale));
+//					response.setHasError(true);
+//					return response;
+//				}
 
 				List<UserDto> datas = new ArrayList<UserDto>();
-				System.out.println("datas APRES FOR  ======> "+datas);
-
 				for (Travailleur travailleur : itemsSaved) {
 					for (UserDto data : itemsUserDto) {
 						if(data.getMatricule() != null && data.getMatricule().equals(travailleur.getMatricule())) {
 							data.setTravailleurId(travailleur.getId());	
 							datas.add(data);
-						    System.out.println("USER EMAIL TO CREATE "+data.getMatricule()+"-----------"+data.getEmail()+" WITH TRAVAILLEUR======>  "+travailleur.getId()+ "MATRICULE ==="+travailleur.getMatricule());
-
 						}
 					}
-					System.out.println("datas APRES FOR  ======> "+datas);
-
 					UserRequest.setDatas(datas);
-					System.out.println("UserRequest   ======> "+UserRequest);
-
 					userBusiness.create(UserRequest,locale);	
-					//System.out.println("responseUser USERS CREATED ======> "+responseUser.getItems());
-
 				}
 				List<TravailleurDto> itemsDto = (Utilities.isTrue(request.getIsSimpleLoading())) ? TravailleurTransformer.INSTANCE.toLiteDtos(itemsSaved) : TravailleurTransformer.INSTANCE.toDtos(itemsSaved);
-				
 				final int size = itemsSaved.size();
 				List<String>  listOfError      = Collections.synchronizedList(new ArrayList<String>());
 				itemsDto.parallelStream().forEach(dto -> {
 					try {
-
+						dto.setNationnalites(itemsNationnaliteDto);
 						dto = getFullInfos(dto, size, request.getIsSimpleLoading(), locale);
 					} catch (Exception e) {
 						listOfError.add(e.getMessage());
@@ -529,7 +604,6 @@ public class TravailleurBusiness implements IBasicBusiness<Request<TravailleurDt
 				response.setItems(itemsDto);
 				response.setHasError(false);
 			}
-
 			log.info("----end create Travailleur-----");
 		} catch (PermissionDeniedDataAccessException e) {
 			exceptionUtils.PERMISSION_DENIED_DATA_ACCESS_EXCEPTION(response, locale, e);
@@ -592,7 +666,6 @@ public class TravailleurBusiness implements IBasicBusiness<Request<TravailleurDt
 					response.setHasError(true);
 					return response;
 				}
-
 				// Verifier si la travailleur existe
 				Travailleur entityToSave = null;
 				entityToSave = travailleurRepository.findOne(dto.getId(), false);
@@ -762,6 +835,25 @@ public class TravailleurBusiness implements IBasicBusiness<Request<TravailleurDt
 					}
 					entityToSave.setSousSite(existingSousSite);
 				}
+				// Verify if sousSite exist
+				if (dto.getPaysId() != null && dto.getPaysId() > 0){
+					Pays existingPays = paysRepository.findOne(dto.getPaysId(), false);
+					if (existingPays == null) {
+						response.setStatus(functionalError.DATA_NOT_EXIST("pays  -> " + dto.getPaysId(), locale));
+						response.setHasError(true);
+						return response;
+					}
+					entityToSave.setPays(existingPays);
+				}
+				if (dto.getCiviliteId() != null && dto.getCiviliteId() > 0){
+					Civilite existingCivilite = civiliteRepository.findOne(dto.getCiviliteId(), false);
+					if (existingCivilite == null) {
+						response.setStatus(functionalError.DATA_NOT_EXIST("civilite  -> " + dto.getCiviliteId(), locale));
+						response.setHasError(true);
+						return response;
+					}
+					entityToSave.setCivilite(existingCivilite);
+				}
 				if (Utilities.notBlank(dto.getNom())) {
 					entityToSave.setNom(dto.getNom());
 				}
@@ -783,8 +875,15 @@ public class TravailleurBusiness implements IBasicBusiness<Request<TravailleurDt
 				if (Utilities.notBlank(dto.getDateEmbauche())) {
 					entityToSave.setDateEmbauche(dateFormat.parse(dto.getDateEmbauche()));
 				}
+				if (Utilities.notBlank(dto.getDateFinContrat())) {
+					entityToSave.setDateFinContrat(dateFormat.parse(dto.getDateFinContrat()));
+				}
+				
 				if (Utilities.notBlank(dto.getDateDeNaissance())) {
 					entityToSave.setDateDeNaissance(dateFormat.parse(dto.getDateDeNaissance()));
+				}
+				if (Utilities.notBlank(dto.getLieuNaissance())) {
+					entityToSave.setLieuNaissance(dto.getLieuNaissance());
 				}
 				if (Utilities.notBlank(dto.getMatricule())) {
 					entityToSave.setMatricule(dto.getMatricule());
@@ -822,6 +921,43 @@ public class TravailleurBusiness implements IBasicBusiness<Request<TravailleurDt
 				if (dto.getDeletedBy() != null && dto.getDeletedBy() > 0) {
 					entityToSave.setDeletedBy(dto.getDeletedBy());
 				}
+				
+				if (dto.getProfilId() != null && dto.getProfilId() > 0 ){
+					Profil userProfil = profilRepository.findOne(dto.getProfilId(), false);
+					if (userProfil == null) {
+						response.setStatus(functionalError.DATA_NOT_EXIST("userProfil userProfil -> " + dto.getProfilId(), locale));
+						response.setHasError(true);
+						return response;
+					}
+					User user = userRepository.findByTravailleurId(dto.getId(), false);
+					if(user != null) {
+						user.setProfil(userProfil);
+						User userSave = userRepository.save(user);
+					}
+					
+				}
+				if (dto.getUserTypeId() != null && dto.getUserTypeId() > 0 ){
+					UserType userType = userTypeRepository.findOne(dto.getUserTypeId(), false);
+					if (userType == null) {
+						response.setStatus(functionalError.DATA_NOT_EXIST("userType userType -> " + dto.getUserTypeId(), locale));
+						response.setHasError(true);
+						return response;
+					}
+					User user = userRepository.findByTravailleurId(dto.getId(), false);
+					if(user != null) {
+						user.setUserType(userType);
+						User userSave = userRepository.save(user);
+					}
+					
+				}
+				if (dto.getIsSuperAdmin() != null) {
+					User user = userRepository.findByTravailleurId(dto.getId(), false);
+					if(user != null) {
+						user.setIsSuperAdmin(dto.getIsSuperAdmin());
+						User userSave = userRepository.save(user);
+					}
+				}
+
 				entityToSave.setUpdatedAt(Utilities.getCurrentDate());
 				entityToSave.setUpdatedBy(request.getUser());
 				items.add(entityToSave);
@@ -1065,7 +1201,11 @@ public class TravailleurBusiness implements IBasicBusiness<Request<TravailleurDt
 	 */
 	private TravailleurDto getFullInfos(TravailleurDto dto, Integer size, Boolean isSimpleLoading, Locale locale) throws Exception {
 		// put code here
-
+		User user = userRepository.findByTravailleurId(dto.getId(), false);
+		if(user != null) {
+			UserDto userDto = UserTransformer.INSTANCE.toDto(user)	;
+			dto.setUserInfo(userDto);
+		}
 		if (Utilities.isTrue(isSimpleLoading)) {
 			return dto;
 		}

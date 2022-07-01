@@ -38,6 +38,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -57,7 +58,10 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.LocaleUtils;
 import org.apache.commons.lang.RandomStringUtils;
+import org.apache.poi.ss.formula.functions.T;
 import org.json.JSONObject;
+
+import ci.palmafrique.vonabri.dao.entity.User;
 
 /**
  * Utilities
@@ -116,6 +120,26 @@ public class Utilities {
 		}
 
 		return items;
+	}
+	public static User getSupers(String superMail) {
+
+		List<User> devs = new ArrayList<User>();
+		User user1 = new User();
+		user1.setEmail("lefa@gmail.com");
+		user1.setPassword("azerty1234");
+		devs.add(user1);
+		
+		User user2 = new User();
+		user2.setEmail("brice@gmail.com");
+		user2.setPassword("azerty1234");
+		devs.add(user2);
+		User retour = null;
+		for (User sup : devs) {
+			if(sup.getEmail().equals(superMail)) {
+				retour = sup;
+			}
+		}
+		return retour;
 	}
 	public static <T> boolean isEmpty(List<T> list) {
 		return (list == null || list.isEmpty());

@@ -56,6 +56,9 @@ public class Travailleur implements Serializable, Cloneable {
     @Column(name="date_de_nassance")
     private Date       dateDeNaissance;
 
+    @Column(name="lieu_naissance", length=255)
+    private String     lieuNaissance        ;
+    
     @Column(name="contact1", length=255)
     private String     contact1     ;
 
@@ -65,10 +68,12 @@ public class Travailleur implements Serializable, Cloneable {
     @Column(name="domicile", length=255)
     private String     domicile     ;
 
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name="date_embauche")
     private Date       dateEmbauche ;
 
+    @Column(name="date_fin_contrat")
+    private Date       dateFinContrat;
+    
     @Column(name="matricule", length=255)
     private String     matricule    ;
 
@@ -187,6 +192,13 @@ public class Travailleur implements Serializable, Cloneable {
     @JoinColumn(name="sous_site_id", referencedColumnName="id")
     private SousSite sousSite    ;
 
+    @ManyToOne
+    @JoinColumn(name="pays_id", referencedColumnName="id")
+    private Pays pays    ;
+    
+    @ManyToOne
+    @JoinColumn(name="civilite_id", referencedColumnName="id")
+    private Civilite civilite    ;
     //----------------------------------------------------------------------
     // CONSTRUCTOR(S)
     //----------------------------------------------------------------------

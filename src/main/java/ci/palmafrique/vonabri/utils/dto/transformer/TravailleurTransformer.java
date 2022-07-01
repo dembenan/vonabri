@@ -38,6 +38,9 @@ public interface TravailleurTransformer {
 	@FullTransformerQualifier
 	@Mappings({
 		@Mapping(source="entity.dateEmbauche", dateFormat="dd/MM/yyyy",target="dateEmbauche"),
+		@Mapping(source="entity.dateFinContrat", dateFormat="dd/MM/yyyy",target="dateFinContrat"),
+		@Mapping(source="entity.lieuNaissance", target="lieuNaissance"),
+
 		@Mapping(source="entity.dateDeNaissance", dateFormat="dd/MM/yyyy",target="dateDeNaissance"),
 		@Mapping(source="entity.createdAt", dateFormat="dd/MM/yyyy",target="createdAt"),
 		@Mapping(source="entity.deletedAt", dateFormat="dd/MM/yyyy",target="deletedAt"),
@@ -51,6 +54,18 @@ public interface TravailleurTransformer {
 		@Mapping(source="entity.site.id", target="siteId"),
 		@Mapping(source="entity.site.code", target="siteCode"),
 		@Mapping(source="entity.site.libelle", target="siteLibelle"),
+		
+		@Mapping(source="entity.pays.id", target="paysId"),
+		@Mapping(source="entity.pays.code", target="paysCode"),
+		@Mapping(source="entity.pays.libelle", target="paysLibelle"),
+		
+		
+		@Mapping(source="entity.civilite.id", target="civiliteId"),
+		@Mapping(source="entity.civilite.code", target="civiliteCode"),
+		@Mapping(source="entity.civilite.libelle", target="civiliteLibelle"),
+		
+		
+		
 		@Mapping(source="entity.ancienneteSociete.id", target="ancienneteSocieteId"),
 		@Mapping(source="entity.ancienneteSociete.code", target="ancienneteSocieteCode"),
 		@Mapping(source="entity.ancienneteSociete.libelle", target="ancienneteSocieteLibelle"),
@@ -127,7 +142,9 @@ public interface TravailleurTransformer {
 		@Mapping(source="dto.contact2", target="contact2"),
 		@Mapping(source="dto.domicile", target="domicile"),
 		@Mapping(source="dto.dateEmbauche", dateFormat="dd/MM/yyyy",target="dateEmbauche"),
+		@Mapping(source="dto.dateFinContrat", dateFormat="dd/MM/yyyy",target="dateFinContrat"),
 		@Mapping(source="dto.matricule", target="matricule"),
+		@Mapping(source="dto.lieuNaissance", target="lieuNaissance"),
 		@Mapping(source="dto.nombreEpouse", target="nombreEpouse"),
 		@Mapping(source="dto.nombreEnfants", target="nombreEnfants"),
 		@Mapping(source="dto.nombreFilles", target="nombreFilles"),
@@ -159,8 +176,10 @@ public interface TravailleurTransformer {
 		@Mapping(source="typeMariage", target="typeMariage"),
 		@Mapping(source="statutMatrimonial", target="statutMatrimonial"),
 		@Mapping(source="sousSite", target="sousSite"),
+		@Mapping(source="pays", target="pays"),
+		@Mapping(source="civilite", target="civilite"),
 	})
-    Travailleur toEntity(TravailleurDto dto, SousPosteDeTravail sousPosteDeTravail, Employeur employeur, Site site, Anciennete anciennetePoste, Regime regime, Anciennete ancienneteSociete, Ethnie ethniePere, Statut statut, Ethnie ethnieMere, GestionDeBien gestionDeBien, PosteDeTravail posteDeTravail, Fonction fonction, Direction direction, TypeMariage typeMariage, StatutMatrimonial statutMatrimonial, SousSite sousSite) throws ParseException;
+    Travailleur toEntity(TravailleurDto dto, SousPosteDeTravail sousPosteDeTravail, Employeur employeur, Site site, Anciennete anciennetePoste, Regime regime, Anciennete ancienneteSociete, Ethnie ethniePere, Statut statut, Ethnie ethnieMere, GestionDeBien gestionDeBien, PosteDeTravail posteDeTravail, Fonction fonction, Direction direction, TypeMariage typeMariage, StatutMatrimonial statutMatrimonial, SousSite sousSite,Pays pays,Civilite civilite) throws ParseException;
 
     //List<Travailleur> toEntities(List<TravailleurDto> dtos) throws ParseException;
 

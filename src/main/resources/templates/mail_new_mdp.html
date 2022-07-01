@@ -1,5 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:th="http://www.thymeleaf.org"
+ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+ lang="en">
 <head>
     <meta charset="utf-8"/> <!-- utf-8 works for most cases -->
     <meta name="viewport" content="width=device-width"/> <!-- Forcing initial-scale shouldn't be necessary -->
@@ -160,10 +163,10 @@
     <table cellspacing="0" cellpadding="0" border="0" align="center" width="800" style="margin: auto;" class="email-container">
         <tr>
            <td style="padding: 10px 0; text-align: center">
-<!-- <img th:src="@{/images/logo_cip.png}" />-->
+     <img src="https://api-vonabri.cip-palmafrique.com/images/logo_cip.png" width="325px" alt="logo" border="0" />
 
-              <img src="http://www.palmafrique.com/wp-content/themes/palmafrique/images/logo_palmafrique.jpg" width="325px" alt="logo" border="0"/>         
-           
+<!--              <img src="http://www.palmafrique.com/wp-content/themes/palmafrique/images/logo_palmafrique.jpg" width="325px" alt="logo" border="0"/>         -->
+<!--           -->
             </td> 
         </tr>
 
