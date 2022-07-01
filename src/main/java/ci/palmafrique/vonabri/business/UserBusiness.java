@@ -1038,10 +1038,10 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 					from.put("user", ENTETE);
 					// recipients
 					List<Map<String, String>> toRecipients = new ArrayList<Map<String, String>>();
-						Map<String, String> recipient = new HashMap<String, String>();
-						recipient = new HashMap<String, String>();
-						recipient.put("email", user.getEmail());
-						toRecipients.add(recipient);
+					Map<String, String> recipient = new HashMap<String, String>();
+					recipient = new HashMap<String, String>();
+					recipient.put("email", user.getEmail());
+					toRecipients.add(recipient);
 
 					// subject
 					String subject = "Vonabri access";

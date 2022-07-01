@@ -16,6 +16,7 @@ package ci.palmafrique.vonabri.business;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -31,6 +32,7 @@ import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.dao.PermissionDeniedDataAccessException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.thymeleaf.context.Context;
 
 import ci.palmafrique.vonabri.dao.entity.Anciennete;
 import ci.palmafrique.vonabri.dao.entity.Civilite;
@@ -79,6 +81,8 @@ import ci.palmafrique.vonabri.dao.repository.UserTypeRepository;
 import ci.palmafrique.vonabri.rest.api.UserController;
 import ci.palmafrique.vonabri.utils.ExceptionUtils;
 import ci.palmafrique.vonabri.utils.FunctionalError;
+import ci.palmafrique.vonabri.utils.ParamsUtils;
+import ci.palmafrique.vonabri.utils.SmtpUtils;
 import ci.palmafrique.vonabri.utils.TechnicalError;
 import ci.palmafrique.vonabri.utils.Utilities;
 import ci.palmafrique.vonabri.utils.Validate;
@@ -162,6 +166,14 @@ public class TravailleurBusiness implements IBasicBusiness<Request<TravailleurDt
 	@Autowired
 	private NationnaliteRepository nationnaliteRepository;
 	
+	private Context context;
+	private final String ENTETE = "Vonabri";
+	private final String TITRE = "Administrator";
+	
+	@Autowired
+	private ParamsUtils paramsUtils;
+	@Autowired
+	private SmtpUtils smtpUtils;
 	
     @Autowired
     private UserBusiness userBusiness;
@@ -178,6 +190,7 @@ public class TravailleurBusiness implements IBasicBusiness<Request<TravailleurDt
 	@PersistenceContext
 	private EntityManager em;
 
+	
 	private SimpleDateFormat dateFormat;
 	private SimpleDateFormat dateTimeFormat;
 
@@ -219,14 +232,7 @@ public class TravailleurBusiness implements IBasicBusiness<Request<TravailleurDt
 			}
 			
 			List<Travailleur> items = new ArrayList<Travailleur>();
-			List<Nationnalite> itemsNationnalite = new ArrayList<Nationnalite>();
-			List<NationnaliteDto> itemsNationnaliteDto = new ArrayList<NationnaliteDto>();
 
-			List<UserDto> itemsUserDto = new ArrayList<UserDto>();
-			Request<UserDto> UserRequest = new Request<UserDto>();
-			UserRequest.setUser(request.getUser());
-			
-			
 			//Map<String, User> users = new HashMap<String, User>();
 			for (TravailleurDto dto : request.getDatas()) {
 				// Definir les parametres obligatoires
@@ -240,7 +246,7 @@ public class TravailleurBusiness implements IBasicBusiness<Request<TravailleurDt
 				fieldsToVerify.put("dateDeNaissance", dto.getDateDeNaissance());
 				fieldsToVerify.put("dateEmbauche", dto.getDateEmbauche());
 				
-				fieldsToVerify.put("dateFinContrat", dto.getDateFinContrat());
+				//fieldsToVerify.put("dateFinContrat", dto.getDateFinContrat());
 				fieldsToVerify.put("lieuNaissance", dto.getLieuNaissance());
 				fieldsToVerify.put("paysId", dto.getPaysId());
 				fieldsToVerify.put("civiliteId", dto.getCiviliteId());
@@ -275,7 +281,7 @@ public class TravailleurBusiness implements IBasicBusiness<Request<TravailleurDt
 				//fieldsToVerify.put("deletedAt", dto.getDeletedAt());
 				//fieldsToVerify.put("deletedBy", dto.getDeletedBy());
 				if (!Validate.RequiredValue(fieldsToVerify).isGood()) {
-					response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
+					response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField()+"  de "+dto.getNom(), locale));
 					response.setHasError(true);
 					return response;
 				}
@@ -345,30 +351,7 @@ public class TravailleurBusiness implements IBasicBusiness<Request<TravailleurDt
 						return response;
 					}
 				}
-				if (dto.getProfilId() != null && dto.getProfilId() > 0 && dto.getUserTypeId() != null && dto.getUserTypeId() > 0){
-					Profil userProfil = profilRepository.findOne(dto.getProfilId(), false);
-					if (userProfil == null) {
-						response.setStatus(functionalError.DATA_NOT_EXIST("userProfil userProfil -> " + dto.getProfilId(), locale));
-						response.setHasError(true);
-						return response;
-					}
-					UserType userType = userTypeRepository.findOne(dto.getUserTypeId(), false);
-					if (userType == null) {
-						response.setStatus(functionalError.DATA_NOT_EXIST("userType userType -> " + dto.getUserTypeId(), locale));
-						response.setHasError(true);
-						return response;
-					}
-					UserDto userDto = new UserDto();
-					if (dto.getIsSuperAdmin() != null) {
-						userDto.setIsSuperAdmin(dto.getIsSuperAdmin());
-					}
-					userDto.setProfilId(dto.getProfilId());
-					userDto.setUserTypeId(dto.getUserTypeId());
-					userDto.setMatricule(dto.getMatricule());
-					userDto.setTravailleurId(null);	
-					itemsUserDto.add(userDto);
-					
-				}
+
 				// Verify if employeur exist
 				Employeur existingEmployeur = null;
 				if (dto.getEmployeurId() != null && dto.getEmployeurId() > 0){
@@ -437,6 +420,15 @@ public class TravailleurBusiness implements IBasicBusiness<Request<TravailleurDt
 						response.setStatus(functionalError.DATA_NOT_EXIST("statut statutId -> " + dto.getStatutId(), locale));
 						response.setHasError(true);
 						return response;
+					}
+					if (!existingStatut.getCode().equals("CDI")) {
+						Map<String, java.lang.Object> fieldsToVerifyStatus = new HashMap<String, java.lang.Object>();
+						fieldsToVerifyStatus.put("dateFinContrat", dto.getDateFinContrat());
+						if (!Validate.RequiredValue(fieldsToVerifyStatus).isGood()) {
+							response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
+							response.setHasError(true);
+							return response;
+						}
 					}
 				}
 				// Verify if ethnie exist
@@ -519,19 +511,7 @@ public class TravailleurBusiness implements IBasicBusiness<Request<TravailleurDt
 						return response;
 					}
 				}
-				if (!dto.getNationnalites().isEmpty()) {
-					for (NationnaliteDto nationnalite : dto.getNationnalites()) {
-						Nationnalite existingNationnalite = null;
-						existingNationnalite = nationnaliteRepository.findOne(nationnalite.getId(), false);
-						if (existingSousSite == null) {
-							response.setStatus(functionalError.DATA_NOT_EXIST("nationnaliteId  -> " + nationnalite.getId(), locale));
-							response.setHasError(true);
-							return response;
-						}
-						itemsNationnalite.add(existingNationnalite);
-					}
 
-				}
 				Travailleur entityToSave = null;
 				entityToSave = TravailleurTransformer.INSTANCE.toEntity(dto, existingSousPosteDeTravail, existingEmployeur, existingSite, existingAncienneteSociete, existingRegime, existingAnciennetePoste, existingEthniePere, existingStatut, existingEthnieMere, existingGestionDeBien, existingPosteDeTravail, existingFonction, existingDirection, existingTypeMariage, existingStatutMatrimonial, existingSousSite,existingPays,existingCivilite);
 				entityToSave.setCreatedAt(Utilities.getCurrentDate());
@@ -543,24 +523,92 @@ public class TravailleurBusiness implements IBasicBusiness<Request<TravailleurDt
 					response.setHasError(true);
 					return response;
 				}
-				for (Nationnalite nationnaliteTosave : itemsNationnalite) {
-					
-					TravailleurNationnalite travailleurNationnalite = null;
-					travailleurNationnalite = TravailleurNationnaliteTransformer.INSTANCE.toEntity(new TravailleurNationnaliteDto(), nationnaliteTosave,Saved);
-					travailleurNationnalite.setCreatedAt(Utilities.getCurrentDate());
-					travailleurNationnalite.setCreatedBy(request.getUser());
-					travailleurNationnalite.setIsDeleted(false);
-					
-					TravailleurNationnalite travailleurNationnaliteSaved = travailleurNationnaliteRepository.save(travailleurNationnalite);
-					if (travailleurNationnaliteSaved == null) {
-						response.setStatus(functionalError.SAVE_FAIL("travailleur Nationnalite", locale));
+				for (NationnaliteDto nationnalite : dto.getNationnalites()) {
+					if(nationnalite.getId() != null && nationnalite.getId() >0) {
+						Nationnalite existingNationnalite = null;
+						existingNationnalite = nationnaliteRepository.findOne(nationnalite.getId(), false);
+						if (existingNationnalite == null) {
+							response.setStatus(functionalError.DATA_NOT_EXIST("nationnaliteId  -> " + nationnalite.getId(), locale));
+							response.setHasError(true);
+							return response;
+						}
+						TravailleurNationnalite travailleurNationnalite = new TravailleurNationnalite();
+						travailleurNationnalite.setNationnalite(existingNationnalite);
+						travailleurNationnalite.setTravailleur(Saved);
+						travailleurNationnalite.setUpdatedAt(Utilities.getCurrentDate());
+						travailleurNationnalite.setUpdatedBy(request.getUser());
+						travailleurNationnalite.setIsDeleted(false);
+						TravailleurNationnalite travailleurNationnaliteSaved = travailleurNationnaliteRepository.save(travailleurNationnalite);
+						if (travailleurNationnaliteSaved == null) {
+							response.setStatus(functionalError.SAVE_FAIL("travailleur Nationnalite pour la nationalité "+ nationnalite.getId(), locale));
+							response.setHasError(true);
+							return response;
+						}
+						System.out.println(travailleurNationnaliteSaved);
+					}
+				}
+				if (dto.getProfilId() != null && dto.getProfilId() > 0 && dto.getUserTypeId() != null && dto.getUserTypeId() > 0){
+					Profil userProfil = profilRepository.findOne(dto.getProfilId(), false);
+					if (userProfil == null) {
+						response.setStatus(functionalError.DATA_NOT_EXIST("userProfil userProfil -> " + dto.getProfilId(), locale));
 						response.setHasError(true);
 						return response;
 					}
-					NationnaliteDto natDto = NationnaliteTransformer.INSTANCE.toDto(nationnaliteTosave);
-					itemsNationnaliteDto.add(natDto);
+					UserType userType = userTypeRepository.findOne(dto.getUserTypeId(), false);
+					if (userType == null) {
+						response.setStatus(functionalError.DATA_NOT_EXIST("userType userType -> " + dto.getUserTypeId(), locale));
+						response.setHasError(true);
+						return response;
+					}
+					UserDto userDto = new UserDto();
+					if (dto.getIsSuperAdmin() != null) {
+						userDto.setIsSuperAdmin(dto.getIsSuperAdmin());
+					}
+					userDto.setEmail(dto.getEmail());
+					User userEntityToSave = null;
+					userEntityToSave = UserTransformer.INSTANCE.toEntity(userDto, userType, userProfil,Saved);
+					String password = Utilities.generateAlphabeticCode(8);
+					userEntityToSave.setCreatedAt(Utilities.getCurrentDate());
+					userEntityToSave.setCreatedBy(request.getUser());
+					userEntityToSave.setIsDeleted(false);
+					User userSaved = userRepository.save(userEntityToSave);
+					if (userSaved == null) {
+						response.setStatus(functionalError.SAVE_FAIL("User", locale));
+						response.setHasError(true);
+						return response;
+					}
+					if (Utilities.notBlank(userSaved.getEmail())) {
+						// set mail to user
+						Map<String, String> from = new HashMap<>();
+						from.put("email", paramsUtils.getSmtpLogin());
+						from.put("user", ENTETE);
+
+						List<Map<String, String>> toRecipients = new ArrayList<Map<String, String>>();
+						Map<String, String> recipient = new HashMap<String, String>();
+						recipient = new HashMap<String, String>();
+						recipient.put("email", userSaved.getEmail());
+						// recipient.put("user", user.getLogin());
+						toRecipients.add(recipient);
+						// choisir la vraie url
+						String appLink = paramsUtils.getUrlAdmin();
+						// subject
+						String subject = "Vonabri access";
+						context = new Context();
+						String template = "mail_new_mdp";
+						context.setVariable("email", userSaved.getEmail());
+						context.setVariable("entete", ENTETE);
+						context.setVariable("appLink", appLink);
+						context.setVariable("password", password);
+						context.setVariable("date", dateTimeFormat.format(new Date()));
+						log.info("********************* from " + from);
+						log.info("********************* Recipeints " + toRecipients);
+						log.info("********************* subject " + toRecipients);
+						log.info("********************* context " + context);
+						smtpUtils.sendEmail(from, toRecipients, subject, null, null, context, template, null);
+					}
+					
 				}
-				
+
 				items.add(Saved);
 			}
 			
@@ -574,23 +622,11 @@ public class TravailleurBusiness implements IBasicBusiness<Request<TravailleurDt
 //					return response;
 //				}
 
-				List<UserDto> datas = new ArrayList<UserDto>();
-				for (Travailleur travailleur : itemsSaved) {
-					for (UserDto data : itemsUserDto) {
-						if(data.getMatricule() != null && data.getMatricule().equals(travailleur.getMatricule())) {
-							data.setTravailleurId(travailleur.getId());	
-							datas.add(data);
-						}
-					}
-					UserRequest.setDatas(datas);
-					userBusiness.create(UserRequest,locale);	
-				}
 				List<TravailleurDto> itemsDto = (Utilities.isTrue(request.getIsSimpleLoading())) ? TravailleurTransformer.INSTANCE.toLiteDtos(itemsSaved) : TravailleurTransformer.INSTANCE.toDtos(itemsSaved);
 				final int size = itemsSaved.size();
 				List<String>  listOfError      = Collections.synchronizedList(new ArrayList<String>());
 				itemsDto.parallelStream().forEach(dto -> {
 					try {
-						dto.setNationnalites(itemsNationnaliteDto);
 						dto = getFullInfos(dto, size, request.getIsSimpleLoading(), locale);
 					} catch (Exception e) {
 						listOfError.add(e.getMessage());
@@ -656,6 +692,8 @@ public class TravailleurBusiness implements IBasicBusiness<Request<TravailleurDt
 			}
 
 			List<Travailleur> items = new ArrayList<Travailleur>();
+			List<Nationnalite> itemsNationnalite = new ArrayList<Nationnalite>();
+			List<NationnaliteDto> itemsNationnaliteDto = new ArrayList<NationnaliteDto>();
 			
 			for (TravailleurDto dto : request.getDatas()) {
 				// Definir les parametres obligatoires
@@ -957,7 +995,30 @@ public class TravailleurBusiness implements IBasicBusiness<Request<TravailleurDt
 						User userSave = userRepository.save(user);
 					}
 				}
+				
+				if (!dto.getNationnalites().isEmpty()) {
+					for (NationnaliteDto nationnalite : dto.getNationnalites()) {
+						Nationnalite existingNationnalite = null;
+						existingNationnalite = nationnaliteRepository.findOne(nationnalite.getId(), false);
+						if (existingNationnalite == null) {
+							response.setStatus(functionalError.DATA_NOT_EXIST("nationnaliteId  -> " + nationnalite.getId(), locale));
+							response.setHasError(true);
+							return response;
+						}
+						TravailleurNationnalite travailleurNationnalite = null;
+						travailleurNationnalite = TravailleurNationnaliteTransformer.INSTANCE.toEntity(new TravailleurNationnaliteDto(), existingNationnalite,entityToSave);
+						travailleurNationnalite.setUpdatedAt(Utilities.getCurrentDate());
+						travailleurNationnalite.setUpdatedBy(request.getUser());						
+						TravailleurNationnalite travailleurNationnaliteSaved = travailleurNationnaliteRepository.save(travailleurNationnalite);
+						if (travailleurNationnaliteSaved == null) {
+							response.setStatus(functionalError.SAVE_FAIL("travailleur Nationnalite", locale));
+							response.setHasError(true);
+							return response;
+						}
+						
+					}
 
+				}
 				entityToSave.setUpdatedAt(Utilities.getCurrentDate());
 				entityToSave.setUpdatedBy(request.getUser());
 				items.add(entityToSave);
@@ -1201,10 +1262,24 @@ public class TravailleurBusiness implements IBasicBusiness<Request<TravailleurDt
 	 */
 	private TravailleurDto getFullInfos(TravailleurDto dto, Integer size, Boolean isSimpleLoading, Locale locale) throws Exception {
 		// put code here
+		List<TravailleurNationnalite> tns = travailleurNationnaliteRepository.findByTravailleurId(dto.getId(), false);
+		if(!tns.isEmpty()) {
+			List<NationnaliteDto> itemsNationnaliteDto = new ArrayList<NationnaliteDto>();
+			for(TravailleurNationnalite tn : tns) {
+				Nationnalite nat = nationnaliteRepository.findOne(tn.getNationnalite().getId(),false);
+				NationnaliteDto natDto = NationnaliteTransformer.INSTANCE.toDto(nat);
+				itemsNationnaliteDto.add(natDto)	;		
+			}
+			dto.setNationnalites(itemsNationnaliteDto);
+		}
 		User user = userRepository.findByTravailleurId(dto.getId(), false);
 		if(user != null) {
 			UserDto userDto = UserTransformer.INSTANCE.toDto(user)	;
-			dto.setUserInfo(userDto);
+			dto.setProfilId(userDto.getProfilId());
+			dto.setProfilLibelle(userDto.getProfilLibelle());
+			dto.setUserTypeId(userDto.getUserTypeId());
+			dto.setUserTypeLibelle(userDto.getUserTypeLibelle());
+			dto.setIsSuperAdmin(userDto.getIsSuperAdmin());
 		}
 		if (Utilities.isTrue(isSimpleLoading)) {
 			return dto;

@@ -33,6 +33,7 @@ public class _TravailleurDto {
 	protected Boolean 		isSuperAdmin;
 	private List<NationnaliteDto> nationnalites;
 	private UserDto userInfo ;
-
+	private String profilLibelle;
+	private String userTypeLibelle;
 
 }
