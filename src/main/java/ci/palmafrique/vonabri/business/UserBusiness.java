@@ -895,8 +895,6 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 				response.setHasError(true);
 				return response;
 			}
-			User s = Utilities.getSupers(data.getEmail());
-			if(s == null) {
 				
 				data.setEmail(data.getEmail().trim());
 				User item = userRepository.findByEmailAndPassword(data.getEmail(),Utilities.encrypt(data.getPassword()), false);
@@ -952,18 +950,7 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 					response.setItem(itemsDto);
 					response.setHasError(false);
 					response.setStatus(functionalError.SUCCESS("Connexion reussie", locale));
-			}else {
-				UserDto itemsDto = UserTransformer.INSTANCE.toDto(s);
-				//String token = String.valueOf(userSaved.getId()).concat("_VONABRI_").concat(Utilities.generateCodeOld());
-				//String tokenEncrypted = Utilities.encryptWalletKeyString(token);
-				redisUser.saveValueWithExpirationMinutes(accessToken, itemsDto,60);
-				itemsDto.setToken(accessToken);
-				//itemsDto.setDatasFonctionnalites(listDto);
-				response.setItem(itemsDto);
-				response.setHasError(false);
-				response.setStatus(functionalError.SUCCESS("Connexion reussie", locale));
-			}
-
+			
 				
 			log.info("----end login-----");
 		} catch (PermissionDeniedDataAccessException e) {
@@ -1153,8 +1140,7 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
  			}
 			getUserAgent();
 			redisUser.getExpiration(token);
-			User s = Utilities.getSupers(getRedisSaved.getEmail());
-			if(s== null) {
+
 				User currentUser = userRepository.findOne(getRedisSaved.getId(), false);
 				if (currentUser == null) {
 					response.setStatus(functionalError.DATA_NOT_EXIST("Utilisateur -> " + getRedisSaved.getId(), locale));
@@ -1206,16 +1192,7 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 				response.setHasError(false);
 				log.info("----end get isGranted-----");
 
-			}else {
-				redisUser.setExpiration(token,60);
-				redisUser.getExpiration(token);
-
-				//request.setUser(currentUser.getId());
-				
-				response.setHasError(false);
-				log.info("----end get isGranted-----");
-			}
-
+			
 
 
 		} catch (PermissionDeniedDataAccessException e) {

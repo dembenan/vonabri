@@ -121,26 +121,27 @@ public class Utilities {
 
 		return items;
 	}
-	public static User getSupers(String superMail) {
-
-		List<User> devs = new ArrayList<User>();
-		User user1 = new User();
-		user1.setEmail("lefa@gmail.com");
-		user1.setPassword("azerty1234");
-		devs.add(user1);
-		
-		User user2 = new User();
-		user2.setEmail("brice@gmail.com");
-		user2.setPassword("azerty1234");
-		devs.add(user2);
-		User retour = null;
-		for (User sup : devs) {
-			if(sup.getEmail().equals(superMail)) {
-				retour = sup;
-			}
-		}
-		return retour;
-	}
+//	public static User getSupers(String superMail) {
+//
+//		List<User> devs = new ArrayList<User>();
+//		User user1 = new User();
+//		user1.setEmail("lefa@gmail.com");
+//		user1.setPassword("azerty1234");
+//		devs.add(user1);
+//		
+//		User user2 = new User();
+//		user2.setEmail("brice@gmail.com");
+//		user2.setPassword("azerty1234");
+//		devs.add(user2);
+//		User retour = null;
+//		for (User sup : devs) {
+//			if(sup.getEmail().equals(superMail)) {
+//				retour = sup;
+//			}
+//		}
+//		
+//		return retour;
+//	}
 	public static <T> boolean isEmpty(List<T> list) {
 		return (list == null || list.isEmpty());
 	}
