@@ -429,7 +429,9 @@ public class TravailleurBusiness implements IBasicBusiness<Request<TravailleurDt
 							response.setHasError(true);
 							return response;
 						}
-					}
+					}else {
+						dto.setDateFinContrat(null);		
+				    }
 				}
 				// Verify if ethnie exist
 				Ethnie existingEthnieMere = null;
@@ -791,6 +793,17 @@ public class TravailleurBusiness implements IBasicBusiness<Request<TravailleurDt
 						response.setHasError(true);
 						return response;
 					}
+					if (!existingStatut.getCode().equals("CDI")) {
+						Map<String, java.lang.Object> fieldsToVerifyStatus = new HashMap<String, java.lang.Object>();
+						fieldsToVerifyStatus.put("dateFinContrat", dto.getDateFinContrat());
+						if (!Validate.RequiredValue(fieldsToVerifyStatus).isGood()) {
+							response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
+							response.setHasError(true);
+							return response;
+						}
+					}else {
+						dto.setDateFinContrat(null);		
+				    }
 					entityToSave.setStatut(existingStatut);
 				}
 				// Verify if ethnie exist
