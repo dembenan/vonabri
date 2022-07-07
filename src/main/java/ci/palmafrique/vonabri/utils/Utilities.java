@@ -38,7 +38,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -58,10 +57,24 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.LocaleUtils;
 import org.apache.commons.lang.RandomStringUtils;
-import org.apache.poi.ss.formula.functions.T;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.json.JSONObject;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import ci.palmafrique.vonabri.dao.entity.User;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.TrustStrategy;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * Utilities
@@ -747,5 +760,20 @@ public class Utilities {
 		Pattern emailPattern = Pattern.compile(".+@.+\\.[a-z]+");
 		Matcher emailMatcher = emailPattern.matcher(email);
 		return emailMatcher.matches();
+	}
+	public static boolean isCellEmpty(final Cell cell) {
+	    if (cell == null) { // use row.getCell(x, Row.CREATE_NULL_AS_BLANK) to avoid null cells
+	        return true;
+	    }
+
+	    if (cell.getCellType() == CellType.BLANK) {
+	        return true;
+	    }
+
+	    if (cell.getCellType() == CellType.STRING && cell.getStringCellValue().trim().isEmpty()) {
+	        return true;
+	    }
+
+	    return false;
 	}
 }

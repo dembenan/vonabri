@@ -132,7 +132,7 @@ public class FonctionnaliteBusiness implements IBasicBusiness<Request<Fonctionna
 				// Definir les parametres obligatoires
 				Map<String, java.lang.Object> fieldsToVerify = new HashMap<String, java.lang.Object>();
 				fieldsToVerify.put("code", dto.getCode());
-				fieldsToVerify.put("name", dto.getName());
+				fieldsToVerify.put("libelle", dto.getLibelle());
 				//fieldsToVerify.put("parentCode", dto.getParentCode());
 				if (!Validate.RequiredValue(fieldsToVerify).isGood()) {
 					response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
@@ -177,25 +177,16 @@ public class FonctionnaliteBusiness implements IBasicBusiness<Request<Fonctionna
 				}
 
 				// Verify if fonctionnalite exist
-//				Fonctionnalite existingFonctionnalite = null;
-//				if (dto.getParentId() != null && dto.getParentId() > 0){
-//					existingFonctionnalite = fonctionnaliteRepository.findOne(dto.getParentId(), false);
-//					if (existingFonctionnalite == null) {
-//						response.setStatus(functionalError.DATA_NOT_EXIST("fonctionnalite parentId -> " + dto.getParentId(), locale));
-//						response.setHasError(true);
-//						return response;
-//					}
-//				}
-				// verif unique libelle in db
 				Fonctionnalite existingParent = null;
-				if (Utilities.notBlank(dto.getParentCode())) {
-					existingParent = fonctionnaliteRepository.findByLibelle(dto.getParentCode(), false);
-					if (existingParent != null) {
-						response.setStatus(functionalError.DATA_EXIST("fonctionnalite parent code -> " +dto.getParentCode(), locale));
+				if (dto.getParentId() != null && dto.getParentId() > 0){
+					existingParent = fonctionnaliteRepository.findOne(dto.getParentId(), false);
+					if (existingParent == null) {
+						response.setStatus(functionalError.DATA_NOT_EXIST("fonctionnalite parentId -> " + dto.getParentId(), locale));
 						response.setHasError(true);
 						return response;
 					}
 				}
+
 				// Verify if fonctionnaliteType exist
 //				FonctionnaliteType existingFonctionnaliteType = null;
 //				if (dto.getFonctionnaliteTypeId() != null && dto.getFonctionnaliteTypeId() > 0){
@@ -206,7 +197,6 @@ public class FonctionnaliteBusiness implements IBasicBusiness<Request<Fonctionna
 //						return response;
 //					}
 //				}
-				dto.setLibelle(dto.getName());
 				Fonctionnalite entityToSave = null;
 				entityToSave = FonctionnaliteTransformer.INSTANCE.toEntity(dto, existingParent);
 				entityToSave.setCreatedAt(Utilities.getCurrentDate());
