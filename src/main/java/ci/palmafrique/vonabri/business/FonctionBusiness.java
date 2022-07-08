@@ -15,6 +15,13 @@ package ci.palmafrique.vonabri.business;
 
 import lombok.extern.java.Log;
 import org.apache.commons.lang3.StringUtils;
+import org.json.JSONObject;
+import org.json.simple.parser.JSONParser;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -23,6 +30,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Collections;
 
 import javax.persistence.PersistenceContext;
@@ -459,6 +467,7 @@ public class FonctionBusiness implements IBasicBusiness<Request<FonctionDto>, Re
 	public Response<FonctionDto> getByCriteria(Request<FonctionDto> request, Locale locale) {
 		log.info("----begin get Fonction-----");
 		
+
 		response = new Response<FonctionDto>();
 		
 		try {

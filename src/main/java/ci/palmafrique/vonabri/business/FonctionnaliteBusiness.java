@@ -132,6 +132,9 @@ public class FonctionnaliteBusiness implements IBasicBusiness<Request<Fonctionna
 				// Definir les parametres obligatoires
 				Map<String, java.lang.Object> fieldsToVerify = new HashMap<String, java.lang.Object>();
 				fieldsToVerify.put("code", dto.getCode());
+				if(Utilities.notBlank(dto.getName())) {
+					dto.setLibelle(dto.getName());
+				}
 				fieldsToVerify.put("libelle", dto.getLibelle());
 				//fieldsToVerify.put("parentCode", dto.getParentCode());
 				if (!Validate.RequiredValue(fieldsToVerify).isGood()) {
@@ -147,6 +150,7 @@ public class FonctionnaliteBusiness implements IBasicBusiness<Request<Fonctionna
 					response.setHasError(true);
 					return response;
 				}
+
 
 				// verif unique code in db
 				existingEntity = fonctionnaliteRepository.findByCode(dto.getCode(), false);
@@ -186,7 +190,14 @@ public class FonctionnaliteBusiness implements IBasicBusiness<Request<Fonctionna
 						return response;
 					}
 				}
-
+				if (Utilities.notBlank(dto.getParentCode())){
+					existingParent = fonctionnaliteRepository.findByCode(dto.getParentCode(), false);
+					if (existingParent == null) {
+						response.setStatus(functionalError.DATA_NOT_EXIST("fonctionnalite parentCode -> " + dto.getParentId(), locale));
+						response.setHasError(true);
+						return response;
+					}
+				}
 				// Verify if fonctionnaliteType exist
 //				FonctionnaliteType existingFonctionnaliteType = null;
 //				if (dto.getFonctionnaliteTypeId() != null && dto.getFonctionnaliteTypeId() > 0){
@@ -202,11 +213,12 @@ public class FonctionnaliteBusiness implements IBasicBusiness<Request<Fonctionna
 				entityToSave.setCreatedAt(Utilities.getCurrentDate());
 				entityToSave.setCreatedBy(request.getUser());
 				entityToSave.setIsDeleted(false);
-				items.add(entityToSave);
+				Fonctionnalite itemsSaved = fonctionnaliteRepository.save(entityToSave);
+				items.add(itemsSaved);
 			}
 
 			if (!items.isEmpty()) {
-				List<Fonctionnalite> itemsSaved = null;
+				List<Fonctionnalite> itemsSaved = items;
 				// inserer les donnees en base de donnees
 				itemsSaved = fonctionnaliteRepository.saveAll((Iterable<Fonctionnalite>) items);
 				if (itemsSaved == null) {
