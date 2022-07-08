@@ -8,8 +8,13 @@
 
 package ci.palmafrique.vonabri.utils.dto.customize;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
+import ci.palmafrique.vonabri.utils.dto.FonctionnaliteDto;
+import lombok.Data;
 
 /**
  * DTO customize for table "profil_fonctionnalite"
@@ -17,7 +22,9 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
  * @author Geo
  *
  */
+@Data
 @JsonInclude(Include.NON_NULL)
 public class _ProfilDto {
 
+	private List<FonctionnaliteDto> datasFonctionnalite;
 }

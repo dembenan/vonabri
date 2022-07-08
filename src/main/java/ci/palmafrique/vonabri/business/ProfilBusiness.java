@@ -65,7 +65,8 @@ public class ProfilBusiness implements IBasicBusiness<Request<ProfilDto>, Respon
 	private UserRepository userRepository;
 	@Autowired
 	private ProfilFonctionnaliteRepository profilFonctionnaliteRepository;
-
+	@Autowired
+	private FonctionnaliteRepository fonctionnaliteRepository;
     @Autowired
     private UserBusiness userBusiness;
 
@@ -123,8 +124,9 @@ public class ProfilBusiness implements IBasicBusiness<Request<ProfilDto>, Respon
 			for (ProfilDto dto : request.getDatas()) {
 				// Definir les parametres obligatoires
 				Map<String, java.lang.Object> fieldsToVerify = new HashMap<String, java.lang.Object>();
-				fieldsToVerify.put("code", dto.getCode());
+				//fieldsToVerify.put("code", dto.getCode());
 				fieldsToVerify.put("libelle", dto.getLibelle());
+				fieldsToVerify.put("datasFonctionnalite", dto.getDatasFonctionnalite());
 				if (!Validate.RequiredValue(fieldsToVerify).isGood()) {
 					response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
 					response.setHasError(true);
@@ -138,7 +140,7 @@ public class ProfilBusiness implements IBasicBusiness<Request<ProfilDto>, Respon
 					response.setHasError(true);
 					return response;
 				}
-
+				dto.setCode(dto.getLibelle());
 				// verif unique code in db
 				existingEntity = profilRepository.findByCode(dto.getCode(), false);
 				if (existingEntity != null) {
@@ -172,18 +174,40 @@ public class ProfilBusiness implements IBasicBusiness<Request<ProfilDto>, Respon
 				entityToSave.setCreatedAt(Utilities.getCurrentDate());
 				entityToSave.setCreatedBy(request.getUser());
 				entityToSave.setIsDeleted(false);
-				items.add(entityToSave);
-			}
-
-			if (!items.isEmpty()) {
-				List<Profil> itemsSaved = null;
-				// inserer les donnees en base de donnees
-				itemsSaved = profilRepository.saveAll((Iterable<Profil>) items);
-				if (itemsSaved == null) {
+				Profil profilSaved = profilRepository.save(entityToSave);
+				if (profilSaved == null) {
 					response.setStatus(functionalError.SAVE_FAIL("profil", locale));
 					response.setHasError(true);
 					return response;
 				}
+				items.add(profilSaved);
+				if(!dto.getDatasFonctionnalite().isEmpty()) {
+					dto.getDatasFonctionnalite().forEach(fonc -> {
+						Fonctionnalite foncEntity = fonctionnaliteRepository.findOne(fonc.getId(), false);
+						if (profilSaved != null) {
+							ProfilFonctionnalite profilFonctionnalite = new ProfilFonctionnalite();
+							profilFonctionnalite.setCode(profilSaved.getCode()+"_"+foncEntity.getCode());
+							profilFonctionnalite.setLibelle(profilSaved.getLibelle()+"_"+foncEntity.getLibelle());
+							profilFonctionnalite.setFonctionnalite(foncEntity);
+							profilFonctionnalite.setProfil(profilSaved);
+							profilFonctionnalite.setCreatedAt(Utilities.getCurrentDate());
+							profilFonctionnalite.setCreatedBy(request.getUser());
+							profilFonctionnalite.setIsDeleted(false);
+							ProfilFonctionnalite profilFonctionnaliteSaved = profilFonctionnaliteRepository.save(profilFonctionnalite);
+						}
+					});
+				}
+			}
+
+			if (!items.isEmpty()) {
+				List<Profil> itemsSaved = items;
+				// inserer les donnees en base de donnees
+//				itemsSaved = profilRepository.saveAll((Iterable<Profil>) items);
+//				if (itemsSaved == null) {
+//					response.setStatus(functionalError.SAVE_FAIL("profil", locale));
+//					response.setHasError(true);
+//					return response;
+//				}
 				List<ProfilDto> itemsDto = (Utilities.isTrue(request.getIsSimpleLoading())) ? ProfilTransformer.INSTANCE.toLiteDtos(itemsSaved) : ProfilTransformer.INSTANCE.toDtos(itemsSaved);
 				
 				final int size = itemsSaved.size();
@@ -296,18 +320,38 @@ public class ProfilBusiness implements IBasicBusiness<Request<ProfilDto>, Respon
 				}
 				entityToSave.setUpdatedAt(Utilities.getCurrentDate());
 				entityToSave.setUpdatedBy(request.getUser());
-				items.add(entityToSave);
-			}
-
-			if (!items.isEmpty()) {
-				List<Profil> itemsSaved = null;
-				// maj les donnees en base
-				itemsSaved = profilRepository.saveAll((Iterable<Profil>) items);
-				if (itemsSaved == null) {
+				Profil profilSaved = profilRepository.save(entityToSave);
+				if (profilSaved == null) {
 					response.setStatus(functionalError.SAVE_FAIL("profil", locale));
 					response.setHasError(true);
 					return response;
 				}
+				items.add(profilSaved);
+				if(!dto.getDatasFonctionnalite().isEmpty()) {
+					dto.getDatasFonctionnalite().forEach(fonc -> {
+						Fonctionnalite foncEntity = fonctionnaliteRepository.findOne(fonc.getId(), false);
+							ProfilFonctionnalite profilFonctionnalite = new ProfilFonctionnalite();
+							profilFonctionnalite.setCode(profilSaved.getCode()+"_"+foncEntity.getCode());
+							profilFonctionnalite.setLibelle(profilSaved.getLibelle()+"_"+foncEntity.getLibelle());
+							profilFonctionnalite.setFonctionnalite(foncEntity);
+							profilFonctionnalite.setProfil(profilSaved);
+							profilFonctionnalite.setCreatedAt(Utilities.getCurrentDate());
+							profilFonctionnalite.setCreatedBy(request.getUser());
+							profilFonctionnalite.setIsDeleted(false);
+							ProfilFonctionnalite profilFonctionnaliteSaved = profilFonctionnaliteRepository.save(profilFonctionnalite);
+					});
+				}
+			}
+
+			if (!items.isEmpty()) {
+				List<Profil> itemsSaved = items;
+				// maj les donnees en base
+//				itemsSaved = profilRepository.saveAll((Iterable<Profil>) items);
+//				if (itemsSaved == null) {
+//					response.setStatus(functionalError.SAVE_FAIL("profil", locale));
+//					response.setHasError(true);
+//					return response;
+//				}
 				List<ProfilDto> itemsDto = (Utilities.isTrue(request.getIsSimpleLoading())) ? ProfilTransformer.INSTANCE.toLiteDtos(itemsSaved) : ProfilTransformer.INSTANCE.toDtos(itemsSaved);
 
 				final int size = itemsSaved.size();
@@ -543,7 +587,15 @@ public class ProfilBusiness implements IBasicBusiness<Request<ProfilDto>, Respon
 	 */
 	private ProfilDto getFullInfos(ProfilDto dto, Integer size, Boolean isSimpleLoading, Locale locale) throws Exception {
 		// put code here
-
+		List<ProfilFonctionnalite> profilFonctionnalites = profilFonctionnaliteRepository.findByProfilId(dto.getId(), false);
+		List<Fonctionnalite> datasFonctionnalite = new ArrayList<Fonctionnalite>();
+		if (!profilFonctionnalites.isEmpty()) {
+			profilFonctionnalites.forEach(proFunc -> {
+				datasFonctionnalite.add(proFunc.getFonctionnalite());
+			});
+			List<FonctionnaliteDto> datasFonctionnaliteDto = FonctionnaliteTransformer.INSTANCE.toDtos(datasFonctionnalite);
+			dto.setDatasFonctionnalite(datasFonctionnaliteDto);
+		}
 		if (Utilities.isTrue(isSimpleLoading)) {
 			return dto;
 		}
