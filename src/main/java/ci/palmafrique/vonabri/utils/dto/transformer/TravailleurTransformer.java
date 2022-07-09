@@ -138,6 +138,7 @@ public interface TravailleurTransformer {
 		@Mapping(source="dto.nom", target="nom"),
 		@Mapping(source="dto.prenom", target="prenom"),
 		@Mapping(source="dto.email", target="email"),
+		@Mapping(source="dto.photo", target="photo"),
 		@Mapping(source="dto.contact1", target="contact1"),
 		@Mapping(source="dto.contact2", target="contact2"),
 		@Mapping(source="dto.domicile", target="domicile"),

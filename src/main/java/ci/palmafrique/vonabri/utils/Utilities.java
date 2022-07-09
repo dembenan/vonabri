@@ -60,21 +60,8 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.json.JSONObject;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.conn.ssl.TrustStrategy;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.web.client.RestClientException;
-import org.springframework.web.client.RestTemplate;
+import ci.palmafrique.vonabri.utils.dto.customize._FileDto;
 
 /**
  * Utilities
@@ -775,5 +762,132 @@ public class Utilities {
 	    }
 
 	    return false;
+	}
+	
+	public static boolean fileIsTexteDocument(String textDocument) {
+
+		String TEXT_DOCUMENT_PATTERN = "([^\\s]+(\\.(?i)(doc|docx|txt|odt|ods|pdf|xls|xlsx))$)";
+		Pattern pattern = Pattern.compile(TEXT_DOCUMENT_PATTERN);
+		Matcher matcher = pattern.matcher(textDocument);
+		return matcher.matches();
+	}
+	public static String getSuitableFileDirectory(String fileExtension, ParamsUtils paramsUtils) {
+		String suitableFileDirectory = null;
+		if (fileIsImage("file." + fileExtension)) {
+			suitableFileDirectory = paramsUtils.getImageDirectory();
+		} else {
+			if (fileIsTexteDocument("file." + fileExtension)) {
+				suitableFileDirectory = paramsUtils.getTextfileDirectory();
+			} else {
+				if (fileIsVideo("file." + fileExtension)) {
+					suitableFileDirectory = paramsUtils.getVideoDirectory();
+				}
+			}
+		}
+		if (suitableFileDirectory == null) {
+			suitableFileDirectory = paramsUtils.getOtherfileDirectory();
+		}
+		return String.format("%s%s", paramsUtils.getRootFilesPath(), suitableFileDirectory);
+	}
+	
+	public static boolean saveFile(String base64String, String nomCompletFichier) throws Exception {
+		System.out.println("DANS SAVEFILE");
+	try {
+
+		byte[] decodedBytes = Base64.getDecoder().decode(base64String);
+		File file2 = new File(nomCompletFichier);
+		FileOutputStream os = new FileOutputStream(file2, true);
+		os.write(decodedBytes);
+		os.close();
+
+	} catch (Exception e) {
+		// TODO: handle exception
+		return false;
+	}
+
+	return true;
+
+}
+	
+	public static String getSuitableFileUrl(String fileName, ParamsUtils paramsUtils) {
+		String suitableFileDirectory = null;
+		if(fileName.contains(".")) {
+		String file[] = fileName.split("\\.");
+		int i = 0, j = 1;
+		if (file.length > 0) {
+			String fileExtension = (file.length > 2) ? file[(file.length - 1)] : file[j];
+			if (fileIsImage("file." + fileExtension)) {
+				suitableFileDirectory = paramsUtils.getImageDirectory();
+			} else {
+				if (fileIsTexteDocument("file." + fileExtension)) {
+					suitableFileDirectory = paramsUtils.getTextfileDirectory();
+				} else {
+					if (fileIsVideo("file." + fileExtension)) {
+						suitableFileDirectory = paramsUtils.getVideoDirectory();
+					}
+				}
+			}
+		}
+	}
+		if (suitableFileDirectory == null) {
+			suitableFileDirectory = paramsUtils.getOtherfileDirectory();
+		}
+		return String.format("%s%s%s", paramsUtils.getUrlRoot(), suitableFileDirectory, fileName);
+	}
+	
+	
+	public static String saveFile(_FileDto dataFile, ParamsUtils paramsUtils) throws IOException, Exception {
+		String filePath = null;
+		SimpleDateFormat sdf = new SimpleDateFormat("dd_MM_yyyy_HH_mm_ss_SSSSS");
+		String fileName = null;
+		if (dataFile != null) {
+			String fileDirectory = null;
+			if (notBlank(dataFile.getFileName()) && notBlank(dataFile.getFileBase64())
+					&& notBlank(dataFile.getExtension())) {
+				fileName = dataFile.getFileName();
+				if (fileName.contains("/")) {
+					String[] fileNames = dataFile.getFileName().split("/");
+					fileName = fileNames[fileNames.length - 1];
+				}
+				fileName = normalizeFileName(fileName) + "_" + sdf.format(new Date()) + "." + dataFile.getExtension();
+
+				// S'assurer que l'extension est bonne
+				if (!fileIsImage(fileName) && !fileIsTexteDocument(fileName) && !fileIsVideo(fileName)) {
+					System.out.println(
+							"\n\nL'extension '" + dataFile.getExtension() + "' n'est pas prise en compte !\n\n");
+					return null;
+				}
+
+				// Repertoire où je depose mon fichier
+				// String filesDirectory = paramsUtils.getImageDirectory();
+				String filesDirectory = getSuitableFileDirectory(dataFile.getExtension(), paramsUtils);
+				String filesD = filesDirectory;
+				System.out.println("filesDirectoryIEW V " + filesDirectory);
+				createDirectory(filesDirectory);
+				if (!filesDirectory.endsWith("/")) {
+					filesDirectory += "/";
+				}
+				fileDirectory = filesDirectory + fileName;
+
+				// Enregistrement du fichier
+				boolean succes = false;
+				succes = Utilities.saveFile(dataFile.getFileBase64(), fileDirectory);
+				if (!succes) {
+					System.out.println("\n\nEchec de l'enregistrement du fichier '" + fileDirectory + "' !\n\n");
+					return null;
+				}
+				filePath = fileDirectory;
+
+				//Reduction
+//				boolean reduction = Utilities.saveScaledImage(fileDirectory,filesD,fileName);
+//				if (!reduction) {
+//					System.out.println("\n\nEchec de la reduction du fichier '" + fileDirectory + "' !\n\n");
+//				}else {
+//					System.out.println("\n\nRéduction du fichier réussie '" + fileDirectory + "' !\n\n");
+//				}
+			}
+		}
+
+		return fileName;
 	}
 }

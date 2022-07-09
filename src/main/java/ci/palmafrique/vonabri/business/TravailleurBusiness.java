@@ -29,6 +29,7 @@ import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
@@ -102,12 +103,12 @@ import ci.palmafrique.vonabri.utils.dto.NationnaliteDto;
 import ci.palmafrique.vonabri.utils.dto.TravailleurDto;
 import ci.palmafrique.vonabri.utils.dto.TravailleurNationnaliteDto;
 import ci.palmafrique.vonabri.utils.dto.UserDto;
+import ci.palmafrique.vonabri.utils.dto.customize._FileDto;
 import ci.palmafrique.vonabri.utils.dto.transformer.NationnaliteTransformer;
 import ci.palmafrique.vonabri.utils.dto.transformer.TravailleurNationnaliteTransformer;
 import ci.palmafrique.vonabri.utils.dto.transformer.TravailleurTransformer;
 import ci.palmafrique.vonabri.utils.dto.transformer.UserTransformer;
 import ci.palmafrique.vonabri.utils.enums.FunctionalityEnum;
-
 import lombok.extern.java.Log;
 
 /**
@@ -525,6 +526,28 @@ public class TravailleurBusiness implements IBasicBusiness<Request<TravailleurDt
 					}
 				}
 
+	            if (dto.getDataPhoto() != null) {
+	            	String imageName = dto.getMatricule() +"_"+ dto.getPrenom();
+	            	String extention = "png";
+		            dto.getDataPhoto().setExtension(extention);
+		            dto.getDataPhoto().setFileName(imageName);
+	                if (dto.getDataPhoto().getFileBase64() != null && dto.getDataPhoto().getExtension() != null
+	                        && dto.getDataPhoto().getFileName() != null) {
+	                    if (Utilities.notBlank(dto.getDataPhoto().toString())) {
+	                    	String fileName_ = Utilities.saveFile(dto.getDataPhoto(), paramsUtils);
+	                        if (fileName_ == null) {
+								response.setStatus(
+										functionalError.SAVE_FAIL("L'enregistrement de la photo a échoué", locale));
+								response.setHasError(true);
+								return response;
+	                        }
+	                        // dto.setPhoto(Utilities.getSuitableFileUrl(fileName_, paramsUtils));
+	                       String photo = Utilities.getSuitableFileUrl(fileName_, paramsUtils);
+	                        System.out.println("PHOTO  " + photo);
+	                        dto.setPhoto(fileName_);
+	                    }
+	                }
+	            }
 				Travailleur entityToSave = null;
 				entityToSave = TravailleurTransformer.INSTANCE.toEntity(dto, existingSousPosteDeTravail, existingEmployeur, existingSite, existingAncienneteSociete, existingRegime, existingAnciennetePoste, existingEthniePere, existingStatut, existingEthnieMere, existingGestionDeBien, existingPosteDeTravail, existingFonction, existingDirection, existingTypeMariage, existingStatutMatrimonial, existingSousSite,existingPays,existingCivilite);
 				entityToSave.setCreatedAt(Utilities.getCurrentDate());
@@ -678,326 +701,342 @@ public class TravailleurBusiness implements IBasicBusiness<Request<TravailleurDt
 	}
 	
 //	// Creation de Travailleur en masse 
-//	public Response<TravailleurDto> creationEnMasse(Request<TravailleurDto> request,String file_name_full) throws IOException {
-//		log.info("----begin creationEnMasse Travailleur-----");
-//		Response<TravailleurDto> response = new Response<TravailleurDto>();
-//		//		List<Rechargement> itemsToSaveRecgharge = new ArrayList<Rechargement>();
-//		List<Travailleur> itemsToSaveTravailleur = new ArrayList<Travailleur>();
-//		List<TravailleurDto> datas = new ArrayList<TravailleurDto>();
-//
-//		Locale locale = new Locale("fr");
-//		try {
-//			
-//			FileInputStream fileInputStream = new FileInputStream(new File(file_name_full));
-//			System.out.println("--pathFile--" + file_name_full);
-//			Iterator<Row> iterator = null;
-//			XSSFWorkbook workbook = new XSSFWorkbook(fileInputStream);
-//			XSSFSheet sheet = workbook.getSheetAt(0);
-//			iterator = (Iterator<Row>) sheet.iterator();				
-//			while (iterator.hasNext()) {
-//				TravailleurDto travailleurDto = new TravailleurDto();
-//				Cell cell = null;
-//				final Row currentRow = iterator.next();
-//				if (currentRow.getRowNum() >= 1) {
-//					String matricule = null;
-//					cell = getCell(currentRow, 0);
-//					if (Utilities.isCellEmpty(cell)) {
-//						matricule = "G-" + Utilities.generateAlphanumericCode(4);
-//						// verif unique code in db
-//						Travailleur existingEntity = travailleurRepository.findByMatricule(matricule, false);
-//						while (existingEntity != null) {
-//							matricule = "G-" + Utilities.generateAlphanumericCode(4);
-//						}
-//					}
-//
-//					switch (cell.getCellType()) {
-//					case STRING:
-//						System.out.println(cell.getStringCellValue());
-//						matricule = cell.getStringCellValue();
-//						System.out.println("matricule ===>"+matricule);
-//						travailleurDto.setMatricule(matricule);
-//						//travailleur.setLibelle(matricule);
-//						break;
-//
-//					case NUMERIC:
-//						String cellValueInString = new BigDecimal(cell.getNumericCellValue()).toPlainString();
-//						System.out.println(cellValueInString);
-//						matricule = cellValueInString;
-//						System.out.println("matricule ===>"+matricule);
-//						travailleurDto.setMatricule(matricule);
-//						//travailleur.setLibelle(matricule);;
-//						break;
-//					default:
-//						
-//						break;
-//
-//					}
-//
-//					String nom = null;
-//					cell = getCell(currentRow, 1);
-//					if (Utilities.isCellEmpty(cell)) {
-//						response.setStatus(functionalError.DISALLOWED_OPERATION("Cellule non renseignée à la ligne  "+currentRow.getRowNum() , locale));
-//						response.setHasError(true);
-//						return response;
-//					}
-//					switch (cell.getCellType()) {
-//					case STRING:
-//						System.out.println(cell.getStringCellValue());
-//						nom = cell.getStringCellValue();
-//						travailleurDto.setNom(nom);	
-//						break;
-//
-//					case NUMERIC:
-//						String cellValueInString = new BigDecimal(cell.getNumericCellValue()).toPlainString();
-//						System.out.println(cellValueInString);
-//						nom = cellValueInString;
-//						travailleurDto.setNom(nom);	
-//						break;
-//					default:
-//						break;
-//
-//					}
-//
-//					String prenom = null;
-//					cell = getCell(currentRow, 2);
-//					if (Utilities.isCellEmpty(cell)) {
-//						response.setStatus(functionalError.DISALLOWED_OPERATION("Cellule non renseignée à la ligne  "+currentRow.getRowNum() , locale));
-//						response.setHasError(true);
-//						return response;
-//					}
-//					switch (cell.getCellType()) {
-//					case STRING:
-//						System.out.println(cell.getStringCellValue());
-//						prenom = cell.getStringCellValue();
-//						travailleurDto.setPrenom(prenom);
-//						break;
-//
-//					case NUMERIC:
-//						String cellValueInString = new BigDecimal(cell.getNumericCellValue()).toPlainString();
-//						System.out.println(cellValueInString);
-//						prenom = cellValueInString ;
-//						travailleurDto.setPrenom(prenom);
-//					default:
-//						break;	
-//					}
-//
-//					String email = null;
-//					cell = getCell(currentRow, 3);
-//					if (Utilities.isCellEmpty(cell)) {
-//						response.setStatus(functionalError.DISALLOWED_OPERATION("Cellule non renseignée à la ligne  "+currentRow.getRowNum() , locale));
-//						response.setHasError(true);
-//						return response;
-//					}
-//					switch (cell.getCellType()) {
-//					case STRING:
-//						System.out.println(cell.getStringCellValue());
-//						email = cell.getStringCellValue();
-//						travailleurDto.setEmail(email);
-//						break;
-//
-//					case NUMERIC:
-//						String cellValueInString = new BigDecimal(cell.getNumericCellValue()).toPlainString();
-//						System.out.println(cellValueInString);
-//						email = cellValueInString ;
-//						travailleurDto.setEmail(email);
-//						break;
-//					default:
-//						break;	
-//					}
-//
-//
-//					String contact1 = null;
-//					cell = getCell(currentRow, 4);
-//					if (Utilities.isCellEmpty(cell)) {
-//						response.setStatus(functionalError.DISALLOWED_OPERATION("Cellule non renseignée à la ligne  "+currentRow.getRowNum() , locale));
-//						response.setHasError(true);
-//						return response;
-//					}
-//					switch (cell.getCellType()) {
-//					case STRING:
-//						System.out.println(cell.getStringCellValue());
-//						contact1 = cell.getStringCellValue();
-//						travailleurDto.setContact1(contact1);
-//						
-//						break;
-//
-//					case NUMERIC:
-//						String cellValueInString = new BigDecimal(cell.getNumericCellValue()).toPlainString();
-//						System.out.println(cellValueInString);
-//						contact1 = cellValueInString;
-//						travailleurDto.setContact1(contact1);
-//						break;
-//					default:
-//						break;
-//
-//					}
-//
-//					String contact2 = null;
-//					cell = getCell(currentRow, 5);
-//					if (Utilities.isCellEmpty(cell)) {
-//						response.setStatus(functionalError.DISALLOWED_OPERATION("Cellule non renseignée à la ligne  "+currentRow.getRowNum() , locale));
-//						response.setHasError(true);
-//						return response;
-//					}
-//					switch (cell.getCellType()) {
-//					case STRING:
-//						System.out.println(cell.getStringCellValue());
-//						contact2 = cell.getStringCellValue();
-//						travailleurDto.setContact2(contact2);
-//						break;
-//
-//					case NUMERIC:
-//						String cellValueInString = new BigDecimal(cell.getNumericCellValue()).toPlainString();
-//						System.out.println(cellValueInString);
-//						contact2 = cellValueInString;
-//						travailleurDto.setContact2(contact2);
-//						break;
-//					default:
-//						break;
-//
-//					}
-//					String domicile = null;
-//					cell = getCell(currentRow, 6);
-//					if (Utilities.isCellEmpty(cell)) {
-//						response.setStatus(functionalError.DISALLOWED_OPERATION("Cellule non renseignée à la ligne  "+currentRow.getRowNum() , locale));
-//						response.setHasError(true);
-//						return response;
-//					}
-//					switch (cell.getCellType()) {
-//					case STRING:
-//						System.out.println(cell.getStringCellValue());
-//						domicile = cell.getStringCellValue();
-//						travailleurDto.setDomicile(domicile);
-//						break;
-//
-//					case NUMERIC:
-//						String cellValueInString = new BigDecimal(cell.getNumericCellValue()).toPlainString();
-//						System.out.println(cellValueInString);
-//						domicile = cellValueInString;
-//						travailleurDto.setDomicile(domicile);
-//						break;
-//					default:
-//						break;
-//
-//					}
-//					String dateDeNaissance = null;
-//					cell = getCell(currentRow, 7);
-//					if (Utilities.isCellEmpty(cell)) {
-//						response.setStatus(functionalError.DISALLOWED_OPERATION("Cellule non renseignée à la ligne  "+currentRow.getRowNum() , locale));
-//						response.setHasError(true);
-//						return response;
-//					}
-//					switch (cell.getCellType()) {
-//					case STRING:
-//						System.out.println(cell.getStringCellValue());
-//						dateDeNaissance = cell.getStringCellValue();
-//						travailleurDto.setDateDeNaissance(dateDeNaissance);
-//						break;
-//
-//					case NUMERIC:
-//						String cellValueInString = new BigDecimal(cell.getNumericCellValue()).toPlainString();
-//						System.out.println(cellValueInString);
-//						dateDeNaissance = cellValueInString;
-//						travailleurDto.setDateDeNaissance(dateDeNaissance);
-//						break;
-//					default:
-//						break;
-//
-//					}
-//					String dateEmbauche = null;
-//					cell = getCell(currentRow, 8);
-//					if (Utilities.isCellEmpty(cell)) {
-//						response.setStatus(functionalError.DISALLOWED_OPERATION("Cellule non renseignée à la ligne  "+currentRow.getRowNum() , locale));
-//						response.setHasError(true);
-//						return response;
-//					}
-//					switch (cell.getCellType()) {
-//					case STRING:
-//						System.out.println(cell.getStringCellValue());
-//						dateEmbauche = cell.getStringCellValue();
-//						travailleurDto.setDateEmbauche(dateEmbauche);
-//						break;
-//
-//					case NUMERIC:
-//						String cellValueInString = new BigDecimal(cell.getNumericCellValue()).toPlainString();
-//						System.out.println(cellValueInString);
-//						dateEmbauche = cellValueInString;
-//						travailleurDto.setDateEmbauche(dateEmbauche);
-//						break;
-//					default:
-//						break;
-//
-//					}
-//					String lieuNaissance = null;
-//					cell = getCell(currentRow, 9);
-//					if (Utilities.isCellEmpty(cell)) {
-//						response.setStatus(functionalError.DISALLOWED_OPERATION("Cellule non renseignée à la ligne  "+currentRow.getRowNum() , locale));
-//						response.setHasError(true);
-//						return response;
-//					}
-//					switch (cell.getCellType()) {
-//					case STRING:
-//						System.out.println(cell.getStringCellValue());
-//						lieuNaissance = cell.getStringCellValue();
-//						travailleurDto.setLieuNaissance(lieuNaissance);
-//						break;
-//
-//					case NUMERIC:
-//						String cellValueInString = new BigDecimal(cell.getNumericCellValue()).toPlainString();
-//						System.out.println(cellValueInString);
-//						lieuNaissance = cellValueInString;
-//						travailleurDto.setLieuNaissance(lieuNaissance);
-//						break;
-//					default:
-//						break;
-//
-//					}
-//					String pays = null;
-//					Pays existingPays = null;
-//					cell = getCell(currentRow, 10);
-//					if (Utilities.isCellEmpty(cell)) {
-//						response.setStatus(functionalError.DISALLOWED_OPERATION("Cellule non renseignée à la ligne  "+currentRow.getRowNum() , locale));
-//						response.setHasError(true);
-//						return response;
-//					}
-//					switch (cell.getCellType()) {
-//					case STRING:
-//						System.out.println(cell.getStringCellValue());
-//						pays = cell.getStringCellValue();
-//					    existingPays = paysRepository.findByLibelle(pays, false);
-//
-//						break;
-//
-//					case NUMERIC:
-//						String cellValueInString = new BigDecimal(cell.getNumericCellValue()).toPlainString();
-//						System.out.println(cellValueInString);
-//						pays = cellValueInString;
-//						existingPays = paysRepository.findByLibelle(pays, false);
-//						break;
-//					default:
-//						break;
-//
-//					//travailleurDto.setPaysId(existingPays.getId());
-//					
-//
-//				}
-//				}
-//					datas.add(travailleurDto);
-//
-//				}
-//
-//
-//			if (Utilities.isNotEmpty(itemsToSaveTravailleur)) {
-//
-//
-//			}
-//
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//
-//		return response;
-//	}
+	public Response<TravailleurDto> creationEnMasse(Request<TravailleurDto> request, String file_name_full)
+			throws IOException {
+		log.info("----begin creationEnMasse Travailleur-----");
+		Response<TravailleurDto> response = new Response<TravailleurDto>();
+		// List<Rechargement> itemsToSaveRecgharge = new ArrayList<Rechargement>();
+		List<Travailleur> itemsToSaveTravailleur = new ArrayList<Travailleur>();
+		List<TravailleurDto> datas = new ArrayList<TravailleurDto>();
+
+		Locale locale = new Locale("fr");
+		try {
+
+			FileInputStream fileInputStream = new FileInputStream(new File(file_name_full));
+			System.out.println("--pathFile--" + file_name_full);
+			Iterator<Row> iterator = null;
+			XSSFWorkbook workbook = new XSSFWorkbook(fileInputStream);
+			XSSFSheet sheet = workbook.getSheetAt(0);
+			iterator = (Iterator<Row>) sheet.iterator();
+			while (iterator.hasNext()) {
+				TravailleurDto travailleurDto = new TravailleurDto();
+				Cell cell = null;
+				final Row currentRow = iterator.next();
+				if (currentRow.getRowNum() >= 1) {
+					String matricule = null;
+					cell = getCell(currentRow, 0);
+					if (Utilities.isCellEmpty(cell)) {
+						matricule = "G-" + Utilities.generateAlphanumericCode(4);
+						// verif unique code in db
+						Travailleur existingEntity = travailleurRepository.findByMatricule(matricule, false);
+						while (existingEntity != null) {
+							matricule = "G-" + Utilities.generateAlphanumericCode(4);
+						}
+					}
+					switch (cell.getCellType()) {
+					case STRING:
+						System.out.println(cell.getStringCellValue());
+						matricule = cell.getStringCellValue();
+						System.out.println("matricule ===>" + matricule);
+						travailleurDto.setMatricule(matricule);
+						// travailleur.setLibelle(matricule);
+						break;
+
+					case NUMERIC:
+						String cellValueInString = new BigDecimal(cell.getNumericCellValue()).toPlainString();
+						System.out.println(cellValueInString);
+						matricule = cellValueInString;
+						System.out.println("matricule ===>" + matricule);
+						travailleurDto.setMatricule(matricule);
+						// travailleur.setLibelle(matricule);;
+						break;
+					default:
+
+						break;
+
+					}
+
+					String nom = null;
+					cell = getCell(currentRow, 1);
+					if (Utilities.isCellEmpty(cell)) {
+						response.setStatus(functionalError.DISALLOWED_OPERATION(
+								"Cellule non renseignée NOM à la ligne  " + currentRow.getRowNum(), locale));
+						response.setHasError(true);
+						return response;
+					}
+					switch (cell.getCellType()) {
+					case STRING:
+						System.out.println(cell.getStringCellValue());
+						nom = cell.getStringCellValue();
+						travailleurDto.setNom(nom);
+						break;
+
+					case NUMERIC:
+						String cellValueInString = new BigDecimal(cell.getNumericCellValue()).toPlainString();
+						System.out.println(cellValueInString);
+						nom = cellValueInString;
+						travailleurDto.setNom(nom);
+						break;
+					default:
+						break;
+
+					}
+
+					String prenom = null;
+					cell = getCell(currentRow, 2);
+					if (Utilities.isCellEmpty(cell)) {
+						response.setStatus(functionalError.DISALLOWED_OPERATION(
+								"Cellule non renseignée prenom à la ligne  " + currentRow.getRowNum(), locale));
+						response.setHasError(true);
+						return response;
+					}
+					switch (cell.getCellType()) {
+					case STRING:
+						System.out.println(cell.getStringCellValue());
+						prenom = cell.getStringCellValue();
+						travailleurDto.setPrenom(prenom);
+						break;
+
+					case NUMERIC:
+						String cellValueInString = new BigDecimal(cell.getNumericCellValue()).toPlainString();
+						System.out.println(cellValueInString);
+						prenom = cellValueInString;
+						travailleurDto.setPrenom(prenom);
+					default:
+						break;
+					}
+
+					String email = null;
+					cell = getCell(currentRow, 3);
+					if (Utilities.isCellEmpty(cell)) {
+						response.setStatus(functionalError.DISALLOWED_OPERATION(
+								"Cellule non renseignée email à la ligne  " + currentRow.getRowNum(), locale));
+						response.setHasError(true);
+						return response;
+					}
+					switch (cell.getCellType()) {
+					case STRING:
+						System.out.println(cell.getStringCellValue());
+						email = cell.getStringCellValue();
+						travailleurDto.setEmail(email);
+						break;
+
+					case NUMERIC:
+						String cellValueInString = new BigDecimal(cell.getNumericCellValue()).toPlainString();
+						System.out.println(cellValueInString);
+						email = cellValueInString;
+						travailleurDto.setEmail(email);
+						break;
+					default:
+						break;
+					}
+
+					String contact1 = null;
+					cell = getCell(currentRow, 4);
+					if (Utilities.isCellEmpty(cell)) {
+						response.setStatus(functionalError.DISALLOWED_OPERATION(
+								"Cellule non renseignée contact1 à la ligne  " + currentRow.getRowNum(), locale));
+						response.setHasError(true);
+						return response;
+					}
+					switch (cell.getCellType()) {
+					case STRING:
+						System.out.println(cell.getStringCellValue());
+						contact1 = cell.getStringCellValue();
+						travailleurDto.setContact1(contact1);
+
+						break;
+
+					case NUMERIC:
+						String cellValueInString = new BigDecimal(cell.getNumericCellValue()).toPlainString();
+						System.out.println(cellValueInString);
+						contact1 = cellValueInString;
+						travailleurDto.setContact1(contact1);
+						break;
+					default:
+						break;
+
+					}
+
+					String contact2 = null;
+					cell = getCell(currentRow, 5);
+					if (Utilities.isCellEmpty(cell)) {
+						response.setStatus(functionalError.DISALLOWED_OPERATION(
+								"Cellule non renseignée contact2 à la ligne  " + currentRow.getRowNum(), locale));
+						response.setHasError(true);
+						return response;
+					}
+					switch (cell.getCellType()) {
+					case STRING:
+						System.out.println(cell.getStringCellValue());
+						contact2 = cell.getStringCellValue();
+						travailleurDto.setContact2(contact2);
+						break;
+
+					case NUMERIC:
+						String cellValueInString = new BigDecimal(cell.getNumericCellValue()).toPlainString();
+						System.out.println(cellValueInString);
+						contact2 = cellValueInString;
+						travailleurDto.setContact2(contact2);
+						break;
+					default:
+						break;
+
+					}
+					String domicile = null;
+					cell = getCell(currentRow, 6);
+					if (Utilities.isCellEmpty(cell)) {
+						response.setStatus(functionalError.DISALLOWED_OPERATION(
+								"Cellule non renseignée domicile à la ligne  " + currentRow.getRowNum(), locale));
+						response.setHasError(true);
+						return response;
+					}
+					switch (cell.getCellType()) {
+					case STRING:
+						System.out.println(cell.getStringCellValue());
+						domicile = cell.getStringCellValue();
+						travailleurDto.setDomicile(domicile);
+						break;
+
+					case NUMERIC:
+						String cellValueInString = new BigDecimal(cell.getNumericCellValue()).toPlainString();
+						System.out.println(cellValueInString);
+						domicile = cellValueInString;
+						travailleurDto.setDomicile(domicile);
+						break;
+					default:
+						break;
+
+					}
+					String dateDeNaissance = null;
+					cell = getCell(currentRow, 7);
+					if (Utilities.isCellEmpty(cell)) {
+						response.setStatus(functionalError.DISALLOWED_OPERATION(
+								"Cellule non renseignée dateDeNaissance à la ligne  " + currentRow.getRowNum(), locale));
+						response.setHasError(true);
+						return response;
+					}
+					switch (cell.getCellType()) {
+					case STRING:
+						System.out.println(cell.getStringCellValue());
+						dateDeNaissance = cell.getStringCellValue();
+						travailleurDto.setDateDeNaissance(dateDeNaissance);
+						break;
+
+					case NUMERIC:
+						String cellValueInString = new BigDecimal(cell.getNumericCellValue()).toPlainString();
+						System.out.println(cellValueInString);
+						dateDeNaissance = cellValueInString;
+						travailleurDto.setDateDeNaissance(dateDeNaissance);
+						break;
+					default:
+						break;
+
+					}
+
+					String lieuNaissance = null;
+					cell = getCell(currentRow, 8);
+					if (Utilities.isCellEmpty(cell)) {
+						response.setStatus(functionalError.DISALLOWED_OPERATION(
+								"Cellule non renseignée lieuNaissance à la ligne  " + currentRow.getRowNum(), locale));
+						response.setHasError(true);
+						return response;
+					}
+					switch (cell.getCellType()) {
+					case STRING:
+						System.out.println(cell.getStringCellValue());
+						lieuNaissance = cell.getStringCellValue();
+						travailleurDto.setLieuNaissance(lieuNaissance);
+						break;
+
+					case NUMERIC:
+						String cellValueInString = new BigDecimal(cell.getNumericCellValue()).toPlainString();
+						System.out.println(cellValueInString);
+						lieuNaissance = cellValueInString;
+						travailleurDto.setLieuNaissance(lieuNaissance);
+						break;
+					default:
+						break;
+					}
+					String dateEmbauche = null;
+					cell = getCell(currentRow, 9);
+					if (Utilities.isCellEmpty(cell)) {
+						response.setStatus(functionalError.DISALLOWED_OPERATION(
+								"Cellule non renseignée dateEmbauche à la ligne  " + currentRow.getRowNum(), locale));
+						response.setHasError(true);
+						return response;
+					}
+					switch (cell.getCellType()) {
+					case STRING:
+						System.out.println(cell.getStringCellValue());
+						dateEmbauche = cell.getStringCellValue();
+						travailleurDto.setDateEmbauche(dateEmbauche);
+						break;
+
+					case NUMERIC:
+						String cellValueInString = new BigDecimal(cell.getNumericCellValue()).toPlainString();
+						System.out.println(cellValueInString);
+						dateEmbauche = cellValueInString;
+						travailleurDto.setDateEmbauche(dateEmbauche);
+						break;
+					default:
+						break;
+
+					}
+					String pays = null;
+					Pays existingPays = null;
+					cell = getCell(currentRow, 10);
+					if (Utilities.isCellEmpty(cell)) {
+						response.setStatus(functionalError.DISALLOWED_OPERATION(
+								"Cellule non renseignée pays à la ligne  " + currentRow.getRowNum(), locale));
+						response.setHasError(true);
+						return response;
+					}
+					switch (cell.getCellType()) {
+					case STRING:
+						System.out.println(cell.getStringCellValue());
+						pays = cell.getStringCellValue();
+						existingPays = paysRepository.findByLibelle(pays, false);
+						if (existingPays == null) {
+							response.setStatus(functionalError.DATA_NOT_EXIST("pays " + pays, locale));
+							response.setHasError(true);
+							return response;
+						}
+						travailleurDto.setPaysId(existingPays.getId());
+						break;
+					case NUMERIC:
+						String cellValueInString = new BigDecimal(cell.getNumericCellValue()).toPlainString();
+						System.out.println(cellValueInString);
+						pays = cellValueInString;
+						existingPays = paysRepository.findByLibelle(pays, false);
+						if (existingPays == null) {
+							response.setStatus(functionalError.DATA_NOT_EXIST("pays " + pays, locale));
+							response.setHasError(true);
+							return response;
+						}
+						travailleurDto.setPaysId(existingPays.getId());
+						break;
+					default:
+						break;
+
+					}
+				}
+				System.out.println(travailleurDto);
+
+				datas.add(travailleurDto);
+			}
+
+			if (Utilities.isNotEmpty(itemsToSaveTravailleur)) {
+				
+				System.out.println("itemsToSaveTravailleur.size() ---->"+itemsToSaveTravailleur.size());
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return response;
+	}
 
 	/**
 	 * update Travailleur by using TravailleurDto as object.
@@ -1362,6 +1401,28 @@ public class TravailleurBusiness implements IBasicBusiness<Request<TravailleurDt
 						}
 					}
 				}
+	            if (dto.getDataPhoto() != null) {
+		            String imageName = dto.getMatricule() +"_"+ dto.getPrenom();
+		            String extention = "png";
+		            dto.getDataPhoto().setExtension(extention);
+		            dto.getDataPhoto().setFileName(imageName);
+	                if (dto.getDataPhoto().getFileBase64() != null && dto.getDataPhoto().getExtension() != null
+	                        && dto.getDataPhoto().getFileName() != null) {
+	                    if (Utilities.notBlank(dto.getDataPhoto().toString())) {
+	                        String fileName_ = Utilities.saveFile(dto.getDataPhoto(), paramsUtils);
+	                        if (fileName_ == null) {
+								response.setStatus(
+										functionalError.SAVE_FAIL("L'enregistrement de la photo a échoué", locale));
+								response.setHasError(true);
+								return response;
+	                        }
+	                        // dto.setPhoto(Utilities.getSuitableFileUrl(fileName_, paramsUtils));
+	                       String photo = Utilities.getSuitableFileUrl(fileName_, paramsUtils);
+	                        System.out.println("PHOTO  " + photo);
+	                        entityToSave.setPhoto(fileName_);
+	                    }
+	                }
+	            }
 				entityToSave.setUpdatedAt(Utilities.getCurrentDate());
 				entityToSave.setUpdatedBy(request.getUser());
 				items.add(entityToSave);
@@ -1604,6 +1665,11 @@ public class TravailleurBusiness implements IBasicBusiness<Request<TravailleurDt
 	 * @throws Exception
 	 */
 	private TravailleurDto getFullInfos(TravailleurDto dto, Integer size, Boolean isSimpleLoading, Locale locale) throws Exception {
+		
+        if (dto.getPhoto() != null) {
+            String photo = Utilities.getSuitableFileUrl(dto.getPhoto(), paramsUtils);
+            dto.setPhoto(photo);
+        }
 		// put code here
 		List<TravailleurNationnalite> tns = travailleurNationnaliteRepository.findByTravailleurId(dto.getId(), false);
 		if(!tns.isEmpty()) {

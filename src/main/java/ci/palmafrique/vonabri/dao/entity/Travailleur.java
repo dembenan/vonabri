@@ -47,6 +47,10 @@ public class Travailleur implements Serializable, Cloneable {
     @Column(name="nom", length=255)
     private String     nom          ;
 
+    @Column(name="photo", length=255)
+    private String     photo          ;
+    
+    
     @Column(name="prenom", length=255)
     private String     prenom       ;
 

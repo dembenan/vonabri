@@ -9,6 +9,9 @@
 
 package ci.palmafrique.vonabri.rest.api;
 
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,10 +25,14 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import ci.palmafrique.vonabri.business.TravailleurBusiness;
 import ci.palmafrique.vonabri.utils.ExceptionUtils;
+import ci.palmafrique.vonabri.utils.FileStorageProperties;
+import ci.palmafrique.vonabri.utils.FileStorageService;
 import ci.palmafrique.vonabri.utils.FunctionalError;
 import ci.palmafrique.vonabri.utils.StatusCode;
 import ci.palmafrique.vonabri.utils.StatusMessage;
@@ -60,10 +67,10 @@ public class TravailleurController {
 	@Autowired
 	private HttpServletRequest requestBasic;
 	
-//	@Autowired
-//	private FileStorageService fileStorageService;
-//	@Autowired
-//	private FileStorageProperties fileStorageProperties;
+	@Autowired
+	private FileStorageService fileStorageService;
+	@Autowired
+	private FileStorageProperties fileStorageProperties;
 
 	@RequestMapping(value="/create",method=RequestMethod.POST,consumes = {"application/json"},produces={"application/json"})
     public Response<TravailleurDto> create(@RequestBody Request<TravailleurDto> request) {
@@ -104,41 +111,41 @@ public class TravailleurController {
         return response;
     }
 	
-//	@RequestMapping(value = "/creationEnMasse", method = RequestMethod.POST, consumes = { "multipart/form-data" })
-//	public Response<TravailleurDto> creationEnMasse(@RequestParam("file") MultipartFile file,@RequestParam("user") Integer user) throws IOException {
-//		Response<TravailleurDto> response = new Response<TravailleurDto>();
-//		slf4jLogger.info("end method /travailleur/upload/creationEnMasse");
-//		Locale locale = new Locale("fr");
-//		// repertoire de sauvegarde du fichier uploadé
-//		try {
-//
-//			String fileName = fileStorageService.storeFile(file);
-//			Path pathDest = Paths.get(fileStorageProperties.getUploadDir()).toAbsolutePath().normalize();
-//			String pathDestNormalize = pathDest.toString();
-//			pathDestNormalize += "/" + fileName;
-//			String file_name_full = pathDestNormalize;
-//			
-//			Request<TravailleurDto> request = new Request<TravailleurDto>();
-//			request.setUser(user);
-//			
-//
-//			response = travailleurBusiness.creationEnMasse(request,file_name_full);
-//			System.out.println(" ---> response = " + response);
-//			if (!response.isHasError()) {
-//				slf4jLogger.info("end method travailleur upload");
-//				slf4jLogger.info("code: {} -  message: {}", StatusCode.SUCCESS, StatusMessage.SUCCESS);
-//			} else {
-//				response.setHasError(true);
-//				slf4jLogger.info("Erreur| code: {} -  message: {}", response.getStatus().getCode(),
-//						response.getStatus().getMessage());
-//				return response;
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		slf4jLogger.info("end method /travailleur/upload/creationEnMasse");
-//		return response;
-//	}
+	@RequestMapping(value = "/creationEnMasse", method = RequestMethod.POST, consumes = { "multipart/form-data" })
+	public Response<TravailleurDto> creationEnMasse(@RequestParam("file") MultipartFile file,@RequestParam("user") Integer user) throws IOException {
+		Response<TravailleurDto> response = new Response<TravailleurDto>();
+		slf4jLogger.info("end method /travailleur/upload/creationEnMasse");
+		Locale locale = new Locale("fr");
+		// repertoire de sauvegarde du fichier uploadé
+		try {
+
+			String fileName = fileStorageService.storeFile(file);
+			Path pathDest = Paths.get(fileStorageProperties.getUploadDir()).toAbsolutePath().normalize();
+			String pathDestNormalize = pathDest.toString();
+			pathDestNormalize += "/" + fileName;
+			String file_name_full = pathDestNormalize;
+			
+			Request<TravailleurDto> request = new Request<TravailleurDto>();
+			request.setUser(user);
+			
+
+			response = travailleurBusiness.creationEnMasse(request,file_name_full);
+			System.out.println(" ---> response = " + response);
+			if (!response.isHasError()) {
+				slf4jLogger.info("end method travailleur upload");
+				slf4jLogger.info("code: {} -  message: {}", StatusCode.SUCCESS, StatusMessage.SUCCESS);
+			} else {
+				response.setHasError(true);
+				slf4jLogger.info("Erreur| code: {} -  message: {}", response.getStatus().getCode(),
+						response.getStatus().getMessage());
+				return response;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		slf4jLogger.info("end method /travailleur/upload/creationEnMasse");
+		return response;
+	}
 	@RequestMapping(value="/update",method=RequestMethod.POST,consumes = {"application/json"},produces={"application/json"})
     public Response<TravailleurDto> update(@RequestBody Request<TravailleurDto> request) {
     	slf4jLogger.info("start method /travailleur/update");

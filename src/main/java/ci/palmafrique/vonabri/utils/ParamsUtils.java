@@ -26,33 +26,32 @@ public class ParamsUtils {
 	
 	//Urls
 	
-//	@Value("${image.directory}")
-//	private String imageDirectory;
-//	
-//	@Value("${textfile.directory}")
-//	private String textfileDirectory;
-//	
-//	@Value("${video.directory}")
-//	private String videoDirectory;
-//
-//	@Value("${otherfile.directory}")
-//	private String otherfileDirectory;
-//
-//	@Value("${url.root}")
-//	private String urlRoot;
-//
-//	@Value("${path.root}")
-//	private String rootFilesPath;
-//
-//	// Files location
-//
+	@Value("${image.directory}")
+	private String imageDirectory;
+	
+	@Value("${textfile.directory}")
+	private String textfileDirectory;
+	
+	@Value("${video.directory}")
+	private String videoDirectory;
+
+	@Value("${otherfile.directory}")
+	private String otherfileDirectory;
+
+	@Value("${url.root}")
+	private String urlRoot;
+
+	@Value("${path.root}")
+	private String rootFilesPath;
+
+	// Files location
+
 //	@Value("${url.image.link}")
 //	private String urlImageLink;
 //	
-//	@Value("${parametre.dossier}")
-//	private String pathDossier;
-////
-////
+	@Value("${parametre.dossier}")
+	private String pathDossier;
+
 
 
 

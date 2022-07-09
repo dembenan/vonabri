@@ -329,16 +329,20 @@ public class ProfilBusiness implements IBasicBusiness<Request<ProfilDto>, Respon
 				items.add(profilSaved);
 				if(!dto.getDatasFonctionnalite().isEmpty()) {
 					dto.getDatasFonctionnalite().forEach(fonc -> {
-						Fonctionnalite foncEntity = fonctionnaliteRepository.findOne(fonc.getId(), false);
-							ProfilFonctionnalite profilFonctionnalite = new ProfilFonctionnalite();
-							profilFonctionnalite.setCode(profilSaved.getCode()+"_"+foncEntity.getCode());
-							profilFonctionnalite.setLibelle(profilSaved.getLibelle()+"_"+foncEntity.getLibelle());
-							profilFonctionnalite.setFonctionnalite(foncEntity);
-							profilFonctionnalite.setProfil(profilSaved);
-							profilFonctionnalite.setCreatedAt(Utilities.getCurrentDate());
-							profilFonctionnalite.setCreatedBy(request.getUser());
-							profilFonctionnalite.setIsDeleted(false);
+						ProfilFonctionnalite profilFonctionnalite = profilFonctionnaliteRepository.findByProfilIdAndFonctionnaliteId(profilSaved.getId(), fonc.getId(), false);
+						if(profilFonctionnalite == null) {
+							Fonctionnalite foncEntity = fonctionnaliteRepository.findOne(fonc.getId(), false);
+							ProfilFonctionnalite profilFonctionnaliteToSave = new ProfilFonctionnalite();
+							profilFonctionnaliteToSave.setCode(profilSaved.getCode()+"_"+foncEntity.getCode());
+							profilFonctionnaliteToSave.setLibelle(profilSaved.getLibelle()+"_"+foncEntity.getLibelle());
+							profilFonctionnaliteToSave.setFonctionnalite(foncEntity);
+							profilFonctionnaliteToSave.setProfil(profilSaved);
+							profilFonctionnaliteToSave.setCreatedAt(Utilities.getCurrentDate());
+							profilFonctionnaliteToSave.setCreatedBy(request.getUser());
+							profilFonctionnaliteToSave.setIsDeleted(false);
 							ProfilFonctionnalite profilFonctionnaliteSaved = profilFonctionnaliteRepository.save(profilFonctionnalite);
+						}
+
 					});
 				}
 			}
@@ -458,12 +462,11 @@ public class ProfilBusiness implements IBasicBusiness<Request<ProfilDto>, Respon
 				// profilFonctionnalite
 				List<ProfilFonctionnalite> listOfProfilFonctionnalite = profilFonctionnaliteRepository.findByProfilId(existingEntity.getId(), false);
 				if (listOfProfilFonctionnalite != null && !listOfProfilFonctionnalite.isEmpty()){
-					response.setStatus(functionalError.DATA_NOT_DELETABLE("(" + listOfProfilFonctionnalite.size() + ")", locale));
-					response.setHasError(true);
-					return response;
+					listOfProfilFonctionnalite.forEach(profilFonctionnalite -> {
+						profilFonctionnaliteRepository.delete(profilFonctionnalite);
+						
+					});
 				}
-
-
 				existingEntity.setDeletedAt(Utilities.getCurrentDate());
 				existingEntity.setDeletedBy(request.getUser());
 				existingEntity.setIsDeleted(true);

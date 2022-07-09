@@ -42,6 +42,8 @@ public class TravailleurDto extends _TravailleurDto implements Cloneable{
 	private String     dateEmbauche         ;
 	private String     dateFinContrat         ;
 
+	private String     photo         ;
+
     private String     matricule            ;
     private Integer    siteId               ;
     private Integer    sousSiteId           ;
