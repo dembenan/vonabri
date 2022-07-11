@@ -675,20 +675,20 @@ public class FonctionnaliteBusiness implements IBasicBusiness<Request<Fonctionna
 	 */
 	private FonctionnaliteDto getFullInfos(FonctionnaliteDto dto, Integer size, Boolean isSimpleLoading, Locale locale) throws Exception {
 		// put code here
-		Fonctionnalite existingParent = null;
-		if(dto.getParentId() != null && dto.getParentId() > 0) {
-		    existingParent = fonctionnaliteRepository.findOne(dto.getParentId(), false);
-		    if(existingParent != null) {
-				FonctionnaliteDto itemDto = FonctionnaliteTransformer.INSTANCE.toDto(existingParent);
-				List<FonctionnaliteDto> fonctionnalites = new ArrayList<FonctionnaliteDto>();;
-				fonctionnalites.add(itemDto);
-				fonctionnalites.add(dto);
-				List<FonctionnaliteDto> fonctionnalitesDto = hierarchicalFormat(fonctionnalites);
-				log.info("fonctionnalites" + fonctionnalitesDto);
-
-		    }
-			
-		}
+//		Fonctionnalite existingParent = null;
+//		if(dto.getParentId() != null && dto.getParentId() > 0) {
+//		    existingParent = fonctionnaliteRepository.findOne(dto.getParentId(), false);
+//		    if(existingParent != null) {
+//				FonctionnaliteDto itemDto = FonctionnaliteTransformer.INSTANCE.toDto(existingParent);
+//				List<FonctionnaliteDto> fonctionnalites = new ArrayList<FonctionnaliteDto>();;
+//				fonctionnalites.add(itemDto);
+//				fonctionnalites.add(dto);
+//				List<FonctionnaliteDto> fonctionnalitesDto = hierarchicalFormat(fonctionnalites);
+//				log.info("fonctionnalites" + fonctionnalitesDto);
+//
+//		    }
+//			
+//		}
 
 		if (Utilities.isTrue(isSimpleLoading)) {
 			return dto;

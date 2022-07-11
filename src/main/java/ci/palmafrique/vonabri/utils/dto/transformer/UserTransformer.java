@@ -37,9 +37,9 @@ public interface UserTransformer {
 
 	@FullTransformerQualifier
 	@Mappings({
-		@Mapping(source="entity.createdAt", dateFormat="dd/MM/yyyy",target="createdAt"),
-		@Mapping(source="entity.updatedAt", dateFormat="dd/MM/yyyy",target="updatedAt"),
-		@Mapping(source="entity.deletedAt", dateFormat="dd/MM/yyyy",target="deletedAt"),
+		@Mapping(source="entity.createdAt", dateFormat="dd/MM/yyyy HH:mm:ss",target="createdAt"),
+		@Mapping(source="entity.updatedAt", dateFormat="dd/MM/yyyy HH:mm:ss",target="updatedAt"),
+		@Mapping(source="entity.deletedAt", dateFormat="dd/MM/yyyy HH:mm:ss",target="deletedAt"),
 		@Mapping(source="entity.userType.id", target="userTypeId"),
 		@Mapping(source="entity.userType.code", target="userTypeCode"),
 		@Mapping(source="entity.userType.libelle", target="userTypeLibelle"),
@@ -81,9 +81,9 @@ public interface UserTransformer {
 		@Mapping(source="dto.password", target="password"),
 		@Mapping(source="dto.isLocked", target="isLocked"),
 		@Mapping(source="dto.isSuperAdmin", target="isSuperAdmin"),
-		@Mapping(source="dto.createdAt", dateFormat="dd/MM/yyyy",target="createdAt"),
-		@Mapping(source="dto.updatedAt", dateFormat="dd/MM/yyyy",target="updatedAt"),
-		@Mapping(source="dto.deletedAt", dateFormat="dd/MM/yyyy",target="deletedAt"),
+		@Mapping(source="dto.createdAt", dateFormat="dd/MM/yyyy HH:mm:ss",target="createdAt"),
+		@Mapping(source="dto.updatedAt", dateFormat="dd/MM/yyyy HH:mm:ss",target="updatedAt"),
+		@Mapping(source="dto.deletedAt", dateFormat="dd/MM/yyyy HH:mm:ss",target="deletedAt"),
 		@Mapping(source="dto.createdBy", target="createdBy"),
 		@Mapping(source="dto.updatedBy", target="updatedBy"),
 		@Mapping(source="dto.deletedBy", target="deletedBy"),

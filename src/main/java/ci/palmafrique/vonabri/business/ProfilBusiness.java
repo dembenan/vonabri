@@ -320,6 +320,35 @@ public class ProfilBusiness implements IBasicBusiness<Request<ProfilDto>, Respon
 				}
 				entityToSave.setUpdatedAt(Utilities.getCurrentDate());
 				entityToSave.setUpdatedBy(request.getUser());
+				if(!dto.getDatasFonctionnalite().isEmpty()) {
+					List<FonctionnaliteDto> itemsFonc = new ArrayList<FonctionnaliteDto>();
+					itemsFonc = dto.getDatasFonctionnalite();
+					List<ProfilFonctionnalite> profilFonctionnalites = profilFonctionnaliteRepository.findByProfilId(entityToSave.getId(), false);
+					if(!profilFonctionnalites.isEmpty()) {
+						for(ProfilFonctionnalite profonc: profilFonctionnalites) {
+							profilFonctionnaliteRepository.delete(profonc);
+						}
+					}
+					for(FonctionnaliteDto fonc: itemsFonc) {
+						ProfilFonctionnalite profilFonctionnalite = profilFonctionnaliteRepository.findByProfilIdAndFonctionnaliteId(entityToSave.getId(), fonc.getId(), false);
+						System.out.println("profilFonctionnalite===========>"+profilFonctionnalite);
+						if(profilFonctionnalite == null) {
+							Fonctionnalite foncEntity = fonctionnaliteRepository.findOne(fonc.getId(), false);
+							System.out.println("foncEntity===========>"+foncEntity);		
+							if (foncEntity != null) {
+								ProfilFonctionnaliteDto profilFonctionnaliteDto = new ProfilFonctionnaliteDto();
+								profilFonctionnaliteDto.setCode(entityToSave.getCode()+"_"+foncEntity.getCode());
+								profilFonctionnaliteDto.setLibelle(entityToSave.getLibelle()+"_"+foncEntity.getLibelle());
+								ProfilFonctionnalite profilFonctionnaliteToSave = ProfilFonctionnaliteTransformer.INSTANCE.toEntity(profilFonctionnaliteDto, entityToSave, foncEntity)		;						
+								profilFonctionnaliteToSave.setCreatedAt(Utilities.getCurrentDate());
+								profilFonctionnaliteToSave.setCreatedBy(request.getUser());
+								profilFonctionnaliteToSave.setIsDeleted(false);
+								ProfilFonctionnalite profilFonctionnaliteSaved = profilFonctionnaliteRepository.save(profilFonctionnaliteToSave);
+								System.out.println("profilFonctionnaliteSaved===>"+profilFonctionnaliteSaved);							
+							}
+						}
+					}
+				}
 				Profil profilSaved = profilRepository.save(entityToSave);
 				if (profilSaved == null) {
 					response.setStatus(functionalError.SAVE_FAIL("profil", locale));
@@ -327,24 +356,7 @@ public class ProfilBusiness implements IBasicBusiness<Request<ProfilDto>, Respon
 					return response;
 				}
 				items.add(profilSaved);
-				if(!dto.getDatasFonctionnalite().isEmpty()) {
-					dto.getDatasFonctionnalite().forEach(fonc -> {
-						ProfilFonctionnalite profilFonctionnalite = profilFonctionnaliteRepository.findByProfilIdAndFonctionnaliteId(profilSaved.getId(), fonc.getId(), false);
-						if(profilFonctionnalite == null) {
-							Fonctionnalite foncEntity = fonctionnaliteRepository.findOne(fonc.getId(), false);
-							ProfilFonctionnalite profilFonctionnaliteToSave = new ProfilFonctionnalite();
-							profilFonctionnaliteToSave.setCode(profilSaved.getCode()+"_"+foncEntity.getCode());
-							profilFonctionnaliteToSave.setLibelle(profilSaved.getLibelle()+"_"+foncEntity.getLibelle());
-							profilFonctionnaliteToSave.setFonctionnalite(foncEntity);
-							profilFonctionnaliteToSave.setProfil(profilSaved);
-							profilFonctionnaliteToSave.setCreatedAt(Utilities.getCurrentDate());
-							profilFonctionnaliteToSave.setCreatedBy(request.getUser());
-							profilFonctionnaliteToSave.setIsDeleted(false);
-							ProfilFonctionnalite profilFonctionnaliteSaved = profilFonctionnaliteRepository.save(profilFonctionnalite);
-						}
 
-					});
-				}
 			}
 
 			if (!items.isEmpty()) {
@@ -596,9 +608,9 @@ public class ProfilBusiness implements IBasicBusiness<Request<ProfilDto>, Respon
 			profilFonctionnalites.forEach(proFunc -> {
 				datasFonctionnalite.add(proFunc.getFonctionnalite());
 			});
-			List<FonctionnaliteDto> datasFonctionnaliteDto = FonctionnaliteTransformer.INSTANCE.toDtos(datasFonctionnalite);
-			dto.setDatasFonctionnalite(datasFonctionnaliteDto);
 		}
+		List<FonctionnaliteDto> datasFonctionnaliteDto = FonctionnaliteTransformer.INSTANCE.toDtos(datasFonctionnalite);
+		dto.setDatasFonctionnalite(datasFonctionnaliteDto);
 		if (Utilities.isTrue(isSimpleLoading)) {
 			return dto;
 		}

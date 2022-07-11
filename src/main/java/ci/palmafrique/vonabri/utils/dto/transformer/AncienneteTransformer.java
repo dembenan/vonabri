@@ -37,9 +37,9 @@ public interface AncienneteTransformer {
 
 	@FullTransformerQualifier
 	@Mappings({
-		@Mapping(source="entity.createdAt", dateFormat="dd/MM/yyyy",target="createdAt"),
-		@Mapping(source="entity.deletedAt", dateFormat="dd/MM/yyyy",target="deletedAt"),
-		@Mapping(source="entity.updatedAt", dateFormat="dd/MM/yyyy",target="updatedAt"),
+		@Mapping(source="entity.createdAt", dateFormat="dd/MM/yyyy HH:mm:ss",target="createdAt"),
+		@Mapping(source="entity.deletedAt", dateFormat="dd/MM/yyyy HH:mm:ss",target="deletedAt"),
+		@Mapping(source="entity.updatedAt", dateFormat="dd/MM/yyyy HH:mm:ss",target="updatedAt"),
 		@Mapping(source="entity.ancienneteType.id", target="ancienneteTypeId"),
 		@Mapping(source="entity.ancienneteType.code", target="ancienneteTypeCode"),
 		@Mapping(source="entity.ancienneteType.libelle", target="ancienneteTypeLibelle"),
@@ -74,9 +74,9 @@ public interface AncienneteTransformer {
 		@Mapping(source="dto.id", target="id"),
 		@Mapping(source="dto.code", target="code"),
 		@Mapping(source="dto.libelle", target="libelle"),
-		@Mapping(source="dto.createdAt", dateFormat="dd/MM/yyyy",target="createdAt"),
-		@Mapping(source="dto.deletedAt", dateFormat="dd/MM/yyyy",target="deletedAt"),
-		@Mapping(source="dto.updatedAt", dateFormat="dd/MM/yyyy",target="updatedAt"),
+		@Mapping(source="dto.createdAt", dateFormat="dd/MM/yyyy HH:mm:ss",target="createdAt"),
+		@Mapping(source="dto.deletedAt", dateFormat="dd/MM/yyyy HH:mm:ss",target="deletedAt"),
+		@Mapping(source="dto.updatedAt", dateFormat="dd/MM/yyyy HH:mm:ss",target="updatedAt"),
 		@Mapping(source="dto.createdBy", target="createdBy"),
 		@Mapping(source="dto.updatedBy", target="updatedBy"),
 		@Mapping(source="dto.deletedBy", target="deletedBy"),

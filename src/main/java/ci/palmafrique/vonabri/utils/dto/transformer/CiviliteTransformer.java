@@ -37,9 +37,9 @@ public interface CiviliteTransformer {
 
 	@FullTransformerQualifier
 	@Mappings({
-		@Mapping(source="entity.createdAt", dateFormat="dd/MM/yyyy",target="createdAt"),
-		@Mapping(source="entity.deletedAt", dateFormat="dd/MM/yyyy",target="deletedAt"),
-		@Mapping(source="entity.updatedAt", dateFormat="dd/MM/yyyy",target="updatedAt"),
+		@Mapping(source="entity.createdAt", dateFormat="dd/MM/yyyy HH:mm:ss",target="createdAt"),
+		@Mapping(source="entity.deletedAt", dateFormat="dd/MM/yyyy HH:mm:ss",target="deletedAt"),
+		@Mapping(source="entity.updatedAt", dateFormat="dd/MM/yyyy HH:mm:ss",target="updatedAt"),
 	})
 	CiviliteDto toDto(Civilite entity) throws ParseException;
 
@@ -70,13 +70,13 @@ public interface CiviliteTransformer {
 	@Mappings({
 		@Mapping(source="dto.id", target="id"),
 		@Mapping(source="dto.code", target="code"),
-		@Mapping(source="dto.createdAt", dateFormat="dd/MM/yyyy",target="createdAt"),
+		@Mapping(source="dto.createdAt", dateFormat="dd/MM/yyyy HH:mm:ss",target="createdAt"),
 		@Mapping(source="dto.createdBy", target="createdBy"),
-		@Mapping(source="dto.deletedAt", dateFormat="dd/MM/yyyy",target="deletedAt"),
+		@Mapping(source="dto.deletedAt", dateFormat="dd/MM/yyyy HH:mm:ss",target="deletedAt"),
 		@Mapping(source="dto.deletedBy", target="deletedBy"),
 		@Mapping(source="dto.isDeleted", target="isDeleted"),
 		@Mapping(source="dto.libelle", target="libelle"),
-		@Mapping(source="dto.updatedAt", dateFormat="dd/MM/yyyy",target="updatedAt"),
+		@Mapping(source="dto.updatedAt", dateFormat="dd/MM/yyyy HH:mm:ss",target="updatedAt"),
 		@Mapping(source="dto.updatedBy", target="updatedBy"),
 	})
     Civilite toEntity(CiviliteDto dto) throws ParseException;
