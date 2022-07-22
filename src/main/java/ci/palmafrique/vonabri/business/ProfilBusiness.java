@@ -181,7 +181,8 @@ public class ProfilBusiness implements IBasicBusiness<Request<ProfilDto>, Respon
 					return response;
 				}
 				items.add(profilSaved);
-				if(!dto.getDatasFonctionnalite().isEmpty()) {
+				
+				if(dto.getDatasFonctionnalite() != null && !dto.getDatasFonctionnalite().isEmpty()) {
 					dto.getDatasFonctionnalite().forEach(fonc -> {
 						Fonctionnalite foncEntity = fonctionnaliteRepository.findOne(fonc.getId(), false);
 						if (profilSaved != null) {

@@ -1,5 +1,7 @@
 package ci.palmafrique.vonabri.utils;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
@@ -50,6 +52,7 @@ public class FileStorageService {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
         }
     }
+
 
     public Resource loadFileAsResource(String fileName) {
         try {

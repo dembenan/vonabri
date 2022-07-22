@@ -186,7 +186,7 @@ public class ElementBusiness implements IBasicBusiness<Request<ElementDto>, Resp
 						}
 					}
 				}
-
+				
 				// Verify if element exist
 				Element existingElement = null;
 				if (dto.getParentId() != null && dto.getParentId() > 0){
@@ -197,23 +197,40 @@ public class ElementBusiness implements IBasicBusiness<Request<ElementDto>, Resp
 						return response;
 					}
 				}
+
 				Element entityToSave = null;
 				entityToSave = ElementTransformer.INSTANCE.toEntity(dto, existingElementType, existingElement);
 				entityToSave.setCreatedAt(Utilities.getCurrentDate());
 				entityToSave.setCreatedBy(request.getUser());
 				entityToSave.setIsDeleted(false);
-				items.add(entityToSave);
-			}
-
-			if (!items.isEmpty()) {
-				List<Element> itemsSaved = null;
-				// inserer les donnees en base de donnees
-				itemsSaved = elementRepository.saveAll((Iterable<Element>) items);
-				if (itemsSaved == null) {
-					response.setStatus(functionalError.SAVE_FAIL("element", locale));
+				Element elementSaved = elementRepository.save(entityToSave);
+				if(elementSaved == null) {
+					response.setStatus(functionalError.SAVE_FAIL("element  -> "+dto.getLibelle(), locale));
 					response.setHasError(true);
 					return response;
 				}
+				items.add(elementSaved);
+				if(dto.getDatasChildren() != null && !dto.getDatasChildren().isEmpty()) {
+					for(ElementDto childDto:dto.getDatasChildren()) {
+						Element entityToSaveChild = null;
+						entityToSaveChild = ElementTransformer.INSTANCE.toEntity(childDto, existingElementType, elementSaved);
+						entityToSaveChild.setCreatedAt(Utilities.getCurrentDate());
+						entityToSaveChild.setCreatedBy(request.getUser());
+						entityToSaveChild.setIsDeleted(false);
+						elementRepository.save(entityToSaveChild);
+					}
+				}
+			}
+
+			if (!items.isEmpty()) {
+				List<Element> itemsSaved = items;
+				// inserer les donnees en base de donnees
+//				itemsSaved = elementRepository.saveAll((Iterable<Element>) items);
+//				if (itemsSaved == null) {
+//					response.setStatus(functionalError.SAVE_FAIL("element", locale));
+//					response.setHasError(true);
+//					return response;
+//				}
 				List<ElementDto> itemsDto = (Utilities.isTrue(request.getIsSimpleLoading())) ? ElementTransformer.INSTANCE.toLiteDtos(itemsSaved) : ElementTransformer.INSTANCE.toDtos(itemsSaved);
 				
 				final int size = itemsSaved.size();
@@ -230,8 +247,22 @@ public class ElementBusiness implements IBasicBusiness<Request<ElementDto>, Resp
 					Object[] objArray = listOfError.stream().distinct().toArray();
 					throw new RuntimeException(StringUtils.join(objArray, ", "));
 				}
-				response.setItems(itemsDto);
-				response.setHasError(false);
+				Integer index= request.getIndex();
+					List<ElementDto> itemsUnique = hierarchicalFormat(itemsDto);
+					if (Utilities.isNotEmpty(itemsUnique)) {
+						
+						itemsUnique.sort((e1,e2) -> e2.getId().compareTo(e1.getId()));
+						final int sizeUnique = itemsUnique.size();
+						List<ElementDto> itemsPaginner = Utilities.paginner(itemsUnique, index, size);
+						response.setItems(itemsPaginner);
+						response.setCount((long)sizeUnique);
+						response.setHasError(false);
+						return response;
+					}else {
+						response.setStatus(functionalError.DATA_EMPTY("famille", locale));
+						response.setHasError(false);
+						return response;
+					}
 			}
 
 			log.info("----end create Element-----");
@@ -330,8 +361,6 @@ public class ElementBusiness implements IBasicBusiness<Request<ElementDto>, Resp
 					entityToSave.setIcon(dto.getIcon());
 				}
 				
-				
-				
 				if (Utilities.notBlank(dto.getTitre())) {
 					entityToSave.setTitre(dto.getTitre());
 				}
@@ -342,8 +371,6 @@ public class ElementBusiness implements IBasicBusiness<Request<ElementDto>, Resp
 					entityToSave.setChampsCreation(dto.getChampsCreation());
 				}
 				
-				
-
 				if (Utilities.notBlank(dto.getDeletedAt())) {
 					entityToSave.setDeletedAt(dateFormat.parse(dto.getDeletedAt()));
 				}
@@ -359,6 +386,16 @@ public class ElementBusiness implements IBasicBusiness<Request<ElementDto>, Resp
 				entityToSave.setUpdatedAt(Utilities.getCurrentDate());
 				entityToSave.setUpdatedBy(request.getUser());
 				items.add(entityToSave);
+				if(dto.getDatasChildren() != null && !dto.getDatasChildren().isEmpty()) {
+					for(ElementDto childDto:dto.getDatasChildren()) {
+						Element entityToSaveChild = null;
+						entityToSaveChild = ElementTransformer.INSTANCE.toEntity(childDto, entityToSave.getElementType(), entityToSave);
+						entityToSaveChild.setCreatedAt(Utilities.getCurrentDate());
+						entityToSaveChild.setCreatedBy(request.getUser());
+						entityToSaveChild.setIsDeleted(false);
+						elementRepository.save(entityToSaveChild);
+					}
+				}
 			}
 
 			if (!items.isEmpty()) {
