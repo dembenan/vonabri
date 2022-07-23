@@ -6,7 +6,11 @@
 
 package ci.palmafrique.vonabri.utils.contract;
 
-import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * Request Base
@@ -29,5 +33,10 @@ public class RequestBase {
 	protected String		token;
 	protected Boolean 		isSimpleLoading;
 	protected Boolean       hierarchyFormat;
+	protected MultipartFile       file;
+	protected String       fileName;
+
+	
+	
 
 }

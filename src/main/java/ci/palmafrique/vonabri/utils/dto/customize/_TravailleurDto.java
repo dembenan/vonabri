@@ -36,5 +36,7 @@ public class _TravailleurDto {
 	private String profilLibelle;
 	private String userTypeLibelle;
 	private _FileDto dataPhoto;
+	private String fileBase64;
+
 
 }

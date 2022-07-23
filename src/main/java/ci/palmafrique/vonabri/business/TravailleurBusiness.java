@@ -17,7 +17,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,7 +29,6 @@ import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
@@ -43,6 +41,7 @@ import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.dao.PermissionDeniedDataAccessException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.context.Context;
 
 import ci.palmafrique.vonabri.dao.entity.Anciennete;
@@ -90,6 +89,7 @@ import ci.palmafrique.vonabri.dao.repository.TypeMariageRepository;
 import ci.palmafrique.vonabri.dao.repository.UserRepository;
 import ci.palmafrique.vonabri.dao.repository.UserTypeRepository;
 import ci.palmafrique.vonabri.rest.api.UserController;
+import ci.palmafrique.vonabri.utils.CloudinaryService;
 import ci.palmafrique.vonabri.utils.ExceptionUtils;
 import ci.palmafrique.vonabri.utils.FunctionalError;
 import ci.palmafrique.vonabri.utils.ParamsUtils;
@@ -104,7 +104,6 @@ import ci.palmafrique.vonabri.utils.dto.NationnaliteDto;
 import ci.palmafrique.vonabri.utils.dto.TravailleurDto;
 import ci.palmafrique.vonabri.utils.dto.TravailleurNationnaliteDto;
 import ci.palmafrique.vonabri.utils.dto.UserDto;
-import ci.palmafrique.vonabri.utils.dto.customize._FileDto;
 import ci.palmafrique.vonabri.utils.dto.transformer.NationnaliteTransformer;
 import ci.palmafrique.vonabri.utils.dto.transformer.TravailleurNationnaliteTransformer;
 import ci.palmafrique.vonabri.utils.dto.transformer.TravailleurTransformer;
@@ -187,6 +186,8 @@ public class TravailleurBusiness implements IBasicBusiness<Request<TravailleurDt
 	@Autowired
 	private SmtpUtils smtpUtils;
 	
+	@Autowired
+	private CloudinaryService cloudinaryService;
     @Autowired
     private UserBusiness userBusiness;
 
@@ -244,7 +245,6 @@ public class TravailleurBusiness implements IBasicBusiness<Request<TravailleurDt
 			}
 			
 			List<Travailleur> items = new ArrayList<Travailleur>();
-
 			//Map<String, User> users = new HashMap<String, User>();
 			for (TravailleurDto dto : request.getDatas()) {
 				// Definir les parametres obligatoires
@@ -527,30 +527,28 @@ public class TravailleurBusiness implements IBasicBusiness<Request<TravailleurDt
 					}
 				}
 
-	            if (dto.getDataPhoto() != null) {
-	            	String imageName = dto.getMatricule() +"_"+ dto.getPrenom();
-	            	String extention = "png";
-		            dto.getDataPhoto().setExtension(extention);
-		            dto.getDataPhoto().setFileName(imageName);
-	                if (dto.getDataPhoto().getFileBase64() != null && dto.getDataPhoto().getExtension() != null
-	                        && dto.getDataPhoto().getFileName() != null) {
-	                    if (Utilities.notBlank(dto.getDataPhoto().toString())) {
-	                    	String fileName_ = Utilities.saveFile(dto.getDataPhoto(), paramsUtils);
-	                        if (fileName_ == null) {
-								response.setStatus(
-										functionalError.SAVE_FAIL("L'enregistrement de la photo a échoué", locale));
-								response.setHasError(true);
-								return response;
-	                        }
-	                        // dto.setPhoto(Utilities.getSuitableFileUrl(fileName_, paramsUtils));
-	                       String photo = Utilities.getSuitableFileUrl(fileName_, paramsUtils);
-	                        System.out.println("PHOTO  " + photo);
-	                        dto.setPhoto(fileName_);
-	                    }
-	                }
-	            }
 				Travailleur entityToSave = null;
 				entityToSave = TravailleurTransformer.INSTANCE.toEntity(dto, existingSousPosteDeTravail, existingEmployeur, existingSite, existingAncienneteSociete, existingRegime, existingAnciennetePoste, existingEthniePere, existingStatut, existingEthnieMere, existingGestionDeBien, existingPosteDeTravail, existingFonction, existingDirection, existingTypeMariage, existingStatutMatrimonial, existingSousSite,existingPays,existingCivilite);
+	            if (Utilities.notBlank(dto.getFileBase64())) {
+	            	String imageName = dto.getNom()+"_"+ dto.getPrenom();
+    				String fileName = Utilities.normalizeFileName(imageName);
+                	MultipartFile file = Utilities.convertBase64ToMultipartFile(dto.getFileBase64(), fileName,"png");
+                    System.out.println("Uploaded File: ");
+                    System.out.println("saveImageReturnFile Name : " + file.getName());
+                    System.out.println("saveImageReturnFile Type : " + file.getContentType());
+                    System.out.println("saveImageReturnFile Name : " + file.getOriginalFilename());
+                    System.out.println("saveImageReturnFile Size : " + file.getSize());
+                   // cloudinaryService.delete(fileName);
+                    //cloudinaryService.getPhotoUrl(imageName);
+                    Map result = cloudinaryService.upload(file,fileName);
+                    if(result != null) {
+                    	String public_id = (String) result.get("public_id");
+                    	String format = (String) result.get("format");
+                        System.out.println(" RESULT getPhotoUrl ===> " + cloudinaryService.getPhotoUrl(public_id+"."+format));
+                    	entityToSave.setPhoto(public_id+"."+format);
+                    }
+	            }
+				
 				entityToSave.setCreatedAt(Utilities.getCurrentDate());
 				entityToSave.setCreatedBy(request.getUser());
 				entityToSave.setIsDeleted(false);
@@ -659,6 +657,9 @@ public class TravailleurBusiness implements IBasicBusiness<Request<TravailleurDt
 //					return response;
 //				}
 
+				
+				
+				
 				List<TravailleurDto> itemsDto = (Utilities.isTrue(request.getIsSimpleLoading())) ? TravailleurTransformer.INSTANCE.toLiteDtos(itemsSaved) : TravailleurTransformer.INSTANCE.toDtos(itemsSaved);
 				final int size = itemsSaved.size();
 				List<String>  listOfError      = Collections.synchronizedList(new ArrayList<String>());
@@ -1402,27 +1403,24 @@ public class TravailleurBusiness implements IBasicBusiness<Request<TravailleurDt
 						}
 					}
 				}
-	            if (dto.getDataPhoto() != null) {
-		            String imageName = dto.getMatricule() +"_"+ dto.getPrenom();
-		            String extention = "png";
-		            dto.getDataPhoto().setExtension(extention);
-		            dto.getDataPhoto().setFileName(imageName);
-	                if (dto.getDataPhoto().getFileBase64() != null && dto.getDataPhoto().getExtension() != null
-	                        && dto.getDataPhoto().getFileName() != null) {
-	                    if (Utilities.notBlank(dto.getDataPhoto().toString())) {
-	                        String fileName_ = Utilities.saveFile(dto.getDataPhoto(), paramsUtils);
-	                        if (fileName_ == null) {
-								response.setStatus(
-										functionalError.SAVE_FAIL("L'enregistrement de la photo a échoué", locale));
-								response.setHasError(true);
-								return response;
-	                        }
-	                        // dto.setPhoto(Utilities.getSuitableFileUrl(fileName_, paramsUtils));
-	                       String photo = Utilities.getSuitableFileUrl(fileName_, paramsUtils);
-	                        System.out.println("PHOTO  " + photo);
-	                        entityToSave.setPhoto(fileName_);
-	                    }
-	                }
+	            if (Utilities.notBlank(dto.getFileBase64())) {
+	            	String imageName = dto.getNom()+"_"+ dto.getPrenom();
+    				String fileName = Utilities.normalizeFileName(imageName);
+                	MultipartFile file = Utilities.convertBase64ToMultipartFile(dto.getFileBase64(), fileName,"png");
+                    System.out.println("Uploaded File: ");
+                    System.out.println("saveImageReturnFile Name : " + file.getName());
+                    System.out.println("saveImageReturnFile Type : " + file.getContentType());
+                    System.out.println("saveImageReturnFile Name : " + file.getOriginalFilename());
+                    System.out.println("saveImageReturnFile Size : " + file.getSize());
+                   // cloudinaryService.delete(fileName);
+                    //cloudinaryService.getPhotoUrl(imageName);
+                    Map result = cloudinaryService.upload(file,fileName);
+                    if(result != null) {
+                    	String public_id = (String) result.get("public_id");
+                    	String format = (String) result.get("format");
+                        System.out.println(" RESULT getPhotoUrl ===> " + cloudinaryService.getPhotoUrl(public_id+"."+format));
+                    	entityToSave.setPhoto(public_id+"."+format);
+                    }
 	            }
 				entityToSave.setUpdatedAt(Utilities.getCurrentDate());
 				entityToSave.setUpdatedBy(request.getUser());
@@ -1548,6 +1546,8 @@ public class TravailleurBusiness implements IBasicBusiness<Request<TravailleurDt
 				existingEntity.setDeletedBy(request.getUser());
 				existingEntity.setIsDeleted(true);
 				items.add(existingEntity);
+				cloudinaryService.delete(existingEntity.getPhoto());
+
 			}
 
 			if (!items.isEmpty()) {
@@ -1654,7 +1654,63 @@ public class TravailleurBusiness implements IBasicBusiness<Request<TravailleurDt
 		}
 		return response;
 	}
+    @SuppressWarnings("unused")
+    @Transactional(rollbackFor = {RuntimeException.class, Exception.class})
+    public Response<TravailleurDto> uploadPhoto(Request<TravailleurDto> request,Locale locale) {
+        log.info("----begin uploadPhoto -----");
 
+        Response<TravailleurDto> response = new Response<TravailleurDto>();
+
+        try {
+//
+        	MultipartFile file = request.getFile();
+            System.out.println("Uploaded File: ");
+            System.out.println("Name : " + file.getName());
+            System.out.println("Type : " + file.getContentType());
+            System.out.println("Name : " + file.getOriginalFilename());
+            System.out.println("Size : " + file.getSize());
+			Map<String, java.lang.Object> fieldsToVerifyUser = new HashMap<String, java.lang.Object>();
+			fieldsToVerifyUser.put("user", request.getUser());
+			if (!Validate.RequiredValue(fieldsToVerifyUser).isGood()) {
+				response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
+				response.setHasError(true);
+				return response;
+			}
+			Response<UserDto> userResponse = userBusiness.isGranted(request, FunctionalityEnum.VIEW_TRAVAILLEUR.getValue(), locale);
+			if (userResponse.isHasError()) {
+				response.setHasError(true);
+				response.setStatus(userResponse.getStatus());
+				return response;
+			}
+			
+			
+			cloudinaryService.upload(file,"test");
+			
+			//String photo = Utilities.getSuitableFileUrl(itemsDto.getPhoto(), paramsUtils);
+
+            //response.setPhoto(photo);
+            //response.setToken(tokenFromHeader);
+//				response.setHasError(false);
+
+            log.info("----end uploadPhoto-----");
+        } catch (PermissionDeniedDataAccessException e) {
+            exceptionUtils.PERMISSION_DENIED_DATA_ACCESS_EXCEPTION(response, locale, e);
+        } catch (DataAccessResourceFailureException e) {
+            exceptionUtils.DATA_ACCESS_RESOURCE_FAILURE_EXCEPTION(response, locale, e);
+        } catch (DataAccessException e) {
+            exceptionUtils.DATA_ACCESS_EXCEPTION(response, locale, e);
+        } catch (RuntimeException e) {
+            exceptionUtils.RUNTIME_EXCEPTION(response, locale, e);
+        } catch (Exception e) {
+            exceptionUtils.EXCEPTION(response, locale, e);
+        } finally {
+            if (response.isHasError() && response.getStatus() != null) {
+                log.info(String.format("Erreur| code: {} -  message: {}", response.getStatus().getCode(), response.getStatus().getMessage()));
+                throw new RuntimeException(response.getStatus().getCode() + ";" + response.getStatus().getMessage());
+            }
+        }
+        return response;
+    }
 	/**
 	 * get full TravailleurDto by using Travailleur as object.
 	 * 
@@ -1668,7 +1724,7 @@ public class TravailleurBusiness implements IBasicBusiness<Request<TravailleurDt
 	private TravailleurDto getFullInfos(TravailleurDto dto, Integer size, Boolean isSimpleLoading, Locale locale) throws Exception {
 		
         if (dto.getPhoto() != null) {
-            String photo = Utilities.getSuitableFileUrl(dto.getPhoto(), paramsUtils);
+            String photo = cloudinaryService.getPhotoUrl(dto.getPhoto());;
             dto.setPhoto(photo);
         }
 		// put code here

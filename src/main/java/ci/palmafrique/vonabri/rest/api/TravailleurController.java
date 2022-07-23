@@ -30,6 +30,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import ci.palmafrique.vonabri.business.TravailleurBusiness;
+import ci.palmafrique.vonabri.business.UserBusiness;
+import ci.palmafrique.vonabri.jwt.JwtTokenUtil;
 import ci.palmafrique.vonabri.utils.ExceptionUtils;
 import ci.palmafrique.vonabri.utils.FileStorageProperties;
 import ci.palmafrique.vonabri.utils.FileStorageService;
@@ -57,12 +59,17 @@ public class TravailleurController {
 	private TravailleurBusiness travailleurBusiness;
 
 	@Autowired
+	private UserController userController;
+	
+	@Autowired
 	private FunctionalError functionalError;
 
 	@Autowired
 	private ExceptionUtils			exceptionUtils;
 
 	private Logger slf4jLogger = LoggerFactory.getLogger(getClass());
+	@Autowired
+	private JwtTokenUtil jwtTokenUtil;
 	
 	@Autowired
 	private HttpServletRequest requestBasic;
@@ -261,6 +268,37 @@ public class TravailleurController {
 			exceptionUtils.EXCEPTION(response, locale, e);
 		}
 		slf4jLogger.info("end method /travailleur/getByCriteria");
+        return response;
+    }
+	
+	@RequestMapping(value="/upload",method=RequestMethod.POST,consumes = {"multipart/form-data" }, produces = { "application/json" })
+    public Response<TravailleurDto> uploadPhoto(@RequestParam("file") MultipartFile file,@RequestParam("user") Integer user) {
+		
+		
+
+		slf4jLogger.info("start method /travailleur/photo");
+		
+        Response<TravailleurDto> response = new Response<TravailleurDto>();
+
+        String languageID = (String)requestBasic.getAttribute("CURRENT_LANGUAGE_IDENTIFIER");
+        Locale locale = new Locale(languageID, "");
+
+        try {
+        	Request<TravailleurDto> request = new Request<TravailleurDto>();
+        	request.setUser(user);
+        	request.setFile(file);
+            response = travailleurBusiness.uploadPhoto(request, locale);
+ 
+        } catch (CannotCreateTransactionException e) {
+			exceptionUtils.CANNOT_CREATE_TRANSACTION_EXCEPTION(response, locale, e);
+		} catch (TransactionSystemException e) {
+			exceptionUtils.TRANSACTION_SYSTEM_EXCEPTION(response, locale, e);
+		} catch (RuntimeException e) {
+			exceptionUtils.RUNTIME_EXCEPTION(response, locale, e);
+		} catch (Exception e) {
+			exceptionUtils.EXCEPTION(response, locale, e);
+		}
+		slf4jLogger.info("end method /travailleur/photo");
         return response;
     }
 }

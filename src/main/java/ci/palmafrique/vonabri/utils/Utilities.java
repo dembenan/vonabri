@@ -60,6 +60,7 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.json.JSONObject;
+import org.springframework.web.multipart.MultipartFile;
 
 import ci.palmafrique.vonabri.utils.dto.customize._FileDto;
 
@@ -476,7 +477,28 @@ public class Utilities {
 		return true;
 
 	}
+	public static MultipartFile convertBase64ToMultipartFile(String base64String, String nomCompletImage, String extension) throws Exception {
 
+		BufferedImage image = decodeToImage(base64String);
+
+		if (image == null) {
+
+			return null;
+
+		}
+		
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ImageIO.write( image, extension, baos );
+		
+		baos.flush();
+		System.out.println("BufferedImage SIZE=====>"+baos.size());
+		MultipartFile multipartFile = new MultipartImage(baos.toByteArray());
+		// write the image
+		return multipartFile;
+	}
+	
+	
+	
 	public static boolean saveVideo(String base64String, String nomCompletVideo) throws Exception {
 
 		try {
@@ -809,6 +831,24 @@ public class Utilities {
 
 }
 	
+public static boolean saveFileBASE64(String base64String, String nomCompletFichier) throws Exception {
+		System.out.println("DANS SAVEFILE");
+	try {
+
+		byte[] decodedBytes = Base64.getDecoder().decode(base64String);
+		File file2 = new File(nomCompletFichier);
+		FileOutputStream os = new FileOutputStream(file2, true);
+		os.write(decodedBytes);
+		os.close();
+
+	} catch (Exception e) {
+		// TODO: handle exception
+		return false;
+	}
+
+	return true;
+
+}
 	public static String getSuitableFileUrl(String fileName, ParamsUtils paramsUtils) {
 		String suitableFileDirectory = null;
 		if(fileName.contains(".")) {

@@ -1128,7 +1128,6 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 		log.info("----begin get isGranted-----");
 
 		response = new Response<UserDto>();
-
 		try {
 	 		String token = getTokenFromRequestBasic();
 			UserDto getRedisSaved = redisUser.get(token);
@@ -1140,14 +1139,12 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
  			}
 			getUserAgent();
 			redisUser.getExpiration(token);
-
 				User currentUser = userRepository.findOne(getRedisSaved.getId(), false);
 				if (currentUser == null) {
 					response.setStatus(functionalError.DATA_NOT_EXIST("Utilisateur -> " + getRedisSaved.getId(), locale));
 					response.setHasError(true);
 					return response;
 				}
-				
 				if (Utilities.isTrue(currentUser.getIsLocked())) {
 					response.setStatus(functionalError.REQUEST_FAIL("L'utilisateur "+currentUser.getEmail()+" est verouille(e)" , locale));
 					response.setHasError(true);
