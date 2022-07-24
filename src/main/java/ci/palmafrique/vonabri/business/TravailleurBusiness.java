@@ -1382,7 +1382,7 @@ public class TravailleurBusiness implements IBasicBusiness<Request<TravailleurDt
 						User userSave = userRepository.save(user);
 					}
 				}
-				if (!dto.getNationnalites().isEmpty()) {
+				if (dto.getNationnalites() != null && !dto.getNationnalites().isEmpty()) {
 					for (NationnaliteDto nationnalite : dto.getNationnalites()) {
 						Nationnalite existingNationnalite = null;
 						existingNationnalite = nationnaliteRepository.findOne(nationnalite.getId(), false);
@@ -1404,7 +1404,7 @@ public class TravailleurBusiness implements IBasicBusiness<Request<TravailleurDt
 					}
 				}
 	            if (Utilities.notBlank(dto.getFileBase64())) {
-	            	String imageName = dto.getNom()+"_"+ dto.getPrenom();
+	            	String imageName = entityToSave.getNom()+"_"+ entityToSave.getPrenom();
     				String fileName = Utilities.normalizeFileName(imageName);
                 	MultipartFile file = Utilities.convertBase64ToMultipartFile(dto.getFileBase64(), fileName,"png");
                     System.out.println("Uploaded File: ");
