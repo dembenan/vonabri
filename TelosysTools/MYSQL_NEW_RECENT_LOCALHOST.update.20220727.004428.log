@@ -1,0 +1,112 @@
+Update date : Wed Jul 27 00:44:29 GMT 2022
+ 
+ Table 'anciennete' found in repository
+ (=) table 'anciennete' unchanged
+ 
+ Table 'anciennete_type' found in repository
+ (=) table 'anciennete_type' unchanged
+ 
+ Table 'civilite' found in repository
+ (=) table 'civilite' unchanged
+ 
+ Table 'commentaire' not found in repository
+ (+) table 'commentaire' added
+ 
+ Table 'commentaire_type' not found in repository
+ (+) table 'commentaire_type' added
+ 
+ Table 'direction' found in repository
+ (=) table 'direction' unchanged
+ 
+ Table 'element' found in repository
+ (=) table 'element' unchanged
+ 
+ Table 'element_type' found in repository
+ (=) table 'element_type' unchanged
+ 
+ Table 'employeur' found in repository
+ (=) table 'employeur' unchanged
+ 
+ Table 'ethnie' found in repository
+ (=) table 'ethnie' unchanged
+ 
+ Table 'fonction' found in repository
+ (=) table 'fonction' unchanged
+ 
+ Table 'fonctionnalite' found in repository
+ (=) table 'fonctionnalite' unchanged
+ 
+ Table 'gestion_de_bien' found in repository
+ (=) table 'gestion_de_bien' unchanged
+ 
+ Table 'livraison' not found in repository
+ (+) table 'livraison' added
+ 
+ Table 'livraison_type' not found in repository
+ (+) table 'livraison_type' added
+ 
+ Table 'nationnalite' found in repository
+ (=) table 'nationnalite' unchanged
+ 
+ Table 'pays' found in repository
+ (=) table 'pays' unchanged
+ 
+ Table 'poste_de_travail' found in repository
+ (=) table 'poste_de_travail' unchanged
+ 
+ Table 'production' not found in repository
+ (+) table 'production' added
+ 
+ Table 'profil' found in repository
+ (=) table 'profil' unchanged
+ 
+ Table 'profil_fonctionnalite' found in repository
+ (=) table 'profil_fonctionnalite' unchanged
+ 
+ Table 'regime' found in repository
+ (=) table 'regime' unchanged
+ 
+ Table 'site' found in repository
+ (=) table 'site' unchanged
+ 
+ Table 'sous_poste_de_travail' found in repository
+ (=) table 'sous_poste_de_travail' unchanged
+ 
+ Table 'sous_site' found in repository
+ (=) table 'sous_site' unchanged
+ 
+ Table 'statut' found in repository
+ (=) table 'statut' unchanged
+ 
+ Table 'statut_matrimonial' found in repository
+ (=) table 'statut_matrimonial' unchanged
+ 
+ Table 'stock_huile' not found in repository
+ (+) table 'stock_huile' added
+ 
+ Table 'tank' not found in repository
+ (+) table 'tank' added
+ 
+ Table 'travailleur' found in repository
+ . Column 'civilite' deleted
+ . Column 'pays' deleted
+ . Foreign key 'FKosvuc2lbr0a49xcbpx3l9qmhq' deleted
+ . Foreign key 'FKr4qypr2j474c31ejgsso44da4' deleted
+ . Column 'civilite_id' added
+ . Column 'pays_id' added
+ . Column 'photo' added
+ . Foreign key 'FKayaujk88tta90b5sk6mckv3k3' added
+ . Foreign key 'FKlfxhf5as6uqshc05qnk63v0m5' added
+ (*) table 'travailleur' updated : 9 change(s)
+ 
+ Table 'travailleur_nationnalite' found in repository
+ (=) table 'travailleur_nationnalite' unchanged
+ 
+ Table 'type_mariage' found in repository
+ (=) table 'type_mariage' unchanged
+ 
+ Table 'user' found in repository
+ (=) table 'user' unchanged
+ 
+ Table 'user_type' found in repository
+ (=) table 'user_type' unchanged

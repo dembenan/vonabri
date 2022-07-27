@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Telosys Database Repository --><root>
-    <tableList databaseId="0" databaseName="MYSQL_NEW_RECENT_LOCALHOST" databaseProductName="MySQL" generation="2022-06-28 01:52:27">
+    <tableList databaseId="4" databaseName="MYSQL_pro" databaseProductName="MySQL" generation="2022-07-27 01:27:43">
         <table catalog="vonabri_db" databaseComment="" databaseType="TABLE" javaBean="Anciennete" name="anciennete" schema="">
             <column dbAutoIncremented="true" dbComment="" dbDefaultValue="" dbName="id" dbNotNull="true" dbPosition="1" dbPrimaryKey="true" dbSize="10" dbTypeName="INT" inputType="number" javaName="id" javaType="java.lang.Integer" jdbcTypeCode="4" label="Id" notNull="true" selected="true"/>
             <column dbComment="" dbDefaultValue="" dbName="code" dbNotNull="false" dbPosition="2" dbSize="255" dbTypeName="VARCHAR" inputType="text" javaName="code" javaType="java.lang.String" jdbcTypeCode="12" label="Code" maxLength="255" notNull="false" selected="true"/>
@@ -62,6 +62,22 @@
             <column dbComment="" dbDefaultValue="" dbName="updated_by" dbNotNull="false" dbPosition="9" dbSize="10" dbTypeName="INT" inputType="number" javaName="updatedBy" javaType="java.lang.Integer" jdbcTypeCode="4" label="Updated by" notNull="false" selected="true"/>
             <column dbComment="" dbDefaultValue="" dbName="deleted_by" dbNotNull="false" dbPosition="10" dbSize="10" dbTypeName="INT" inputType="number" javaName="deletedBy" javaType="java.lang.Integer" jdbcTypeCode="4" label="Deleted by" notNull="false" selected="true"/>
             <column dbComment="" dbDefaultValue="" dbName="is_deleted" dbNotNull="false" dbPosition="11" dbSize="1" dbTypeName="BIT" inputType="checkbox" javaName="isDeleted" javaType="java.lang.Boolean" jdbcTypeCode="-7" label="Is deleted" notNull="false" selected="true"/>
+            <fk name="FK_production">
+                <fkcol colname="production_id" colref="id" deferrable="7" deleterule="0" sequence="1" tablename="commentaire" tableref="production" updaterule="0"/>
+            </fk>
+            <fk name="FK_type">
+                <fkcol colname="commentaire_type_id" colref="id" deferrable="7" deleterule="0" sequence="1" tablename="commentaire" tableref="commentaire_type" updaterule="0"/>
+            </fk>
+            <link cardinality="ManyToOne" cascade="" fetch="DEFAULT" foreignKeyName="FK_type" id="LINK_FK_FK_type_O" inverseSideOf="" javaName="commentaireType" javaType="unused" joinTableName="" mappedBy="" optional="" owningSide="true" sourceTableName="commentaire" targetEntity="CommentaireType" targetTableName="commentaire_type" used="true">
+                <joinColumns>
+                    <joinColumn insertable="false" name="commentaire_type_id" nullable="true" referencedColumnName="id" unique="false" updatable="false"/>
+                </joinColumns>
+            </link>
+            <link cardinality="ManyToOne" cascade="" fetch="DEFAULT" foreignKeyName="FK_production" id="LINK_FK_FK_production_O" inverseSideOf="" javaName="production" javaType="unused" joinTableName="" mappedBy="" optional="" owningSide="true" sourceTableName="commentaire" targetEntity="Production" targetTableName="production" used="true">
+                <joinColumns>
+                    <joinColumn insertable="false" name="production_id" nullable="true" referencedColumnName="id" unique="false" updatable="false"/>
+                </joinColumns>
+            </link>
         </table>
         <table catalog="vonabri_db" databaseComment="" databaseType="TABLE" javaBean="CommentaireType" name="commentaire_type" schema="">
             <column dbAutoIncremented="true" dbComment="" dbDefaultValue="" dbName="id" dbNotNull="true" dbPosition="1" dbPrimaryKey="true" dbSize="10" dbTypeName="INT" inputType="number" javaName="id" javaType="java.lang.Integer" jdbcTypeCode="4" label="Id" notNull="true" selected="true"/>
@@ -74,6 +90,7 @@
             <column dbComment="" dbDefaultValue="" dbName="updated_by" dbNotNull="false" dbPosition="8" dbSize="10" dbTypeName="INT" inputType="number" javaName="updatedBy" javaType="java.lang.Integer" jdbcTypeCode="4" label="Updated by" notNull="false" selected="true"/>
             <column dbComment="" dbDefaultValue="" dbName="deleted_by" dbNotNull="false" dbPosition="9" dbSize="10" dbTypeName="INT" inputType="number" javaName="deletedBy" javaType="java.lang.Integer" jdbcTypeCode="4" label="Deleted by" notNull="false" selected="true"/>
             <column dbComment="" dbDefaultValue="" dbName="is_deleted" dbNotNull="false" dbPosition="10" dbSize="1" dbTypeName="BIT" inputType="checkbox" javaName="isDeleted" javaType="java.lang.Boolean" jdbcTypeCode="-7" label="Is deleted" notNull="false" selected="true"/>
+            <link cardinality="OneToMany" cascade="" fetch="DEFAULT" foreignKeyName="FK_type" id="LINK_FK_FK_type_I" inverseSideOf="LINK_FK_FK_type_O" javaName="listOfCommentaire" javaType="unused" joinTableName="" mappedBy="commentaireType" optional="" owningSide="false" sourceTableName="commentaire_type" targetEntity="Commentaire" targetTableName="commentaire" used="true"/>
         </table>
         <table catalog="vonabri_db" databaseComment="" databaseType="TABLE" javaBean="Direction" name="direction" schema="">
             <column dbAutoIncremented="true" dbComment="" dbDefaultValue="" dbName="id" dbNotNull="true" dbPosition="1" dbPrimaryKey="true" dbSize="10" dbTypeName="INT" inputType="number" javaName="id" javaType="java.lang.Integer" jdbcTypeCode="4" label="Id" notNull="true" selected="true"/>
@@ -90,8 +107,8 @@
         </table>
         <table catalog="vonabri_db" databaseComment="" databaseType="TABLE" javaBean="Element" name="element" schema="">
             <column dbAutoIncremented="true" dbComment="" dbDefaultValue="" dbName="id" dbNotNull="true" dbPosition="1" dbPrimaryKey="true" dbSize="10" dbTypeName="INT" inputType="number" javaName="id" javaType="java.lang.Integer" jdbcTypeCode="4" label="Id" notNull="true" selected="true"/>
-            <column dbComment="" dbDefaultValue="" dbName="champs_listing" dbNotNull="false" dbPosition="2" dbSize="65535" dbTypeName="BLOB" inputType="" javaName="champsListing" javaType="byte[]" jdbcTypeCode="-4" label="Champs listing" notNull="false" selected="true"/>
-            <column dbComment="" dbDefaultValue="" dbName="champs_creation" dbNotNull="false" dbPosition="3" dbSize="65535" dbTypeName="BLOB" inputType="" javaName="champsCreation" javaType="byte[]" jdbcTypeCode="-4" label="Champs creation" notNull="false" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="champs_creation" dbNotNull="false" dbPosition="2" dbSize="65535" dbTypeName="BLOB" inputType="" javaName="champsCreation" javaType="byte[]" jdbcTypeCode="-4" label="Champs creation" notNull="false" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="champs_listing" dbNotNull="false" dbPosition="3" dbSize="65535" dbTypeName="BLOB" inputType="" javaName="champsListing" javaType="byte[]" jdbcTypeCode="-4" label="Champs listing" notNull="false" selected="true"/>
             <column dbComment="" dbDefaultValue="" dbName="code" dbNotNull="false" dbPosition="4" dbSize="255" dbTypeName="VARCHAR" inputType="text" javaName="code" javaType="java.lang.String" jdbcTypeCode="12" label="Code" maxLength="255" notNull="false" selected="true"/>
             <column dateType="DT" dbComment="" dbDefaultValue="" dbName="created_at" dbNotNull="false" dbPosition="5" dbSize="19" dbTypeName="DATETIME" inputType="" javaName="createdAt" javaType="java.util.Date" jdbcTypeCode="93" label="Created at" notNull="false" selected="true"/>
             <column dbComment="" dbDefaultValue="" dbName="created_by" dbNotNull="false" dbPosition="6" dbSize="10" dbTypeName="INT" inputType="number" javaName="createdBy" javaType="java.lang.Integer" jdbcTypeCode="4" label="Created by" notNull="false" selected="true"/>
@@ -216,8 +233,8 @@
             <column dbAutoIncremented="true" dbComment="" dbDefaultValue="" dbName="id" dbNotNull="true" dbPosition="1" dbPrimaryKey="true" dbSize="10" dbTypeName="INT" inputType="number" javaName="id" javaType="java.lang.Integer" jdbcTypeCode="4" label="Id" notNull="true" selected="true"/>
             <column dbComment="" dbDefaultValue="" dbName="livraison_type_id" dbNotNull="true" dbPosition="2" dbSize="10" dbTypeName="INT" inputType="number" javaName="livraisonTypeId" javaType="java.lang.Integer" jdbcTypeCode="4" label="Livraison type id" notNull="true" selected="true"/>
             <column dbComment="" dbDefaultValue="" dbName="site_id" dbNotNull="true" dbPosition="3" dbSize="10" dbTypeName="INT" inputType="number" javaName="siteId" javaType="java.lang.Integer" jdbcTypeCode="4" label="Site id" notNull="true" selected="true"/>
-            <column dbComment="" dbDefaultValue="" dbName="stock_livrer" dbNotNull="false" dbPosition="4" dbSize="22" dbTypeName="DOUBLE" inputType="number" javaName="stockLivrer" javaType="java.lang.Double" jdbcTypeCode="8" label="Stock livrer" notNull="false" selected="true"/>
-            <column dbComment="" dbDefaultValue="" dbName="production_id" dbNotNull="true" dbPosition="5" dbSize="10" dbTypeName="INT" inputType="number" javaName="productionId" javaType="java.lang.Integer" jdbcTypeCode="4" label="Production id" notNull="true" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="production_id" dbNotNull="false" dbPosition="4" dbSize="10" dbTypeName="INT" inputType="number" javaName="productionId" javaType="java.lang.Integer" jdbcTypeCode="4" label="Production id" notNull="false" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="stock_livrer" dbNotNull="false" dbPosition="5" dbSize="22" dbTypeName="DOUBLE" inputType="number" javaName="stockLivrer" javaType="java.lang.Double" jdbcTypeCode="8" label="Stock livrer" notNull="false" selected="true"/>
             <column dateType="DT" dbComment="" dbDefaultValue="CURRENT_TIMESTAMP" dbName="created_at" dbNotNull="false" dbPosition="6" dbSize="19" dbTypeName="DATETIME" inputType="" javaName="createdAt" javaType="java.util.Date" jdbcTypeCode="93" label="Created at" notNull="false" selected="true"/>
             <column dateType="DT" dbComment="" dbDefaultValue="" dbName="deleted_at" dbNotNull="false" dbPosition="7" dbSize="19" dbTypeName="DATETIME" inputType="" javaName="deletedAt" javaType="java.util.Date" jdbcTypeCode="93" label="Deleted at" notNull="false" selected="true"/>
             <column dateType="DT" dbComment="" dbDefaultValue="CURRENT_TIMESTAMP" dbName="updated_at" dbNotNull="false" dbPosition="8" dbSize="19" dbTypeName="TIMESTAMP" inputType="" javaName="updatedAt" javaType="java.util.Date" jdbcTypeCode="93" label="Updated at" notNull="false" selected="true"/>
@@ -225,6 +242,30 @@
             <column dbComment="" dbDefaultValue="" dbName="updated_by" dbNotNull="false" dbPosition="10" dbSize="10" dbTypeName="INT" inputType="number" javaName="updatedBy" javaType="java.lang.Integer" jdbcTypeCode="4" label="Updated by" notNull="false" selected="true"/>
             <column dbComment="" dbDefaultValue="" dbName="deleted_by" dbNotNull="false" dbPosition="11" dbSize="10" dbTypeName="INT" inputType="number" javaName="deletedBy" javaType="java.lang.Integer" jdbcTypeCode="4" label="Deleted by" notNull="false" selected="true"/>
             <column dbComment="" dbDefaultValue="" dbName="is_deleted" dbNotNull="false" dbPosition="12" dbSize="1" dbTypeName="BIT" inputType="checkbox" javaName="isDeleted" javaType="java.lang.Boolean" jdbcTypeCode="-7" label="Is deleted" notNull="false" selected="true"/>
+            <fk name="FK_livraision_prod">
+                <fkcol colname="production_id" colref="id" deferrable="7" deleterule="0" sequence="1" tablename="livraison" tableref="production" updaterule="0"/>
+            </fk>
+            <fk name="FK_site">
+                <fkcol colname="site_id" colref="id" deferrable="7" deleterule="0" sequence="1" tablename="livraison" tableref="site" updaterule="0"/>
+            </fk>
+            <fk name="FK_type_livraission">
+                <fkcol colname="livraison_type_id" colref="id" deferrable="7" deleterule="0" sequence="1" tablename="livraison" tableref="livraison_type" updaterule="0"/>
+            </fk>
+            <link cardinality="ManyToOne" cascade="" fetch="DEFAULT" foreignKeyName="FK_livraision_prod" id="LINK_FK_FK_livraision_prod_O" inverseSideOf="" javaName="production" javaType="unused" joinTableName="" mappedBy="" optional="" owningSide="true" sourceTableName="livraison" targetEntity="Production" targetTableName="production" used="true">
+                <joinColumns>
+                    <joinColumn insertable="false" name="production_id" nullable="true" referencedColumnName="id" unique="false" updatable="false"/>
+                </joinColumns>
+            </link>
+            <link cardinality="ManyToOne" cascade="" fetch="DEFAULT" foreignKeyName="FK_site" id="LINK_FK_FK_site_O" inverseSideOf="" javaName="site" javaType="unused" joinTableName="" mappedBy="" optional="" owningSide="true" sourceTableName="livraison" targetEntity="Site" targetTableName="site" used="true">
+                <joinColumns>
+                    <joinColumn insertable="false" name="site_id" nullable="true" referencedColumnName="id" unique="false" updatable="false"/>
+                </joinColumns>
+            </link>
+            <link cardinality="ManyToOne" cascade="" fetch="DEFAULT" foreignKeyName="FK_type_livraission" id="LINK_FK_FK_type_livraission_O" inverseSideOf="" javaName="livraisonType" javaType="unused" joinTableName="" mappedBy="" optional="" owningSide="true" sourceTableName="livraison" targetEntity="LivraisonType" targetTableName="livraison_type" used="true">
+                <joinColumns>
+                    <joinColumn insertable="false" name="livraison_type_id" nullable="true" referencedColumnName="id" unique="false" updatable="false"/>
+                </joinColumns>
+            </link>
         </table>
         <table catalog="vonabri_db" databaseComment="" databaseType="TABLE" javaBean="LivraisonType" name="livraison_type" schema="">
             <column dbAutoIncremented="true" dbComment="" dbDefaultValue="" dbName="id" dbNotNull="true" dbPosition="1" dbPrimaryKey="true" dbSize="10" dbTypeName="INT" inputType="number" javaName="id" javaType="java.lang.Integer" jdbcTypeCode="4" label="Id" notNull="true" selected="true"/>
@@ -237,6 +278,7 @@
             <column dbComment="" dbDefaultValue="" dbName="updated_by" dbNotNull="false" dbPosition="8" dbSize="10" dbTypeName="INT" inputType="number" javaName="updatedBy" javaType="java.lang.Integer" jdbcTypeCode="4" label="Updated by" notNull="false" selected="true"/>
             <column dbComment="" dbDefaultValue="" dbName="deleted_by" dbNotNull="false" dbPosition="9" dbSize="10" dbTypeName="INT" inputType="number" javaName="deletedBy" javaType="java.lang.Integer" jdbcTypeCode="4" label="Deleted by" notNull="false" selected="true"/>
             <column dbComment="" dbDefaultValue="" dbName="is_deleted" dbNotNull="false" dbPosition="10" dbSize="1" dbTypeName="BIT" inputType="checkbox" javaName="isDeleted" javaType="java.lang.Boolean" jdbcTypeCode="-7" label="Is deleted" notNull="false" selected="true"/>
+            <link cardinality="OneToMany" cascade="" fetch="DEFAULT" foreignKeyName="FK_type_livraission" id="LINK_FK_FK_type_livraission_I" inverseSideOf="LINK_FK_FK_type_livraission_O" javaName="listOfLivraison" javaType="unused" joinTableName="" mappedBy="livraisonType" optional="" owningSide="false" sourceTableName="livraison_type" targetEntity="Livraison" targetTableName="livraison" used="true"/>
         </table>
         <table catalog="vonabri_db" databaseComment="" databaseType="TABLE" javaBean="Nationnalite" name="nationnalite" schema="">
             <column dbAutoIncremented="true" dbComment="" dbDefaultValue="" dbName="id" dbNotNull="true" dbPosition="1" dbPrimaryKey="true" dbSize="10" dbTypeName="INT" inputType="number" javaName="id" javaType="java.lang.Integer" jdbcTypeCode="4" label="Id" notNull="true" selected="true"/>
@@ -303,6 +345,17 @@
             <column dbComment="" dbDefaultValue="" dbName="updated_by" dbNotNull="false" dbPosition="22" dbSize="10" dbTypeName="INT" inputType="number" javaName="updatedBy" javaType="java.lang.Integer" jdbcTypeCode="4" label="Updated by" notNull="false" selected="true"/>
             <column dbComment="" dbDefaultValue="" dbName="deleted_by" dbNotNull="false" dbPosition="23" dbSize="10" dbTypeName="INT" inputType="number" javaName="deletedBy" javaType="java.lang.Integer" jdbcTypeCode="4" label="Deleted by" notNull="false" selected="true"/>
             <column dbComment="" dbDefaultValue="" dbName="is_deleted" dbNotNull="false" dbPosition="24" dbSize="1" dbTypeName="BIT" inputType="checkbox" javaName="isDeleted" javaType="java.lang.Boolean" jdbcTypeCode="-7" label="Is deleted" notNull="false" selected="true"/>
+            <fk name="FK_site_prod">
+                <fkcol colname="site_id" colref="id" deferrable="7" deleterule="0" sequence="1" tablename="production" tableref="site" updaterule="0"/>
+            </fk>
+            <link cardinality="OneToMany" cascade="" fetch="DEFAULT" foreignKeyName="FK_production" id="LINK_FK_FK_production_I" inverseSideOf="LINK_FK_FK_production_O" javaName="listOfCommentaire" javaType="unused" joinTableName="" mappedBy="production" optional="" owningSide="false" sourceTableName="production" targetEntity="Commentaire" targetTableName="commentaire" used="true"/>
+            <link cardinality="OneToMany" cascade="" fetch="DEFAULT" foreignKeyName="FK_stock_heuile_prod" id="LINK_FK_FK_stock_heuile_prod_I" inverseSideOf="LINK_FK_FK_stock_heuile_prod_O" javaName="listOfStockHuile" javaType="unused" joinTableName="" mappedBy="production" optional="" owningSide="false" sourceTableName="production" targetEntity="StockHuile" targetTableName="stock_huile" used="true"/>
+            <link cardinality="OneToMany" cascade="" fetch="DEFAULT" foreignKeyName="FK_livraision_prod" id="LINK_FK_FK_livraision_prod_I" inverseSideOf="LINK_FK_FK_livraision_prod_O" javaName="listOfLivraison" javaType="unused" joinTableName="" mappedBy="production" optional="" owningSide="false" sourceTableName="production" targetEntity="Livraison" targetTableName="livraison" used="true"/>
+            <link cardinality="ManyToOne" cascade="" fetch="DEFAULT" foreignKeyName="FK_site_prod" id="LINK_FK_FK_site_prod_O" inverseSideOf="" javaName="site" javaType="unused" joinTableName="" mappedBy="" optional="" owningSide="true" sourceTableName="production" targetEntity="Site" targetTableName="site" used="true">
+                <joinColumns>
+                    <joinColumn insertable="false" name="site_id" nullable="true" referencedColumnName="id" unique="false" updatable="false"/>
+                </joinColumns>
+            </link>
         </table>
         <table catalog="vonabri_db" databaseComment="" databaseType="TABLE" javaBean="Profil" name="profil" schema="">
             <column dbAutoIncremented="true" dbComment="" dbDefaultValue="" dbName="id" dbNotNull="true" dbPosition="1" dbPrimaryKey="true" dbSize="10" dbTypeName="INT" inputType="number" javaName="id" javaType="java.lang.Integer" jdbcTypeCode="4" label="Id" notNull="true" selected="true"/>
@@ -371,8 +424,10 @@
             <column dbComment="" dbDefaultValue="" dbName="libelle" dbNotNull="false" dbPosition="8" dbSize="255" dbTypeName="VARCHAR" inputType="text" javaName="libelle" javaType="java.lang.String" jdbcTypeCode="12" label="Libelle" maxLength="255" notNull="false" selected="true"/>
             <column dateType="DT" dbComment="" dbDefaultValue="" dbName="updated_at" dbNotNull="false" dbPosition="9" dbSize="19" dbTypeName="DATETIME" inputType="" javaName="updatedAt" javaType="java.util.Date" jdbcTypeCode="93" label="Updated at" notNull="false" selected="true"/>
             <column dbComment="" dbDefaultValue="" dbName="updated_by" dbNotNull="false" dbPosition="10" dbSize="10" dbTypeName="INT" inputType="number" javaName="updatedBy" javaType="java.lang.Integer" jdbcTypeCode="4" label="Updated by" notNull="false" selected="true"/>
+            <link cardinality="OneToMany" cascade="" fetch="DEFAULT" foreignKeyName="FK_site" id="LINK_FK_FK_site_I" inverseSideOf="LINK_FK_FK_site_O" javaName="listOfLivraison" javaType="unused" joinTableName="" mappedBy="site" optional="" owningSide="false" sourceTableName="site" targetEntity="Livraison" targetTableName="livraison" used="true"/>
             <link cardinality="OneToMany" cascade="" fetch="DEFAULT" foreignKeyName="FKj3j1sfllbw8dfiomytbq7ooin" id="LINK_FK_FKj3j1sfllbw8dfiomytbq7ooin_I" inverseSideOf="LINK_FK_FKj3j1sfllbw8dfiomytbq7ooin_O" javaName="listOfTravailleur" javaType="unused" joinTableName="" mappedBy="site" optional="" owningSide="false" sourceTableName="site" targetEntity="Travailleur" targetTableName="travailleur" used="true"/>
             <link cardinality="OneToMany" cascade="" fetch="DEFAULT" foreignKeyName="FKgjmksh7acn4tffj49qt8xnlox" id="LINK_FK_FKgjmksh7acn4tffj49qt8xnlox_I" inverseSideOf="LINK_FK_FKgjmksh7acn4tffj49qt8xnlox_O" javaName="listOfSousSite" javaType="unused" joinTableName="" mappedBy="site" optional="" owningSide="false" sourceTableName="site" targetEntity="SousSite" targetTableName="sous_site" used="true"/>
+            <link cardinality="OneToMany" cascade="" fetch="DEFAULT" foreignKeyName="FK_site_prod" id="LINK_FK_FK_site_prod_I" inverseSideOf="LINK_FK_FK_site_prod_O" javaName="listOfProduction" javaType="unused" joinTableName="" mappedBy="site" optional="" owningSide="false" sourceTableName="site" targetEntity="Production" targetTableName="production" used="true"/>
         </table>
         <table catalog="vonabri_db" databaseComment="" databaseType="TABLE" javaBean="SousPosteDeTravail" name="sous_poste_de_travail" schema="">
             <column dbAutoIncremented="true" dbComment="" dbDefaultValue="" dbName="id" dbNotNull="true" dbPosition="1" dbPrimaryKey="true" dbSize="10" dbTypeName="INT" inputType="number" javaName="id" javaType="java.lang.Integer" jdbcTypeCode="4" label="Id" notNull="true" selected="true"/>
@@ -448,7 +503,7 @@
             <column dbAutoIncremented="true" dbComment="" dbDefaultValue="" dbName="id" dbNotNull="true" dbPosition="1" dbPrimaryKey="true" dbSize="10" dbTypeName="INT" inputType="number" javaName="id" javaType="java.lang.Integer" jdbcTypeCode="4" label="Id" notNull="true" selected="true"/>
             <column dbComment="" dbDefaultValue="" dbName="tank_id" dbNotNull="true" dbPosition="2" dbSize="10" dbTypeName="INT" inputType="number" javaName="tankId" javaType="java.lang.Integer" jdbcTypeCode="4" label="Tank id" notNull="true" selected="true"/>
             <column dbComment="" dbDefaultValue="" dbName="stock" dbNotNull="false" dbPosition="3" dbSize="22" dbTypeName="DOUBLE" inputType="number" javaName="stock" javaType="java.lang.Double" jdbcTypeCode="8" label="Stock" notNull="false" selected="true"/>
-            <column dbComment="" dbDefaultValue="" dbName="production_id" dbNotNull="true" dbPosition="4" dbSize="10" dbTypeName="INT" inputType="number" javaName="productionId" javaType="java.lang.Integer" jdbcTypeCode="4" label="Production id" notNull="true" selected="true"/>
+            <column dbComment="" dbDefaultValue="" dbName="production_id" dbNotNull="false" dbPosition="4" dbSize="10" dbTypeName="INT" inputType="number" javaName="productionId" javaType="java.lang.Integer" jdbcTypeCode="4" label="Production id" notNull="false" selected="true"/>
             <column dateType="DT" dbComment="" dbDefaultValue="CURRENT_TIMESTAMP" dbName="created_at" dbNotNull="false" dbPosition="5" dbSize="19" dbTypeName="DATETIME" inputType="" javaName="createdAt" javaType="java.util.Date" jdbcTypeCode="93" label="Created at" notNull="false" selected="true"/>
             <column dateType="DT" dbComment="" dbDefaultValue="" dbName="deleted_at" dbNotNull="false" dbPosition="6" dbSize="19" dbTypeName="DATETIME" inputType="" javaName="deletedAt" javaType="java.util.Date" jdbcTypeCode="93" label="Deleted at" notNull="false" selected="true"/>
             <column dateType="DT" dbComment="" dbDefaultValue="CURRENT_TIMESTAMP" dbName="updated_at" dbNotNull="false" dbPosition="7" dbSize="19" dbTypeName="TIMESTAMP" inputType="" javaName="updatedAt" javaType="java.util.Date" jdbcTypeCode="93" label="Updated at" notNull="false" selected="true"/>
@@ -456,6 +511,22 @@
             <column dbComment="" dbDefaultValue="" dbName="updated_by" dbNotNull="false" dbPosition="9" dbSize="10" dbTypeName="INT" inputType="number" javaName="updatedBy" javaType="java.lang.Integer" jdbcTypeCode="4" label="Updated by" notNull="false" selected="true"/>
             <column dbComment="" dbDefaultValue="" dbName="deleted_by" dbNotNull="false" dbPosition="10" dbSize="10" dbTypeName="INT" inputType="number" javaName="deletedBy" javaType="java.lang.Integer" jdbcTypeCode="4" label="Deleted by" notNull="false" selected="true"/>
             <column dbComment="" dbDefaultValue="" dbName="is_deleted" dbNotNull="false" dbPosition="11" dbSize="1" dbTypeName="BIT" inputType="checkbox" javaName="isDeleted" javaType="java.lang.Boolean" jdbcTypeCode="-7" label="Is deleted" notNull="false" selected="true"/>
+            <fk name="FK_stock_heuile_prod">
+                <fkcol colname="production_id" colref="id" deferrable="7" deleterule="0" sequence="1" tablename="stock_huile" tableref="production" updaterule="0"/>
+            </fk>
+            <fk name="FK_tank">
+                <fkcol colname="tank_id" colref="id" deferrable="7" deleterule="0" sequence="1" tablename="stock_huile" tableref="tank" updaterule="0"/>
+            </fk>
+            <link cardinality="ManyToOne" cascade="" fetch="DEFAULT" foreignKeyName="FK_stock_heuile_prod" id="LINK_FK_FK_stock_heuile_prod_O" inverseSideOf="" javaName="production" javaType="unused" joinTableName="" mappedBy="" optional="" owningSide="true" sourceTableName="stock_huile" targetEntity="Production" targetTableName="production" used="true">
+                <joinColumns>
+                    <joinColumn insertable="false" name="production_id" nullable="true" referencedColumnName="id" unique="false" updatable="false"/>
+                </joinColumns>
+            </link>
+            <link cardinality="ManyToOne" cascade="" fetch="DEFAULT" foreignKeyName="FK_tank" id="LINK_FK_FK_tank_O" inverseSideOf="" javaName="tank" javaType="unused" joinTableName="" mappedBy="" optional="" owningSide="true" sourceTableName="stock_huile" targetEntity="Tank" targetTableName="tank" used="true">
+                <joinColumns>
+                    <joinColumn insertable="false" name="tank_id" nullable="true" referencedColumnName="id" unique="false" updatable="false"/>
+                </joinColumns>
+            </link>
         </table>
         <table catalog="vonabri_db" databaseComment="" databaseType="TABLE" javaBean="Tank" name="tank" schema="">
             <column dbAutoIncremented="true" dbComment="" dbDefaultValue="" dbName="id" dbNotNull="true" dbPosition="1" dbPrimaryKey="true" dbSize="10" dbTypeName="INT" inputType="number" javaName="id" javaType="java.lang.Integer" jdbcTypeCode="4" label="Id" notNull="true" selected="true"/>
@@ -469,6 +540,7 @@
             <column dbComment="" dbDefaultValue="" dbName="updated_by" dbNotNull="false" dbPosition="9" dbSize="10" dbTypeName="INT" inputType="number" javaName="updatedBy" javaType="java.lang.Integer" jdbcTypeCode="4" label="Updated by" notNull="false" selected="true"/>
             <column dbComment="" dbDefaultValue="" dbName="deleted_by" dbNotNull="false" dbPosition="10" dbSize="10" dbTypeName="INT" inputType="number" javaName="deletedBy" javaType="java.lang.Integer" jdbcTypeCode="4" label="Deleted by" notNull="false" selected="true"/>
             <column dbComment="" dbDefaultValue="" dbName="is_deleted" dbNotNull="false" dbPosition="11" dbSize="1" dbTypeName="BIT" inputType="checkbox" javaName="isDeleted" javaType="java.lang.Boolean" jdbcTypeCode="-7" label="Is deleted" notNull="false" selected="true"/>
+            <link cardinality="OneToMany" cascade="" fetch="DEFAULT" foreignKeyName="FK_tank" id="LINK_FK_FK_tank_I" inverseSideOf="LINK_FK_FK_tank_O" javaName="listOfStockHuile" javaType="unused" joinTableName="" mappedBy="tank" optional="" owningSide="false" sourceTableName="tank" targetEntity="StockHuile" targetTableName="stock_huile" used="true"/>
         </table>
         <table catalog="vonabri_db" databaseComment="" databaseType="TABLE" javaBean="Travailleur" name="travailleur" schema="">
             <column dbAutoIncremented="true" dbComment="" dbDefaultValue="" dbName="id" dbNotNull="true" dbPosition="1" dbPrimaryKey="true" dbSize="10" dbTypeName="INT" inputType="number" javaName="id" javaType="java.lang.Integer" jdbcTypeCode="4" label="Id" notNull="true" selected="true"/>

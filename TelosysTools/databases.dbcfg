@@ -10,4 +10,19 @@
         <property name="password" value="password"/>
         <metadata catalog="" schema="TO_BE_DEFINED" table-name-exclude="" table-name-include="" table-name-pattern="%" table-types="TABLE"/>
     </db>
+    <db dialect="org.hibernate.dialect.MySQLDialect" driver="com.mysql.jdbc.Driver" id="2" isolationLevel="" name="MYSQL_ADD-PRODUCTION" poolSize="1" typeName="MYSQL" url="jdbc:mysql://localhost:3306/vonabri_db">
+        <property name="user" value="root"/>
+        <property name="password" value="password"/>
+        <metadata catalog="" schema="TO_BE_DEFINED" table-name-exclude="" table-name-include="" table-name-pattern="%" table-types="TABLE"/>
+    </db>
+    <db dialect="org.hibernate.dialect.MySQLDialect" driver="com.mysql.jdbc.Driver" id="3" isolationLevel="" name="MYSQL_ADD-PRODUCTION" poolSize="1" typeName="MYSQL" url="jdbc:mysql://localhost:3306/vonabri_db">
+        <property name="user" value="root"/>
+        <property name="password" value="password"/>
+        <metadata catalog="" schema="TO_BE_DEFINED" table-name-exclude="" table-name-include="" table-name-pattern="%" table-types="TABLE"/>
+    </db>
+    <db dialect="org.hibernate.dialect.MySQLDialect" driver="com.mysql.jdbc.Driver" id="4" isolationLevel="" name="MYSQL_pro" poolSize="1" typeName="MYSQL" url="jdbc:mysql://localhost:3306/vonabri_db">
+        <property name="user" value="root"/>
+        <property name="password" value="password"/>
+        <metadata catalog="" schema="TO_BE_DEFINED" table-name-exclude="" table-name-include="" table-name-pattern="%" table-types="TABLE"/>
+    </db>
 </databases>

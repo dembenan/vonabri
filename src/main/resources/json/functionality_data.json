@@ -50,6 +50,78 @@
 			"name": "DELETE ANCIENNETE_TYPE"
 		},
 		{
+			"code": "CIVILITE",
+			"name": "CIVILITE"
+		},
+		{
+			"code": "VIEW_CIVILITE",
+			"parentCode": "CIVILITE",
+			"name": "VIEW CIVILITE"
+		},
+		{
+			"code": "CREATE_CIVILITE",
+			"parentCode": "CIVILITE",
+			"name": "CREATE CIVILITE"
+		},
+		{
+			"code": "UPDATE_CIVILITE",
+			"parentCode": "CIVILITE",
+			"name": "UPDATE CIVILITE"
+		},
+		{
+			"code": "DELETE_CIVILITE",
+			"parentCode": "CIVILITE",
+			"name": "DELETE CIVILITE"
+		},
+		{
+			"code": "COMMENTAIRE",
+			"name": "COMMENTAIRE"
+		},
+		{
+			"code": "VIEW_COMMENTAIRE",
+			"parentCode": "COMMENTAIRE",
+			"name": "VIEW COMMENTAIRE"
+		},
+		{
+			"code": "CREATE_COMMENTAIRE",
+			"parentCode": "COMMENTAIRE",
+			"name": "CREATE COMMENTAIRE"
+		},
+		{
+			"code": "UPDATE_COMMENTAIRE",
+			"parentCode": "COMMENTAIRE",
+			"name": "UPDATE COMMENTAIRE"
+		},
+		{
+			"code": "DELETE_COMMENTAIRE",
+			"parentCode": "COMMENTAIRE",
+			"name": "DELETE COMMENTAIRE"
+		},
+		{
+			"code": "COMMENTAIRE_TYPE",
+			"name": "COMMENTAIRE_TYPE"
+		},
+		{
+			"code": "VIEW_COMMENTAIRE_TYPE",
+			"parentCode": "COMMENTAIRE_TYPE",
+			"name": "VIEW COMMENTAIRE_TYPE"
+		},
+		{
+			"code": "CREATE_COMMENTAIRE_TYPE",
+			"parentCode": "COMMENTAIRE_TYPE",
+			"name": "CREATE COMMENTAIRE_TYPE"
+		},
+		{
+			"code": "UPDATE_COMMENTAIRE_TYPE",
+			"parentCode": "COMMENTAIRE_TYPE",
+			"name": "UPDATE COMMENTAIRE_TYPE"
+		},
+		{
+			"code": "DELETE_COMMENTAIRE_TYPE",
+			"parentCode": "COMMENTAIRE_TYPE",
+			"name": "DELETE COMMENTAIRE_TYPE"
+		},
+		{
 			"code": "DIRECTION",
 			"name": "DIRECTION"
 		},
@@ -242,6 +314,54 @@
 			"name": "DELETE GESTION_DE_BIEN"
 		},
 		{
+			"code": "LIVRAISON",
+			"name": "LIVRAISON"
+		},
+		{
+			"code": "VIEW_LIVRAISON",
+			"parentCode": "LIVRAISON",
+			"name": "VIEW LIVRAISON"
+		},
+		{
+			"code": "CREATE_LIVRAISON",
+			"parentCode": "LIVRAISON",
+			"name": "CREATE LIVRAISON"
+		},
+		{
+			"code": "UPDATE_LIVRAISON",
+			"parentCode": "LIVRAISON",
+			"name": "UPDATE LIVRAISON"
+		},
+		{
+			"code": "DELETE_LIVRAISON",
+			"parentCode": "LIVRAISON",
+			"name": "DELETE LIVRAISON"
+		},
+		{
+			"code": "LIVRAISON_TYPE",
+			"name": "LIVRAISON_TYPE"
+		},
+		{
+			"code": "VIEW_LIVRAISON_TYPE",
+			"parentCode": "LIVRAISON_TYPE",
+			"name": "VIEW LIVRAISON_TYPE"
+		},
+		{
+			"code": "CREATE_LIVRAISON_TYPE",
+			"parentCode": "LIVRAISON_TYPE",
+			"name": "CREATE LIVRAISON_TYPE"
+		},
+		{
+			"code": "UPDATE_LIVRAISON_TYPE",
+			"parentCode": "LIVRAISON_TYPE",
+			"name": "UPDATE LIVRAISON_TYPE"
+		},
+		{
+			"code": "DELETE_LIVRAISON_TYPE",
+			"parentCode": "LIVRAISON_TYPE",
+			"name": "DELETE LIVRAISON_TYPE"
+		},
+		{
 			"code": "NATIONNALITE",
 			"name": "NATIONNALITE"
 		},
@@ -266,6 +386,30 @@
 			"name": "DELETE NATIONNALITE"
 		},
 		{
+			"code": "PAYS",
+			"name": "PAYS"
+		},
+		{
+			"code": "VIEW_PAYS",
+			"parentCode": "PAYS",
+			"name": "VIEW PAYS"
+		},
+		{
+			"code": "CREATE_PAYS",
+			"parentCode": "PAYS",
+			"name": "CREATE PAYS"
+		},
+		{
+			"code": "UPDATE_PAYS",
+			"parentCode": "PAYS",
+			"name": "UPDATE PAYS"
+		},
+		{
+			"code": "DELETE_PAYS",
+			"parentCode": "PAYS",
+			"name": "DELETE PAYS"
+		},
+		{
 			"code": "POSTE_DE_TRAVAIL",
 			"name": "POSTE_DE_TRAVAIL"
 		},
@@ -288,6 +432,30 @@
 			"code": "DELETE_POSTE_DE_TRAVAIL",
 			"parentCode": "POSTE_DE_TRAVAIL",
 			"name": "DELETE POSTE_DE_TRAVAIL"
+		},
+		{
+			"code": "PRODUCTION",
+			"name": "PRODUCTION"
+		},
+		{
+			"code": "VIEW_PRODUCTION",
+			"parentCode": "PRODUCTION",
+			"name": "VIEW PRODUCTION"
+		},
+		{
+			"code": "CREATE_PRODUCTION",
+			"parentCode": "PRODUCTION",
+			"name": "CREATE PRODUCTION"
+		},
+		{
+			"code": "UPDATE_PRODUCTION",
+			"parentCode": "PRODUCTION",
+			"name": "UPDATE PRODUCTION"
+		},
+		{
+			"code": "DELETE_PRODUCTION",
+			"parentCode": "PRODUCTION",
+			"name": "DELETE PRODUCTION"
 		},
 		{
 			"code": "PROFIL",
@@ -480,6 +648,54 @@
 			"code": "DELETE_STATUT_MATRIMONIAL",
 			"parentCode": "STATUT_MATRIMONIAL",
 			"name": "DELETE STATUT_MATRIMONIAL"
+		},
+		{
+			"code": "STOCK_HUILE",
+			"name": "STOCK_HUILE"
+		},
+		{
+			"code": "VIEW_STOCK_HUILE",
+			"parentCode": "STOCK_HUILE",
+			"name": "VIEW STOCK_HUILE"
+		},
+		{
+			"code": "CREATE_STOCK_HUILE",
+			"parentCode": "STOCK_HUILE",
+			"name": "CREATE STOCK_HUILE"
+		},
+		{
+			"code": "UPDATE_STOCK_HUILE",
+			"parentCode": "STOCK_HUILE",
+			"name": "UPDATE STOCK_HUILE"
+		},
+		{
+			"code": "DELETE_STOCK_HUILE",
+			"parentCode": "STOCK_HUILE",
+			"name": "DELETE STOCK_HUILE"
+		},
+		{
+			"code": "TANK",
+			"name": "TANK"
+		},
+		{
+			"code": "VIEW_TANK",
+			"parentCode": "TANK",
+			"name": "VIEW TANK"
+		},
+		{
+			"code": "CREATE_TANK",
+			"parentCode": "TANK",
+			"name": "CREATE TANK"
+		},
+		{
+			"code": "UPDATE_TANK",
+			"parentCode": "TANK",
+			"name": "UPDATE TANK"
+		},
+		{
+			"code": "DELETE_TANK",
+			"parentCode": "TANK",
+			"name": "DELETE TANK"
 		},
 		{
 			"code": "TRAVAILLEUR",
