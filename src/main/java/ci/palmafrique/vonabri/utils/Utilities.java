@@ -492,18 +492,23 @@ public class Utilities {
 		return true;
 
 	}
-	public static MultipartFile convertBase64ToMultipartFile(String base64String, String nomCompletImage, String extension) throws Exception {
-
-		BufferedImage image = decodeToImage(base64String);
-
-		if (image == null) {
-
+	public static MultipartFile convertBase64ToMultipartFile(String base64Image, String nomCompletImage, String extension) throws Exception {
+		
+		BufferedImage base64String = null;
+		if(base64Image.contains(",")) {
+			String[] base64ImageSplit = base64Image.split(",");
+			base64String = decodeToImage(base64ImageSplit[1]);
+		}else {
+			base64String =  decodeToImage(base64Image);
+		}
+		
+		if (base64String == null) {
 			return null;
 
 		}
 		
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		ImageIO.write( image, extension, baos );
+		ImageIO.write( base64String, extension, baos );
 		
 		baos.flush();
 		System.out.println("BufferedImage SIZE=====>"+baos.size());

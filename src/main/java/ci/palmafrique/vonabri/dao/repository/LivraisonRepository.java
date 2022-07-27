@@ -123,6 +123,9 @@ public interface LivraisonRepository extends JpaRepository<Livraison, Integer>, 
 	@Query("select e from Livraison e where e.production.id = :productionId and e.isDeleted = :isDeleted")
 	List<Livraison> findByProductionId(@Param("productionId")Integer productionId, @Param("isDeleted")Boolean isDeleted);
 
+	
+	@Query("select e from Livraison e where e.production.id = :productionId and e.site.id = :siteId and e.isDeleted = :isDeleted")
+	List<Livraison> findByProductionIdAndSiteId(@Param("productionId")Integer productionId,@Param("siteId")Integer siteId, @Param("isDeleted")Boolean isDeleted);
 	/**
 	 * Finds Livraison by using siteId as a search criteria.
 	 * 
