@@ -44,7 +44,6 @@ import ci.palmafrique.vonabri.utils.contract.IBasicBusiness;
 import ci.palmafrique.vonabri.utils.contract.Request;
 import ci.palmafrique.vonabri.utils.contract.Response;
 import ci.palmafrique.vonabri.utils.dto.transformer.*;
-import ci.palmafrique.vonabri.dao.entity.Tank;
 import ci.palmafrique.vonabri.dao.entity.*;
 import ci.palmafrique.vonabri.dao.repository.*;
 
@@ -63,6 +62,8 @@ public class TankBusiness implements IBasicBusiness<Request<TankDto>, Response<T
 	private TankRepository tankRepository;
 	@Autowired
 	private UserRepository userRepository;
+	@Autowired
+	private SiteRepository siteRepository;
 	@Autowired
 	private StockHuileRepository stockHuileRepository;
 
@@ -124,14 +125,14 @@ public class TankBusiness implements IBasicBusiness<Request<TankDto>, Response<T
 				// Definir les parametres obligatoires
 				Map<String, java.lang.Object> fieldsToVerify = new HashMap<String, java.lang.Object>();
 				fieldsToVerify.put("siteId", dto.getSiteId());
-				fieldsToVerify.put("code", dto.getCode());
+				//fieldsToVerify.put("code", dto.getCode());
 				fieldsToVerify.put("libelle", dto.getLibelle());
 				if (!Validate.RequiredValue(fieldsToVerify).isGood()) {
 					response.setStatus(functionalError.FIELD_EMPTY(Validate.getValidate().getField(), locale));
 					response.setHasError(true);
 					return response;
 				}
-
+				dto.setCode(dto.getLibelle().trim());
 				// Verify if tank to insert do not exist
 				Tank existingEntity = null;
 				if (existingEntity != null) {
@@ -139,37 +140,55 @@ public class TankBusiness implements IBasicBusiness<Request<TankDto>, Response<T
 					response.setHasError(true);
 					return response;
 				}
-
+				Site site = siteRepository.findOne(dto.getSiteId(), false);
+				if (site == null) {
+					response.setStatus(functionalError.DATA_NOT_EXIST("Site  -> " + dto.getSiteId(), locale));
+					response.setHasError(true);
+					return response;
+				}
+				Tank tankSiteByCode = tankRepository.findByCodeAndSiteId(dto.getCode(), site.getId(), false);
+				if (tankSiteByCode != null) {
+					response.setStatus(functionalError.DATA_EXIST("Tank  -> " + dto.getCode() , locale));
+					response.setHasError(true);
+					return response;
+				}
+				Tank tankSiteByLibelle = tankRepository.findByLibelleAndSiteId(dto.getLibelle(), site.getId(), false);			
+				if (tankSiteByLibelle != null) {
+					response.setStatus(functionalError.DATA_EXIST("Tank  -> " + dto.getLibelle() , locale));
+					response.setHasError(true);
+					return response;
+				}
+				
 				// verif unique code in db
-				existingEntity = tankRepository.findByCode(dto.getCode(), false);
-				if (existingEntity != null) {
-					response.setStatus(functionalError.DATA_EXIST("tank code -> " + dto.getCode(), locale));
-					response.setHasError(true);
-					return response;
-				}
-				// verif unique code in items to save
-				if (items.stream().anyMatch(a -> a.getCode().equalsIgnoreCase(dto.getCode()))) {
-					response.setStatus(functionalError.DATA_DUPLICATE(" code ", locale));
-					response.setHasError(true);
-					return response;
-				}
-
-				// verif unique libelle in db
-				existingEntity = tankRepository.findByLibelle(dto.getLibelle(), false);
-				if (existingEntity != null) {
-					response.setStatus(functionalError.DATA_EXIST("tank libelle -> " + dto.getLibelle(), locale));
-					response.setHasError(true);
-					return response;
-				}
-				// verif unique libelle in items to save
-				if (items.stream().anyMatch(a -> a.getLibelle().equalsIgnoreCase(dto.getLibelle()))) {
-					response.setStatus(functionalError.DATA_DUPLICATE(" libelle ", locale));
-					response.setHasError(true);
-					return response;
-				}
+//				existingEntity = tankRepository.findByCode(dto.getCode(), false);
+//				if (existingEntity != null) {
+//					response.setStatus(functionalError.DATA_EXIST("tank code -> " + dto.getCode(), locale));
+//					response.setHasError(true);
+//					return response;
+//				}
+//				// verif unique code in items to save
+//				if (items.stream().anyMatch(a -> a.getCode().equalsIgnoreCase(dto.getCode()))) {
+//					response.setStatus(functionalError.DATA_DUPLICATE(" code ", locale));
+//					response.setHasError(true);
+//					return response;
+//				}
+//
+//				// verif unique libelle in db
+//				existingEntity = tankRepository.findByLibelle(dto.getLibelle(), false);
+//				if (existingEntity != null) {
+//					response.setStatus(functionalError.DATA_EXIST("tank libelle -> " + dto.getLibelle(), locale));
+//					response.setHasError(true);
+//					return response;
+//				}
+//				// verif unique libelle in items to save
+//				if (items.stream().anyMatch(a -> a.getLibelle().equalsIgnoreCase(dto.getLibelle()))) {
+//					response.setStatus(functionalError.DATA_DUPLICATE(" libelle ", locale));
+//					response.setHasError(true);
+//					return response;
+//				}
 
 				Tank entityToSave = null;
-				entityToSave = TankTransformer.INSTANCE.toEntity(dto);
+				entityToSave = TankTransformer.INSTANCE.toEntity(dto,site);
 				entityToSave.setCreatedAt(Utilities.getCurrentDate());
 				entityToSave.setCreatedBy(request.getUser());
 				entityToSave.setIsDeleted(false);
@@ -276,14 +295,34 @@ public class TankBusiness implements IBasicBusiness<Request<TankDto>, Response<T
 					response.setHasError(true);
 					return response;
 				}
-
+				Tank tankSiteByCode = null;
+				Tank tankSiteByLibelle = null;
+				Site site = null;
 				if (dto.getSiteId() != null && dto.getSiteId() > 0) {
-					entityToSave.setSiteId(dto.getSiteId());
+					site = siteRepository.findOne(dto.getSiteId(), false);
+					if (site == null) {
+						response.setStatus(functionalError.DATA_NOT_EXIST("Site  -> " + dto.getSiteId(), locale));
+						response.setHasError(true);
+						return response;
+					}
+					entityToSave.setSite(site);
 				}
 				if (Utilities.notBlank(dto.getCode())) {
+					tankSiteByCode = tankRepository.findByCodeAndSiteId(dto.getCode(), site.getId(), false);
+					if (tankSiteByCode == null) {
+						response.setStatus(functionalError.DATA_EXIST("Tank  -> " + dto.getCode() , locale));
+						response.setHasError(true);
+						return response;
+					}
 					entityToSave.setCode(dto.getCode());
 				}
 				if (Utilities.notBlank(dto.getLibelle())) {
+					tankSiteByLibelle = tankRepository.findByLibelleAndSiteId(dto.getLibelle(), site.getId(), false);			
+					if (tankSiteByLibelle == null) {
+						response.setStatus(functionalError.DATA_EXIST("Tank  -> " + dto.getLibelle() , locale));
+						response.setHasError(true);
+						return response;
+					}
 					entityToSave.setLibelle(dto.getLibelle());
 				}
 				if (Utilities.notBlank(dto.getDeletedAt())) {

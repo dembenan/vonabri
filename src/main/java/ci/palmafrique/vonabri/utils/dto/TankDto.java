@@ -47,11 +47,12 @@ public class TankDto extends _TankDto implements Cloneable{
     //----------------------------------------------------------------------
     // ENTITY LINKS FIELD ( RELATIONSHIP )
     //----------------------------------------------------------------------
-
+    private String    siteLibelle               ;
 	// Search param
 	private SearchParam<Integer>  idParam               ;                     
 	private SearchParam<Integer>  siteIdParam           ;                     
-	private SearchParam<String>   codeParam             ;                     
+	private SearchParam<String>   codeParam             ; 
+	private SearchParam<String>   siteLibelleParam             ;
 	private SearchParam<String>   libelleParam          ;                     
 	private SearchParam<String>   createdAtParam        ;                     
 	private SearchParam<String>   deletedAtParam        ;                     

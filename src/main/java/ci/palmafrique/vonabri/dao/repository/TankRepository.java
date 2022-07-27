@@ -48,7 +48,7 @@ public interface TankRepository extends JpaRepository<Tank, Integer>, _TankRepos
 	 * @return An Object Tank whose siteId is equals to the given siteId. If
 	 *         no Tank is found, this method returns null.
 	 */
-	@Query("select e from Tank e where e.siteId = :siteId and e.isDeleted = :isDeleted")
+	@Query("select e from Tank e where e.site.id = :siteId and e.isDeleted = :isDeleted")
 	List<Tank> findBySiteId(@Param("siteId")Integer siteId, @Param("isDeleted")Boolean isDeleted);
 	/**
 	 * Finds Tank by using code as a search criteria.
@@ -59,6 +59,12 @@ public interface TankRepository extends JpaRepository<Tank, Integer>, _TankRepos
 	 */
 	@Query("select e from Tank e where e.code = :code and e.isDeleted = :isDeleted")
 	Tank findByCode(@Param("code")String code, @Param("isDeleted")Boolean isDeleted);
+	
+	
+	@Query("select e from Tank e where e.code = :code and e.site.id = :siteId and e.isDeleted = :isDeleted")
+	Tank findByCodeAndSiteId(@Param("code")String code,@Param("siteId")Integer siteId, @Param("isDeleted")Boolean isDeleted);
+	
+
 	/**
 	 * Finds Tank by using libelle as a search criteria.
 	 * 
@@ -68,6 +74,9 @@ public interface TankRepository extends JpaRepository<Tank, Integer>, _TankRepos
 	 */
 	@Query("select e from Tank e where e.libelle = :libelle and e.isDeleted = :isDeleted")
 	Tank findByLibelle(@Param("libelle")String libelle, @Param("isDeleted")Boolean isDeleted);
+	
+	@Query("select e from Tank e where e.libelle = :libelle and e.site.id = :siteId and e.isDeleted = :isDeleted")
+	Tank findByLibelleAndSiteId(@Param("libelle")String libelle,@Param("siteId")Integer siteId, @Param("isDeleted")Boolean isDeleted);
 	/**
 	 * Finds Tank by using createdAt as a search criteria.
 	 * 
@@ -227,10 +236,13 @@ public interface TankRepository extends JpaRepository<Tank, Integer>, _TankRepos
 				listOfQuery.add(CriteriaUtils.generateCriteria("id", dto.getId(), "e.id", "Integer", dto.getIdParam(), param, index, locale));
 			}
 			if (dto.getSiteId()!= null && dto.getSiteId() > 0) {
-				listOfQuery.add(CriteriaUtils.generateCriteria("siteId", dto.getSiteId(), "e.siteId", "Integer", dto.getSiteIdParam(), param, index, locale));
+				listOfQuery.add(CriteriaUtils.generateCriteria("siteId", dto.getSiteId(), "e.site.id", "Integer", dto.getSiteIdParam(), param, index, locale));
 			}
 			if (Utilities.notBlank(dto.getCode())) {
 				listOfQuery.add(CriteriaUtils.generateCriteria("code", dto.getCode(), "e.code", "String", dto.getCodeParam(), param, index, locale));
+			}
+			if (Utilities.notBlank(dto.getSiteLibelle())) {
+				listOfQuery.add(CriteriaUtils.generateCriteria("siteLibelle", dto.getSiteLibelle(), "e.site.libelle", "String", dto.getSiteLibelleParam(), param, index, locale));
 			}
 			if (Utilities.notBlank(dto.getLibelle())) {
 				listOfQuery.add(CriteriaUtils.generateCriteria("libelle", dto.getLibelle(), "e.libelle", "String", dto.getLibelleParam(), param, index, locale));

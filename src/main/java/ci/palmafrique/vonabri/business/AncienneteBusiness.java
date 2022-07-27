@@ -126,7 +126,7 @@ public class AncienneteBusiness implements IBasicBusiness<Request<AncienneteDto>
 			for (AncienneteDto dto : request.getDatas()) {
 				// Definir les parametres obligatoires
 				Map<String, java.lang.Object> fieldsToVerify = new HashMap<String, java.lang.Object>();
-				fieldsToVerify.put("code", dto.getCode());
+				//fieldsToVerify.put("code", dto.getCode());
 				fieldsToVerify.put("libelle", dto.getLibelle());
 				fieldsToVerify.put("ancienneteTypeId", dto.getAncienneteTypeId());
 				if (!Validate.RequiredValue(fieldsToVerify).isGood()) {
@@ -134,7 +134,12 @@ public class AncienneteBusiness implements IBasicBusiness<Request<AncienneteDto>
 					response.setHasError(true);
 					return response;
 				}
-
+				if (dto.getCode() == null) {
+					dto.setCode(dto.getLibelle().trim());
+				}
+				
+				
+				
 				// Verify if anciennete to insert do not exist
 				Anciennete existingEntity = null;
 				if (existingEntity != null) {

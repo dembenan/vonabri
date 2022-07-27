@@ -38,6 +38,8 @@ public interface TankTransformer {
 	@FullTransformerQualifier
 	@Mappings({
 		@Mapping(source="entity.createdAt", dateFormat="dd/MM/yyyy",target="createdAt"),
+		@Mapping(source="entity.site.id", target="siteId"),
+		@Mapping(source="entity.site.libelle", target="siteLibelle"),
 		@Mapping(source="entity.deletedAt", dateFormat="dd/MM/yyyy",target="deletedAt"),
 		@Mapping(source="entity.updatedAt", dateFormat="dd/MM/yyyy",target="updatedAt"),
 	})
@@ -69,7 +71,7 @@ public interface TankTransformer {
 
 	@Mappings({
 		@Mapping(source="dto.id", target="id"),
-		@Mapping(source="dto.siteId", target="siteId"),
+		@Mapping(source="site", target="site"),
 		@Mapping(source="dto.code", target="code"),
 		@Mapping(source="dto.libelle", target="libelle"),
 		@Mapping(source="dto.createdAt", dateFormat="dd/MM/yyyy",target="createdAt"),
@@ -80,7 +82,7 @@ public interface TankTransformer {
 		@Mapping(source="dto.deletedBy", target="deletedBy"),
 		@Mapping(source="dto.isDeleted", target="isDeleted"),
 	})
-    Tank toEntity(TankDto dto) throws ParseException;
+    Tank toEntity(TankDto dto,Site site) throws ParseException;
 
     //List<Tank> toEntities(List<TankDto> dtos) throws ParseException;
 

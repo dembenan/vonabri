@@ -66,8 +66,15 @@ public class ProductionBusiness implements IBasicBusiness<Request<ProductionDto>
 	private CommentaireRepository commentaireRepository;
 	@Autowired
 	private CommentaireTypeRepository commentaireTypeRepository;
+	
+	
 	@Autowired
 	private LivraisonRepository livraisonRepository;
+	@Autowired
+	private LivraisonTypeRepository livraisonTypeRepository;
+	@Autowired
+	private TankRepository tankRepository;
+	
 	@Autowired
 	private StockHuileRepository stockHuileRepository;
 	@Autowired
@@ -126,8 +133,9 @@ public class ProductionBusiness implements IBasicBusiness<Request<ProductionDto>
 			}
 			
 			List<Production> items = new ArrayList<Production>();
-			List<CommentaireDto> itemCom =  new ArrayList<CommentaireDto>();
-
+			List<CommentaireDto> itemsCommentaire =  new ArrayList<CommentaireDto>();
+			List<LivraisonDto> itemsLivraison =  new ArrayList<LivraisonDto>();
+			List<StockHuileDto> itemsStockHuile =  new ArrayList<StockHuileDto>();
 			    ProductionDto dto = request.getData();
 				// Definir les parametres obligatoires
 				Map<String, java.lang.Object> fieldsToVerify = new HashMap<String, java.lang.Object>();
@@ -181,8 +189,8 @@ public class ProductionBusiness implements IBasicBusiness<Request<ProductionDto>
 				entityToSave.setCreatedAt(Utilities.getCurrentDate());
 				entityToSave.setCreatedBy(request.getUser());
 				entityToSave.setIsDeleted(false);
-				Production itemSaved = productionRepository.save(entityToSave);
-				if (itemSaved == null) {
+				Production productionSaved = productionRepository.save(entityToSave);
+				if (productionSaved == null) {
 					response.setStatus(functionalError.SAVE_FAIL("Production", locale));
 					response.setHasError(true);
 					return response;
@@ -199,47 +207,75 @@ public class ProductionBusiness implements IBasicBusiness<Request<ProductionDto>
 //							return response;
 						}
 						Commentaire comToSave = null;
-						comToSave = CommentaireTransformer.INSTANCE.toEntity(commentaireDto, existingCommentaireType, itemSaved);
+						comToSave = CommentaireTransformer.INSTANCE.toEntity(commentaireDto, existingCommentaireType, productionSaved);
 						comToSave.setCreatedAt(Utilities.getCurrentDate());
 						comToSave.setCreatedBy(request.getUser());
 						comToSave.setIsDeleted(false);
 						Commentaire comToSaved = commentaireRepository.save(comToSave);		
 						if (comToSaved != null) {
-							itemCom.add(commentaireDto);
+							itemsCommentaire.add(commentaireDto);
 						}
 					
 					}
 					
 					
 				}
-//				if(dto.getItemsLivraisions() != null && !dto.getItemsLivraisions().isEmpty()) {
-//					
-//					for (LivraisonDto livraisonDto : dto.getItemsLivraisions()) {
-//						CommentaireType existingCommentaireType = commentaireTypeRepository.findOne(commentaireDto.getCommentaireTypeId(), false);
-//						if (existingCommentaireType == null) {
-//							log.info("-----------------DONNE INNEXISTANTE CommentaireTypeId "+commentaireDto.getCommentaireTypeId()+"-------------------");
-////							response.setStatus(functionalError.DATA_NOT_EXIST("CommentaireType CommentaireTypeId -> " + commentaireDto.getCommentaireTypeId(), locale));
-////							response.setHasError(true);
-////							return response;
-//						}
-//						Livraison comToSave = null;
-//						comToSave = CommentaireTransformer.INSTANCE.toEntity(commentaireDto, existingCommentaireType, itemSaved);
-//						comToSave.setCreatedAt(Utilities.getCurrentDate());
-//						comToSave.setCreatedBy(request.getUser());
-//						comToSave.setIsDeleted(false);
-//						Commentaire comToSaved = commentaireRepository.save(comToSave);		
-//						if (comToSaved != null) {
-//							itemCom.add(commentaireDto);
-//						}
-//					
-//					}
-//					
-//					
-//				}
+				if (dto.getItemsLivraisions() != null && !dto.getItemsLivraisions().isEmpty()) {
 
-				
-				ProductionDto productionDto = ProductionTransformer.INSTANCE.toDto(itemSaved);
-				productionDto.setItemsCommentaire(itemCom);
+					for (LivraisonDto livraisonDto : dto.getItemsLivraisions()) {
+						LivraisonType livTyp = livraisonTypeRepository.findOne(livraisonDto.getLivraisonTypeId(),
+								false);
+						Site siteLivr = siteRepository.findOne(livraisonDto.getSiteId(), false);
+						if (livTyp == null) {
+							log.info("-----------------DONNE INNEXISTANTE CommentaireTypeId "
+									+ livraisonDto.getLivraisonTypeId() + "-------------------");
+//							response.setStatus(functionalError.DATA_NOT_EXIST("CommentaireType CommentaireTypeId -> " + commentaireDto.getCommentaireTypeId(), locale));
+//							response.setHasError(true);
+//							return response;
+						}
+						Livraison livrToSave = null;
+						livrToSave = LivraisonTransformer.INSTANCE.toEntity(livraisonDto, productionSaved, siteLivr,
+								livTyp);
+						livrToSave.setCreatedAt(Utilities.getCurrentDate());
+						livrToSave.setCreatedBy(request.getUser());
+						livrToSave.setIsDeleted(false);
+						Livraison livrToSaved = livraisonRepository.save(livrToSave);
+						if (livrToSaved != null) {
+							itemsLivraison.add(livraisonDto);
+						}
+
+					}
+
+				}
+
+				if(dto.getItemsStockHuile() != null && !dto.getItemsStockHuile().isEmpty()) {
+					
+					for (StockHuileDto stockHuileDto : dto.getItemsStockHuile()) {
+						Tank tank = tankRepository.findOne(stockHuileDto.getTankId(), false);
+						if (tank == null) {
+							log.info("-----------------DONNE INNEXISTANTE CommentaireTypeId "+stockHuileDto.getTankId()+"-------------------");
+//							response.setStatus(functionalError.DATA_NOT_EXIST("CommentaireType CommentaireTypeId -> " + commentaireDto.getCommentaireTypeId(), locale));
+//							response.setHasError(true);
+//							return response;
+						}
+						StockHuile stockToSave = null;
+						stockToSave = StockHuileTransformer.INSTANCE.toEntity(stockHuileDto, productionSaved, tank);
+						stockToSave.setCreatedAt(Utilities.getCurrentDate());
+						stockToSave.setCreatedBy(request.getUser());
+						stockToSave.setIsDeleted(false);
+						StockHuile stockToSaved = stockHuileRepository.save(stockToSave);		
+						if (stockToSaved != null) {
+							itemsStockHuile.add(stockHuileDto);
+						}
+					
+					}
+					
+					
+				}
+				ProductionDto productionDto = ProductionTransformer.INSTANCE.toDto(productionSaved);
+				productionDto.setItemsCommentaire(itemsCommentaire);
+				productionDto.setItemsLivraisions(itemsLivraison);
+				productionDto.setItemsStockHuile(itemsStockHuile);
 				ProductionDto item = getFullInfos(productionDto, 1, request.getIsSimpleLoading(), locale);
 				response.setItem(item);
 				response.setHasError(false);
@@ -640,6 +676,21 @@ public class ProductionBusiness implements IBasicBusiness<Request<ProductionDto>
 	 */
 	private ProductionDto getFullInfos(ProductionDto dto, Integer size, Boolean isSimpleLoading, Locale locale) throws Exception {
 		// put code here
+		List<Commentaire> coms = commentaireRepository.findByProductionId(dto.getId(), false);
+		if(!coms.isEmpty()) {
+			List<CommentaireDto> comsDto = CommentaireTransformer.INSTANCE.toDtos(coms);
+			dto.setItemsCommentaire(comsDto);
+		}
+		List<Livraison> livrs = livraisonRepository.findByProductionId(dto.getId(), false);
+		if(!livrs.isEmpty()) {
+			List<LivraisonDto> livrsDto = LivraisonTransformer.INSTANCE.toDtos(livrs);
+			dto.setItemsLivraisions(livrsDto);
+		}
+		List<StockHuile> stocks = stockHuileRepository.findByProductionId(dto.getId(), false);
+		if(!stocks.isEmpty()) {
+			List<StockHuileDto> stocksDto = StockHuileTransformer.INSTANCE.toDtos(stocks);
+			dto.setItemsStockHuile(stocksDto);
+		}
 
 		if (Utilities.isTrue(isSimpleLoading)) {
 			return dto;

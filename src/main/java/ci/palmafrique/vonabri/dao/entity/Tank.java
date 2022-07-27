@@ -44,8 +44,7 @@ public class Tank implements Serializable, Cloneable {
     //----------------------------------------------------------------------
     // ENTITY DATA FIELDS 
     //----------------------------------------------------------------------    
-    @Column(name="site_id", nullable=false)
-    private Integer    siteId       ;
+
 
     @Column(name="code", length=255)
     private String     code         ;
@@ -81,7 +80,9 @@ public class Tank implements Serializable, Cloneable {
     //----------------------------------------------------------------------
     // ENTITY LINKS ( RELATIONSHIP )
     //----------------------------------------------------------------------
-
+    @ManyToOne
+    @JoinColumn(name="site_id", referencedColumnName="id")
+    private Site site  ;
     //----------------------------------------------------------------------
     // CONSTRUCTOR(S)
     //----------------------------------------------------------------------
