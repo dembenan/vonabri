@@ -13,9 +13,9 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
-import ci.palmafrique.vonabri.dao.entity.Commentaire;
-import ci.palmafrique.vonabri.dao.entity.Livraison;
-import ci.palmafrique.vonabri.dao.entity.StockHuile;
+import ci.palmafrique.vonabri.utils.dto.CommentaireDto;
+import ci.palmafrique.vonabri.utils.dto.LivraisonDto;
+import ci.palmafrique.vonabri.utils.dto.StockHuileDto;
 import lombok.Data;
 
 /**
@@ -28,8 +28,8 @@ import lombok.Data;
 @JsonInclude(Include.NON_NULL)
 public class _ProductionDto {
 	
-	private List<Commentaire> itemsCommentaire;
-	private List<Livraison> itemsLivraisions;
-	private List<StockHuile> itemsStockHuile;
+	private List<CommentaireDto> itemsCommentaire;
+	private List<LivraisonDto> itemsLivraisions;
+	private List<StockHuileDto> itemsStockHuile;
 
 }

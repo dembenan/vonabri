@@ -609,6 +609,7 @@ public class TravailleurBusiness implements IBasicBusiness<Request<TravailleurDt
 					User userEntityToSave = null;
 					userEntityToSave = UserTransformer.INSTANCE.toEntity(userDto, userType, userProfil,Saved);
 					String password = Utilities.generateAlphabeticCode(8);
+					userEntityToSave.setPassword(Utilities.encrypt(password));
 					userEntityToSave.setCreatedAt(Utilities.getCurrentDate());
 					userEntityToSave.setCreatedBy(request.getUser());
 					userEntityToSave.setIsDeleted(false);

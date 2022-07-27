@@ -41,9 +41,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	public PasswordEncoder passwordEncoder(){
 		return new BCryptPasswordEncoder();
 	}
+	
 		@Override
 		public void configure(AuthenticationManagerBuilder auth) throws Exception {
+	        auth
+            .inMemoryAuthentication()
+                .withUser("sidem@gmail.com")
+                .password("azerty1234")
+                .roles("USER")
+            .and()
+                .withUser("brice@gmail.com")
+                .password("password")
+                .roles("azerty1234");
 			auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+			
+
 		}
 		
 //		@Bean

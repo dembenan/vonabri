@@ -65,6 +65,8 @@ public class ProductionBusiness implements IBasicBusiness<Request<ProductionDto>
 	@Autowired
 	private CommentaireRepository commentaireRepository;
 	@Autowired
+	private CommentaireTypeRepository commentaireTypeRepository;
+	@Autowired
 	private LivraisonRepository livraisonRepository;
 	@Autowired
 	private StockHuileRepository stockHuileRepository;
@@ -124,7 +126,8 @@ public class ProductionBusiness implements IBasicBusiness<Request<ProductionDto>
 			}
 			
 			List<Production> items = new ArrayList<Production>();
-			
+			List<CommentaireDto> itemCom =  new ArrayList<CommentaireDto>();
+
 			    ProductionDto dto = request.getData();
 				// Definir les parametres obligatoires
 				Map<String, java.lang.Object> fieldsToVerify = new HashMap<String, java.lang.Object>();
@@ -186,28 +189,57 @@ public class ProductionBusiness implements IBasicBusiness<Request<ProductionDto>
 				}
 				
 				if(dto.getItemsCommentaire() != null && !dto.getItemsCommentaire().isEmpty()) {
-					for (Commentaire commentaireDto : dto.getItemsCommentaire()) {
-						Commentaire commentaireToSave = new Commentaire();
-						
-						commentaireToSave.setProduction(itemSaved);
-						
-						
-						
-						
-						
-						entityToSave.setCreatedAt(Utilities.getCurrentDate());
-						entityToSave.setCreatedBy(request.getUser());
-						entityToSave.setIsDeleted(false);
-						items.add(entityToSave);
-						
+					
+					for (CommentaireDto commentaireDto : dto.getItemsCommentaire()) {
+						CommentaireType existingCommentaireType = commentaireTypeRepository.findOne(commentaireDto.getCommentaireTypeId(), false);
+						if (existingCommentaireType == null) {
+							log.info("-----------------DONNE INNEXISTANTE CommentaireTypeId "+commentaireDto.getCommentaireTypeId()+"-------------------");
+//							response.setStatus(functionalError.DATA_NOT_EXIST("CommentaireType CommentaireTypeId -> " + commentaireDto.getCommentaireTypeId(), locale));
+//							response.setHasError(true);
+//							return response;
+						}
+						Commentaire comToSave = null;
+						comToSave = CommentaireTransformer.INSTANCE.toEntity(commentaireDto, existingCommentaireType, itemSaved);
+						comToSave.setCreatedAt(Utilities.getCurrentDate());
+						comToSave.setCreatedBy(request.getUser());
+						comToSave.setIsDeleted(false);
+						Commentaire comToSaved = commentaireRepository.save(comToSave);		
+						if (comToSaved != null) {
+							itemCom.add(commentaireDto);
+						}
+					
 					}
+					
+					
 				}
+//				if(dto.getItemsLivraisions() != null && !dto.getItemsLivraisions().isEmpty()) {
+//					
+//					for (LivraisonDto livraisonDto : dto.getItemsLivraisions()) {
+//						CommentaireType existingCommentaireType = commentaireTypeRepository.findOne(commentaireDto.getCommentaireTypeId(), false);
+//						if (existingCommentaireType == null) {
+//							log.info("-----------------DONNE INNEXISTANTE CommentaireTypeId "+commentaireDto.getCommentaireTypeId()+"-------------------");
+////							response.setStatus(functionalError.DATA_NOT_EXIST("CommentaireType CommentaireTypeId -> " + commentaireDto.getCommentaireTypeId(), locale));
+////							response.setHasError(true);
+////							return response;
+//						}
+//						Livraison comToSave = null;
+//						comToSave = CommentaireTransformer.INSTANCE.toEntity(commentaireDto, existingCommentaireType, itemSaved);
+//						comToSave.setCreatedAt(Utilities.getCurrentDate());
+//						comToSave.setCreatedBy(request.getUser());
+//						comToSave.setIsDeleted(false);
+//						Commentaire comToSaved = commentaireRepository.save(comToSave);		
+//						if (comToSaved != null) {
+//							itemCom.add(commentaireDto);
+//						}
+//					
+//					}
+//					
+//					
+//				}
 
 				
 				ProductionDto productionDto = ProductionTransformer.INSTANCE.toDto(itemSaved);
-				
-				
-				
+				productionDto.setItemsCommentaire(itemCom);
 				ProductionDto item = getFullInfos(productionDto, 1, request.getIsSimpleLoading(), locale);
 				response.setItem(item);
 				response.setHasError(false);

@@ -1,0 +1,86 @@
+{
+    "info": {
+        "_postman_id": "project.id",
+        "name": "ci_palmafrique_vonabri",
+        "schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "uniteMesure",
+            "item": [
+                {
+                    "name": "uniteMesure-getByCriteria",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"isSimpleLoading\":false,\n\t\"data\":{\n  \t\t\"id\": \"\",\n\t\t\"createdAt\": \"\",\n\t\t\"createdBy\": \"\",\n\t\t\"deletedAt\": \"\",\n\t\t\"deletedBy\": \"\",\n\t\t\"isDeleted\": \"\",\n\t\t\"nom\": \"\",\n\t\t\"symbol\": \"\",\n\t\t\"updatedAt\": \"\",\n\t\t\"updatedBy\": \"\"\n\t}  \n}"
+                        },
+                        "url": "{{main_url}}/uniteMesure/getByCriteria"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "uniteMesure-create",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\",\n\t\t\t\"nom\": \"\",\n\t\t\t\"symbol\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/uniteMesure/create"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "uniteMesure-update",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\",\n\t\t\t\"nom\": \"\",\n\t\t\t\"symbol\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/uniteMesure/update"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "uniteMesure-delete",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/uniteMesure/delete"
+                    },
+                    "response": []
+                }
+            ]
+        }
+    ]
+}

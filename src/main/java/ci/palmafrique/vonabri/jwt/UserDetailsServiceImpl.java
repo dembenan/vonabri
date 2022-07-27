@@ -33,6 +33,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	    	if (user != null && user.getEmail().equals(email)) {
 				return new User(user.getEmail(), user.getPassword(),new ArrayList<>());
 			} else {
+				System.out.println( "loadUserByUsername  dans ELSE "   );
 				return null ;
 //				throw new UsernameNotFoundException("User not found with email: " + email);
 			}
@@ -55,7 +56,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	public UserDetails loadUserByUsernameEmailAndPassword(String email,String passcode) throws UsernameNotFoundException {
 		ci.palmafrique.vonabri.dao.entity.User user = userRepository.findByEmail(email,false);
     	
-    	if (user == null ) {
+    	if (user != null ) {
 			return new User(email, passcode,new ArrayList<>());
 		} else {
 			return null ;

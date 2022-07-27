@@ -1,0 +1,548 @@
+{
+    "info": {
+        "_postman_id": "project.id",
+        "name": "ci_palmafrique_vonabri",
+        "schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "commentaire",
+            "item": [
+                {
+                    "name": "commentaire-getByCriteria",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"isSimpleLoading\":false,\n\t\"data\":{\n  \t\t\"id\": \"\",\n\t\t\"productionId\": \"\",\n\t\t\"commentaireTypeId\": \"\",\n\t\t\"description\": \"\",\n\t\t\"createdAt\": \"\",\n\t\t\"deletedAt\": \"\",\n\t\t\"updatedAt\": \"\",\n\t\t\"createdBy\": \"\",\n\t\t\"updatedBy\": \"\",\n\t\t\"deletedBy\": \"\",\n\t\t\"isDeleted\": \"\"\n\t}  \n}"
+                        },
+                        "url": "{{main_url}}/commentaire/getByCriteria"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "commentaire-create",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"productionId\": \"\",\n\t\t\t\"commentaireTypeId\": \"\",\n\t\t\t\"description\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/commentaire/create"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "commentaire-update",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\",\n\t\t\t\"productionId\": \"\",\n\t\t\t\"commentaireTypeId\": \"\",\n\t\t\t\"description\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/commentaire/update"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "commentaire-delete",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/commentaire/delete"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "commentaireType",
+            "item": [
+                {
+                    "name": "commentaireType-getByCriteria",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"isSimpleLoading\":false,\n\t\"data\":{\n  \t\t\"id\": \"\",\n\t\t\"code\": \"\",\n\t\t\"libelle\": \"\",\n\t\t\"createdAt\": \"\",\n\t\t\"deletedAt\": \"\",\n\t\t\"updatedAt\": \"\",\n\t\t\"createdBy\": \"\",\n\t\t\"updatedBy\": \"\",\n\t\t\"deletedBy\": \"\",\n\t\t\"isDeleted\": \"\"\n\t}  \n}"
+                        },
+                        "url": "{{main_url}}/commentaireType/getByCriteria"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "commentaireType-create",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/commentaireType/create"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "commentaireType-update",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\",\n\t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/commentaireType/update"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "commentaireType-delete",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/commentaireType/delete"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "livraison",
+            "item": [
+                {
+                    "name": "livraison-getByCriteria",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"isSimpleLoading\":false,\n\t\"data\":{\n  \t\t\"id\": \"\",\n\t\t\"livraisonTypeId\": \"\",\n\t\t\"siteId\": \"\",\n\t\t\"productionId\": \"\",\n\t\t\"stockLivrer\": \"\",\n\t\t\"createdAt\": \"\",\n\t\t\"deletedAt\": \"\",\n\t\t\"updatedAt\": \"\",\n\t\t\"createdBy\": \"\",\n\t\t\"updatedBy\": \"\",\n\t\t\"deletedBy\": \"\",\n\t\t\"isDeleted\": \"\"\n\t}  \n}"
+                        },
+                        "url": "{{main_url}}/livraison/getByCriteria"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "livraison-create",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"livraisonTypeId\": \"\",\n\t\t\t\"siteId\": \"\",\n\t\t\t\"productionId\": \"\",\n\t\t\t\"stockLivrer\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/livraison/create"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "livraison-update",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\",\n\t\t\t\"livraisonTypeId\": \"\",\n\t\t\t\"siteId\": \"\",\n\t\t\t\"productionId\": \"\",\n\t\t\t\"stockLivrer\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/livraison/update"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "livraison-delete",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/livraison/delete"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "livraisonType",
+            "item": [
+                {
+                    "name": "livraisonType-getByCriteria",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"isSimpleLoading\":false,\n\t\"data\":{\n  \t\t\"id\": \"\",\n\t\t\"code\": \"\",\n\t\t\"libelle\": \"\",\n\t\t\"createdAt\": \"\",\n\t\t\"deletedAt\": \"\",\n\t\t\"updatedAt\": \"\",\n\t\t\"createdBy\": \"\",\n\t\t\"updatedBy\": \"\",\n\t\t\"deletedBy\": \"\",\n\t\t\"isDeleted\": \"\"\n\t}  \n}"
+                        },
+                        "url": "{{main_url}}/livraisonType/getByCriteria"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "livraisonType-create",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/livraisonType/create"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "livraisonType-update",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\",\n\t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/livraisonType/update"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "livraisonType-delete",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/livraisonType/delete"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "production",
+            "item": [
+                {
+                    "name": "production-getByCriteria",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"isSimpleLoading\":false,\n\t\"data\":{\n  \t\t\"id\": \"\",\n\t\t\"siteId\": \"\",\n\t\t\"date\": \"\",\n\t\t\"aciditeHuile\": \"\",\n\t\t\"regimesMalEgra\": \"\",\n\t\t\"cagesCarreau\": \"\",\n\t\t\"pi\": \"\",\n\t\t\"pvp\": \"\",\n\t\t\"sortieHuile\": \"\",\n\t\t\"sortiePalmiste\": \"\",\n\t\t\"stokPalmiste\": \"\",\n\t\t\"regimesTraiter\": \"\",\n\t\t\"productionHuile\": \"\",\n\t\t\"productionPalmiste\": \"\",\n\t\t\"tauxExtractionHuile\": \"\",\n\t\t\"tauxExtractionPalmiste\": \"\",\n\t\t\"sortieHuileDeSarci\": \"\",\n\t\t\"createdAt\": \"\",\n\t\t\"deletedAt\": \"\",\n\t\t\"updatedAt\": \"\",\n\t\t\"createdBy\": \"\",\n\t\t\"updatedBy\": \"\",\n\t\t\"deletedBy\": \"\",\n\t\t\"isDeleted\": \"\"\n\t}  \n}"
+                        },
+                        "url": "{{main_url}}/production/getByCriteria"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "production-create",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"siteId\": \"\",\n\t\t\t\"date\": \"\",\n\t\t\t\"aciditeHuile\": \"\",\n\t\t\t\"regimesMalEgra\": \"\",\n\t\t\t\"cagesCarreau\": \"\",\n\t\t\t\"pi\": \"\",\n\t\t\t\"pvp\": \"\",\n\t\t\t\"sortieHuile\": \"\",\n\t\t\t\"sortiePalmiste\": \"\",\n\t\t\t\"stokPalmiste\": \"\",\n\t\t\t\"regimesTraiter\": \"\",\n\t\t\t\"productionHuile\": \"\",\n\t\t\t\"productionPalmiste\": \"\",\n\t\t\t\"tauxExtractionHuile\": \"\",\n\t\t\t\"tauxExtractionPalmiste\": \"\",\n\t\t\t\"sortieHuileDeSarci\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/production/create"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "production-update",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\",\n\t\t\t\"siteId\": \"\",\n\t\t\t\"date\": \"\",\n\t\t\t\"aciditeHuile\": \"\",\n\t\t\t\"regimesMalEgra\": \"\",\n\t\t\t\"cagesCarreau\": \"\",\n\t\t\t\"pi\": \"\",\n\t\t\t\"pvp\": \"\",\n\t\t\t\"sortieHuile\": \"\",\n\t\t\t\"sortiePalmiste\": \"\",\n\t\t\t\"stokPalmiste\": \"\",\n\t\t\t\"regimesTraiter\": \"\",\n\t\t\t\"productionHuile\": \"\",\n\t\t\t\"productionPalmiste\": \"\",\n\t\t\t\"tauxExtractionHuile\": \"\",\n\t\t\t\"tauxExtractionPalmiste\": \"\",\n\t\t\t\"sortieHuileDeSarci\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/production/update"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "production-delete",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/production/delete"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "stockHuile",
+            "item": [
+                {
+                    "name": "stockHuile-getByCriteria",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"isSimpleLoading\":false,\n\t\"data\":{\n  \t\t\"id\": \"\",\n\t\t\"tankId\": \"\",\n\t\t\"stock\": \"\",\n\t\t\"productionId\": \"\",\n\t\t\"createdAt\": \"\",\n\t\t\"deletedAt\": \"\",\n\t\t\"updatedAt\": \"\",\n\t\t\"createdBy\": \"\",\n\t\t\"updatedBy\": \"\",\n\t\t\"deletedBy\": \"\",\n\t\t\"isDeleted\": \"\"\n\t}  \n}"
+                        },
+                        "url": "{{main_url}}/stockHuile/getByCriteria"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "stockHuile-create",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"tankId\": \"\",\n\t\t\t\"stock\": \"\",\n\t\t\t\"productionId\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/stockHuile/create"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "stockHuile-update",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\",\n\t\t\t\"tankId\": \"\",\n\t\t\t\"stock\": \"\",\n\t\t\t\"productionId\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/stockHuile/update"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "stockHuile-delete",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/stockHuile/delete"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "tank",
+            "item": [
+                {
+                    "name": "tank-getByCriteria",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"isSimpleLoading\":false,\n\t\"data\":{\n  \t\t\"id\": \"\",\n\t\t\"siteId\": \"\",\n\t\t\"code\": \"\",\n\t\t\"libelle\": \"\",\n\t\t\"createdAt\": \"\",\n\t\t\"deletedAt\": \"\",\n\t\t\"updatedAt\": \"\",\n\t\t\"createdBy\": \"\",\n\t\t\"updatedBy\": \"\",\n\t\t\"deletedBy\": \"\",\n\t\t\"isDeleted\": \"\"\n\t}  \n}"
+                        },
+                        "url": "{{main_url}}/tank/getByCriteria"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "tank-create",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"siteId\": \"\",\n\t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/tank/create"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "tank-update",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\",\n\t\t\t\"siteId\": \"\",\n\t\t\t\"code\": \"\",\n\t\t\t\"libelle\": \"\",\n\t\t\t\"deletedAt\": \"\",\n\t\t\t\"deletedBy\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/tank/update"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "tank-delete",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"user\":\"1\",\n\t\"datas\":[\n\t\t{\n  \t\t\t\"id\": \"\"\n\t\t} \n\t]  \n}"
+                        },
+                        "url": "{{main_url}}/tank/delete"
+                    },
+                    "response": []
+                }
+            ]
+        }
+    ]
+}
