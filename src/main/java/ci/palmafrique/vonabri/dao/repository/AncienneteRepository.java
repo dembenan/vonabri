@@ -131,8 +131,10 @@ public interface AncienneteRepository extends JpaRepository<Anciennete, Integer>
 	 *         no Anciennete is found, this method returns null.
 	 */
 	@Query("select e from Anciennete e where e.ancienneteType.id = :ancienneteTypeId and e.isDeleted = :isDeleted")
-	List<Anciennete> findByAncienneteTypeId(@Param("ancienneteTypeId")Integer ancienneteTypeId, @Param("isDeleted")Boolean isDeleted);
+	Anciennete findByAncienneteTypeId(@Param("ancienneteTypeId")Integer ancienneteTypeId, @Param("isDeleted")Boolean isDeleted);
 
+	@Query("select e from Anciennete e where e.ancienneteType.id = :ancienneteTypeId and e.libelle = :libelle and e.isDeleted = :isDeleted")
+	Anciennete findByAncienneteTypeIdAndLibelle(@Param("ancienneteTypeId")Integer ancienneteTypeId,@Param("libelle")String libelle, @Param("isDeleted")Boolean isDeleted);
 	/**
 	 * Finds List of Anciennete by using ancienneteDto as a search criteria.
 	 * 

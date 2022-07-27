@@ -29,6 +29,6 @@ public class _UserDto {
 	private String token;
 	
 	private String     matricule            ;
-
+	private String     photo            ;
 
 }

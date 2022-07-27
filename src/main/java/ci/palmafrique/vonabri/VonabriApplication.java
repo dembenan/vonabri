@@ -33,29 +33,29 @@ public class VonabriApplication {
 		
 		System.out.println("********password  azerty1234=== >>"+Utilities.encrypt("azerty1234"));
 		
-        FTPClient client = new FTPClient();
-        String filename = "/Users/dembelesiaka/card.jpeg";
+       // FTPClient client = new FTPClient();
+        //String filename = "/Users/dembelesiaka/card.jpeg";
 
         // Read the file from resources folder.
-        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        try (InputStream is = classLoader.getResourceAsStream(filename)) {
-            client.connect("ftp://74.208.183.242");
-            boolean login = client.login("api-vonabri.cip-palm_mmtxbldsc2q", "Rb1k3b70");
-            if (login) {
-                System.out.println("Login success...");
-                // Store file to server
-                client.storeFile(filename, is);
-                client.logout();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                client.disconnect();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+//        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+//        try (InputStream is = classLoader.getResourceAsStream(filename)) {
+//            client.connect("ftp://74.208.183.242");
+//            boolean login = client.login("api-vonabri.cip-palm_mmtxbldsc2q", "Rb1k3b70");
+//            if (login) {
+//                System.out.println("Login success...");
+//                // Store file to server
+//                client.storeFile(filename, is);
+//                client.logout();
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } finally {
+//            try {
+//                client.disconnect();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
 
 	}
 	

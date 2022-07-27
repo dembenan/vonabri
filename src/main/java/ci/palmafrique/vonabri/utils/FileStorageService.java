@@ -52,6 +52,7 @@ public class FileStorageService {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
         }
     }
+
     public String storeFileWithName(MultipartFile file,String fileName) {
         // Normalize file name
        // String fileName = StringUtils.cleanPath(file.getOriginalFilename());

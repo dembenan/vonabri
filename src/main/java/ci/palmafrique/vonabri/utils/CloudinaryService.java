@@ -58,8 +58,7 @@ public class CloudinaryService {
 		}
 	}
 
-	
-    public Map upload(MultipartFile multipartFile,String name) throws IOException {
+    public Map uploadMultipartFile(MultipartFile multipartFile,String name) throws IOException {
         //File file = convert(multipartFile);
         
 		String fileName = fileStorageService.storeFileWithName(multipartFile,name);
@@ -67,16 +66,19 @@ public class CloudinaryService {
 		String pathDestNormalize = pathDest.toString();
 		pathDestNormalize += "/" + fileName;
 		String file_name_full = pathDestNormalize;
-        
-        
-        
         System.out.println("result =====>: " +  file_name_full);
         Map result = cloudinary.uploader().upload(file_name_full, ObjectUtils.asMap("use_filename", "true","unique_filename", "false"));
-        //file.delete();
+       // multipartFile.delete();
         System.out.println("result =====>: " + result);
         return result;
     }
 
+    public Map uploadFile(File file) throws IOException {
+        Map result = cloudinary.uploader().upload(file, ObjectUtils.asMap("use_filename", "true","unique_filename", "false","resource_type", "auto"));
+        file.delete();
+        System.out.println("result =====>: " + result);
+        return result;
+    }
     public Map delete(String id) throws IOException {
         Map result = cloudinary.uploader().destroy(id, ObjectUtils.emptyMap());
         return result;
@@ -89,29 +91,7 @@ public class CloudinaryService {
         fo.close();
         return file;
     }
-	
-	
-//    public Map upload(MultipartFile multipartFile) throws IOException {
-//        File file = convert(multipartFile);
-//        System.out.println("file.getAbsolutePath() "+file.getAbsolutePath());
-//        Map result = null;
-//         //result = cloudinary.uploader().upload(file.getAbsolutePath(), ObjectUtils.emptyMap());
-//        file.delete();
-//        return result;
-//    }
-//
-//    public Map delete(String id) throws IOException {
-//        Map result = cloudinary.uploader().destroy(id, ObjectUtils.emptyMap());
-//        return result;
-//    }
-//
-//    private File convert(MultipartFile multipartFile) throws IOException {
-//        File file = new File(multipartFile.getOriginalFilename());
-//        FileOutputStream fo = new FileOutputStream(file);
-//        fo.write(multipartFile.getBytes());
-//        fo.close();
-//        return file;
-//    }
+
 	public boolean uploadBase64IMAGE(String base64,String name) {
 		boolean isUploaded = false;
 		String uploadedFile = null;

@@ -16,6 +16,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -58,7 +62,15 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.LocaleUtils;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.json.JSONObject;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -71,7 +83,11 @@ import ci.palmafrique.vonabri.utils.dto.customize._FileDto;
  *
  */
 public class Utilities {
-
+	
+	static FileStorageService fileStorageService;
+	static FileStorageProperties fileStorageProperties;
+	
+	
 	public static Date getCurrentDate() {
 		return new Date();
 	}
@@ -298,7 +314,6 @@ public class Utilities {
 	public static boolean isDateValid(String date) {
 		try {
 			String simpleDateFormat = "dd/MM/yyyy";
-
 			if (date.contains("-"))
 				simpleDateFormat = "dd-MM-yyyy";
 			else if (date.contains("/"))
@@ -930,4 +945,120 @@ public static boolean saveFileBASE64(String base64String, String nomCompletFichi
 
 		return fileName;
 	}
+	@SuppressWarnings("unused")
+	private  File getFileFromResource(String fileName) throws URISyntaxException{
+
+        ClassLoader classLoader = null;
+		try {
+			classLoader = getClass().getClassLoader();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        URL resource = classLoader.getResource(fileName);
+        if (resource == null) {
+            throw new IllegalArgumentException("file not found! " + fileName);
+        } else {
+
+            // failed if files have whitespaces or special characters
+            //return new File(resource.getFile());
+
+            return new File(resource.toURI());
+        }
+
+    }
+	public static  void writeTemplateCreationEnMasseTravailleursToExcel(String[] columnHeadings) {
+
+		try {
+			//Create workbook in .xlsx format
+			Workbook workbook = new XSSFWorkbook();
+			//For .xsl workbooks use new HSSFWorkbook();
+			//Create Sheet
+			Sheet sh = workbook.createSheet("CREATION_TRAVAILLEURS_TEMPLATE");
+			//Create top row with column headings
+			
+			///String[] columnHeadings = {"MATRICULE","NOM","PRENOM","DATE DE NAISSANCE","MATRICULE","NOM","PRENOM","DATE DE NAISSANCE","MATRICULE","NOM","PRENOM","DATE DE NAISSANCE"};
+			//We want to make it bold with a foreground color.
+			Font headerFont = workbook.createFont();
+			headerFont.setBold(true);
+			headerFont.setFontHeightInPoints((short)12);
+			headerFont.setColor(IndexedColors.BLACK.index);
+			//Create a CellStyle with the font
+			CellStyle headerStyle = workbook.createCellStyle();
+			headerStyle.setFont(headerFont);
+			headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+			headerStyle.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.index);
+			//Create the header row
+			Row headerRow = sh.createRow(1);
+			//Iterate over the column headings to create columns
+			for(int i=1;i<columnHeadings.length;i++) {
+				Cell cell = headerRow.createCell(i);
+				cell.setCellValue(columnHeadings[i]);
+				cell.setCellStyle(headerStyle);
+			}
+			//Freeze Header Row
+//			sh.createFreezePane(0, 1);
+//			int rownum =2;
+//			for(CallApiDto i : callApiDtosWithError) {
+//				//System.out.println("rownum-before"+(rownum));
+//				Row row = sh.createRow(rownum++);
+//				//System.out.println("rownum-after"+(rownum));
+//				row.createCell(0).setCellValue(i.getSubscriber());
+//				row.createCell(1).setCellValue(i.getIpAddress());
+//				row.createCell(2).setCellValue(i.getNd());
+//				row.createCell(3).setCellValue(i.getOffer());
+//				row.createCell(4).setCellValue(i.getOntMacLabel());
+//				row.createCell(5).setCellValue(i.getDslam());
+//			}
+			
+
+			
+			
+			//Autosize columns
+			for(int i=1;i<columnHeadings.length;i++) {
+				sh.autoSizeColumn(i);
+			}
+			
+			File currDir = new File(".");
+			String path = currDir.getAbsolutePath();
+			
+			String fileLocation = path.substring(0, path.length() - 1) + "CREATION_TRAVAILLEURS_TEMPLATE.xlsx";
+			
+			System.out.println("FILE LOCATION path.substring(0, path.length() - 1)=====>"+path.substring(0, path.length() - 1) + "CREATION_TRAVAILLEURS_TEMPLATE.xlsx");
+			System.out.println("FILE LOCATION path.substring(0, path.length() - 2)=====>"+path.substring(0, path.length() - 2) + "CREATION_TRAVAILLEURS_TEMPLATE.xlsx");
+			System.out.println("FILE LOCATION path.substring(0, path.length() - 1)=====>"+path.substring(0, path.length() - 3) + "CREATION_TRAVAILLEURS_TEMPLATE.xlsx");
+			System.out.println("FILE LOCATION path.substring(0, path.length() - 1)=====>"+path.substring(0, path.length() - 4) + "CREATION_TRAVAILLEURS_TEMPLATE.xlsx");
+			System.out.println("FILE LOCATION path.substring(0, path.length() - 1)=====>"+path.substring(0, path.length() - 5) + "CREATION_TRAVAILLEURS_TEMPLATE.xlsx");
+
+			FileOutputStream outputStream = new FileOutputStream(fileLocation);
+			workbook.write(outputStream);
+			workbook.close();
+			
+			
+//	        ClassLoader classLoader = null;
+//			try {
+//				 	classLoader = getClass().getClassLoader();
+//			} catch (Exception e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//	        URL resource = classLoader.getResource("CREATION_TRAVAILLEURS_TEMPLATE.xlsx");
+//	        if (resource == null) {
+//	            throw new IllegalArgumentException("file not found! CREATION_TRAVAILLEURS_TEMPLATE.xlsx");
+//	        } else {
+//
+//	            // failed if files have whitespaces or special characters
+//	            //return new File(resource.getFile());
+//				System.out.println("FILE "+new File(resource.toURI()).getAbsolutePath());
+//
+//
+//	            //return new File(resource.toURI());
+//	        }
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
 }

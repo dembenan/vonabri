@@ -406,9 +406,9 @@ public class AncienneteTypeBusiness implements IBasicBusiness<Request<Anciennete
 				// -----------------------------------------------------------------------
 
 				// anciennete
-				List<Anciennete> listOfAnciennete = ancienneteRepository.findByAncienneteTypeId(existingEntity.getId(), false);
-				if (listOfAnciennete != null && !listOfAnciennete.isEmpty()){
-					response.setStatus(functionalError.DATA_NOT_DELETABLE("(" + listOfAnciennete.size() + ")", locale));
+				Anciennete listOfAnciennete = ancienneteRepository.findByAncienneteTypeId(existingEntity.getId(), false);
+				if (listOfAnciennete != null){
+					response.setStatus(functionalError.DATA_NOT_DELETABLE("(" + listOfAnciennete + ")", locale));
 					response.setHasError(true);
 					return response;
 				}

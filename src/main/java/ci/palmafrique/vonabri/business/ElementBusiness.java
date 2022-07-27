@@ -324,11 +324,15 @@ public class ElementBusiness implements IBasicBusiness<Request<ElementDto>, Resp
 
 				// Verifier si la element existe
 				Element entityToSave = null;
-				entityToSave = elementRepository.findOne(dto.getId(), false);
+				entityToSave = elementRepository.findOne(dto.getId(),false);
 				if (entityToSave == null) {
-					response.setStatus(functionalError.DATA_NOT_EXIST("element id -> " + dto.getId(), locale));
-					response.setHasError(true);
-					return response;
+					Element entityToS = elementRepository.findOne(dto.getId());
+					if (entityToS == null) {
+						response.setStatus(functionalError.DATA_NOT_EXIST("element id -> " + dto.getId(), locale));
+						response.setHasError(true);
+						return response;
+					}
+					entityToSave = entityToS;
 				}
 
 				// Verify if elementType exist

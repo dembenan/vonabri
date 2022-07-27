@@ -50,6 +50,7 @@ import ci.palmafrique.vonabri.dao.repository.UserRepository;
 import ci.palmafrique.vonabri.dao.repository.UserTypeRepository;
 import ci.palmafrique.vonabri.jwt.JwtTokenUtil;
 import ci.palmafrique.vonabri.jwt.SecurityConstants;
+import ci.palmafrique.vonabri.utils.CloudinaryService;
 import ci.palmafrique.vonabri.utils.ExceptionUtils;
 import ci.palmafrique.vonabri.utils.FunctionalError;
 import ci.palmafrique.vonabri.utils.ParamsUtils;
@@ -92,7 +93,8 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 
 	@Autowired
 	private FonctionnaliteRepository fonctionnaliteRepository;
-
+	@Autowired
+	private CloudinaryService cloudinaryService;
 	@Autowired
 	private ParamsUtils paramsUtils;
 	@Autowired
@@ -792,50 +794,11 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 				response.setStatus(userResponse.getStatus());
 				return response;
 			}
-//			Map<String, String> from = new HashMap<>();
-//			from.put("email", paramsUtils.getSmtpLogin());
-//			from.put("user", ENTETE);
-//			// recipients
-//			String mail = "dembenan2019@gmail.com";
-//			String password = "password";
-//			List<Map<String, String>> toRecipients = new ArrayList<Map<String, String>>();
-//				Map<String, String> recipient = new HashMap<String, String>();
-//				recipient = new HashMap<String, String>();
-//				recipient.put("email", mail);
-//				// recipient.put("user", user.getLogin());
-//				toRecipients.add(recipient);
-//			// choisir la vraie url
-//			String appLink = paramsUtils.getUrlAdmin();
-//
-//			// subject
-//
-//
-//			String subject = "Vonabri access";
-//			String contenu = "Your default credencial to Vonabri dashboad is <br/><br/>";
-//			contenu += "EMAIL : " + mail;
-//			contenu += "<br/><br/>PASSWORD : " + password;
-//
-//			String body = "";
-//			context = new Context();
-//			// subject
-//			context = new Context();
-//			String template = "mail_new_mdp";
-//			context.setVariable("email", mail);
-//			context.setVariable("entete", ENTETE);
-//			context.setVariable("appLink", appLink);
-//			context.setVariable("password", password);
-//			context.setVariable("date", dateTimeFormat.format(new Date()));
-//			log.info("********************* from " + from);
-//			log.info("********************* Recipeints " + toRecipients);
-//			log.info("********************* subject " + toRecipients);
-//			log.info("********************* context " + context);
-//			smtpUtils.sendEmail(from, toRecipients, subject, null, null, context, template, null);
 
 			List<User> items = null;
 			items = userRepository.getByCriteria(request, em, locale);
 			if (items != null && !items.isEmpty()) {
 				List<UserDto> itemsDto = (Utilities.isTrue(request.getIsSimpleLoading())) ? UserTransformer.INSTANCE.toLiteDtos(items) : UserTransformer.INSTANCE.toDtos(items);
-
 				final int size = items.size();
 				List<String>  listOfError      = Collections.synchronizedList(new ArrayList<String>());
 				itemsDto.parallelStream().forEach(dto -> {
@@ -941,7 +904,14 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 					response.setHasError(Boolean.TRUE);
 					return response;
 				}
+
 					UserDto itemsDto = UserTransformer.INSTANCE.toDto(userSaved);
+					if (userSaved.getTravailleur() != null && userSaved.getTravailleur().getPhoto() != null) {
+						String photo = cloudinaryService.getPhotoUrl(userSaved.getTravailleur().getPhoto());
+						if (Utilities.notBlank(photo)) {
+							itemsDto.setPhoto(photo);
+						}
+					}
 					//String token = String.valueOf(userSaved.getId()).concat("_VONABRI_").concat(Utilities.generateCodeOld());
 					//String tokenEncrypted = Utilities.encryptWalletKeyString(token);
 					redisUser.saveValueWithExpirationMinutes(accessToken, itemsDto,60);
@@ -1072,6 +1042,16 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 	 * @throws Exception
 	 */
 	private UserDto getFullInfos(UserDto dto, Integer size, Boolean isSimpleLoading, Locale locale) throws Exception {
+		if(dto.getTravailleurId() != null && dto.getTravailleurId() > 0) {
+			Travailleur tr = travailleurRepository.findOne(dto.getTravailleurId(), false);
+	        if (tr.getPhoto() != null) {
+	            String photo = cloudinaryService.getPhotoUrl(tr.getPhoto());
+				if (Utilities.notBlank(photo)) {
+					dto.setPhoto(photo);
+				}
+	            
+	        }
+		}
 		// put code here
 		dto.setPassword(null);
 		if (Utilities.isTrue(isSimpleLoading)) {

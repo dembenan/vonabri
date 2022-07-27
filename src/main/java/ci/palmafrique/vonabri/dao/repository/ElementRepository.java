@@ -41,6 +41,8 @@ public interface ElementRepository extends JpaRepository<Element, Integer>, _Ele
 	@Query("select e from Element e where e.id = :id and e.isDeleted = :isDeleted")
 	Element findOne(@Param("id")Integer id, @Param("isDeleted")Boolean isDeleted);
 
+	@Query("select e from Element e where e.id = :id")
+	Element findOne(@Param("id")Integer id);
 	/**
 	 * Finds Element by using code as a search criteria.
 	 * 
