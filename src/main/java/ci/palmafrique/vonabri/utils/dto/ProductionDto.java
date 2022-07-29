@@ -34,6 +34,7 @@ public class ProductionDto extends _ProductionDto implements Cloneable{
     private Integer    id                   ; // Primary Key
 
     private Integer    siteId               ;
+    private Integer    statusFlashId               ;
 	private String     date                 ;
     private Double     aciditeHuile         ;
     private Double     regimesMalEgra       ;
@@ -63,9 +64,12 @@ public class ProductionDto extends _ProductionDto implements Cloneable{
 	private String siteCode;
 	private String siteLibelle;
 
+	private String statusFlashCode;
+	private String statusFlashLibelle;
 	// Search param
 	private SearchParam<Integer>  idParam               ;                     
-	private SearchParam<Integer>  siteIdParam           ;                     
+	private SearchParam<Integer>  siteIdParam           ;
+	private SearchParam<Integer>  statusFlashIdParam           ;
 	private SearchParam<String>   dateParam             ;                     
 	private SearchParam<Double>   aciditeHuileParam     ;                     
 	private SearchParam<Double>   regimesMalEgraParam   ;                     
@@ -89,7 +93,9 @@ public class ProductionDto extends _ProductionDto implements Cloneable{
 	private SearchParam<Integer>  deletedByParam        ;                     
 	private SearchParam<Boolean>  isDeletedParam        ;                     
 	private SearchParam<String>   siteCodeParam         ;                     
-	private SearchParam<String>   siteLibelleParam      ;                     
+	private SearchParam<String>   siteLibelleParam      ; 
+	private SearchParam<String>   statusFlashCodeParam         ;                     
+	private SearchParam<String>   statusFlashLibelleParam      ;
     /**
      * Default constructor
      */

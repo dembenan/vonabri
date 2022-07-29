@@ -250,6 +250,13 @@ public interface ProductionRepository extends JpaRepository<Production, Integer>
 	@Query("select e from Production e where e.site.id = :siteId and e.isDeleted = :isDeleted")
 	List<Production> findBySiteId(@Param("siteId")Integer siteId, @Param("isDeleted")Boolean isDeleted);
 
+	@Query("select e from Production e where e.statusFlash.id = :statusFlashId and e.isDeleted = :isDeleted")
+	List<StatusFlash> findByStatusFlashId(@Param("statusFlashId")Integer statusFlashId, @Param("isDeleted")Boolean isDeleted);
+	
+	
+	@Query("select e from Production e where e.site.id = :siteId and e.date = :date and e.isDeleted = :isDeleted")
+	Production findBySiteIdAndDate(@Param("siteId")Integer siteId,@Param("date")Date date, @Param("isDeleted")Boolean isDeleted);
+
 	/**
 	 * Finds List of Production by using productionDto as a search criteria.
 	 * 
@@ -419,6 +426,17 @@ public interface ProductionRepository extends JpaRepository<Production, Integer>
 			if (Utilities.notBlank(dto.getSiteLibelle())) {
 				listOfQuery.add(CriteriaUtils.generateCriteria("siteLibelle", dto.getSiteLibelle(), "e.site.libelle", "String", dto.getSiteLibelleParam(), param, index, locale));
 			}
+
+			if (dto.getStatusFlashId()!= null && dto.getStatusFlashId() > 0) {
+				listOfQuery.add(CriteriaUtils.generateCriteria("statusFlashId", dto.getStatusFlashId(), "e.statusFlash.id", "Integer", dto.getStatusFlashIdParam(), param, index, locale));
+			}
+			if (Utilities.notBlank(dto.getStatusFlashCode())) {
+				listOfQuery.add(CriteriaUtils.generateCriteria("statusFlashCode", dto.getStatusFlashCode(), "e.statusFlash.code", "String", dto.getStatusFlashCodeParam(), param, index, locale));
+			}
+			if (Utilities.notBlank(dto.getStatusFlashLibelle())) {
+				listOfQuery.add(CriteriaUtils.generateCriteria("statusFlashLibelle", dto.getStatusFlashLibelle(), "e.statusFlash.libelle", "String", dto.getStatusFlashLibelleParam(), param, index, locale));
+			}
+
 			List<String> listOfCustomQuery = _generateCriteria(dto, param, index, locale);
 			if (Utilities.isNotEmpty(listOfCustomQuery)) {
 				listOfQuery.addAll(listOfCustomQuery);

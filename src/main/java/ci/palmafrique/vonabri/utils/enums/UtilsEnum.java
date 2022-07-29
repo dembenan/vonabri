@@ -14,7 +14,11 @@ package ci.palmafrique.vonabri.utils.enums;
  public enum UtilsEnum {
  	ELEMENT_TYPE_FORMULAIRE("FORMULAIRE"),
  	ELEMENT_TYPE_MENU("MENU"),
-;
+ 	
+ 	
+ 	STATUS_FLASH_SUBMITING("SUBMITING"),
+ 	STATUS_FLASH_SAVING("SAVING");
+
 
 	 
 

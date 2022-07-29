@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import ci.palmafrique.vonabri.utils.dto.CommentaireDto;
-import ci.palmafrique.vonabri.utils.dto.LivraisonDto;
+import ci.palmafrique.vonabri.utils.dto.SiteDto;
 import ci.palmafrique.vonabri.utils.dto.StockHuileDto;
 import lombok.Data;
 
@@ -29,7 +29,7 @@ import lombok.Data;
 public class _ProductionDto {
 	
 	private List<CommentaireDto> itemsCommentaire;
-	private List<LivraisonDto> itemsLivraisions;
+	private List<SiteDto> itemsSiteLivraisions;
 	private List<StockHuileDto> itemsStockHuile;
 
 }

@@ -1,8 +1,8 @@
 
 
 /*
- * Java transformer for entity table production 
- * Created on 2022-07-27 ( Time 01:31:45 )
+ * Java transformer for entity table status_flash 
+ * Created on 2022-07-28 ( Time 22:56:45 )
  * Generator tool : Telosys Tools Generator ( version 3.3.0 )
  * Copyright 2017 Savoir Faire Linux. All Rights Reserved.
  */
@@ -34,18 +34,18 @@ import ci.palmafrique.vonabri.business.*;
 
 
 /**
-Controller for table "production"
+Controller for table "status_flash"
  * 
  * @author SFL Back-End developper
  *
  */
 @CrossOrigin("*")
 @RestController
-@RequestMapping(value="/production")
-public class ProductionController {
+@RequestMapping(value="/statusFlash")
+public class StatusFlashController {
 
 	@Autowired
-	private ProductionBusiness productionBusiness;
+	private StatusFlashBusiness statusFlashBusiness;
 
 	@Autowired
 	private FunctionalError functionalError;
@@ -59,18 +59,18 @@ public class ProductionController {
 	private HttpServletRequest requestBasic;
 
 	@RequestMapping(value="/create",method=RequestMethod.POST,consumes = {"application/json"},produces={"application/json"})
-    public Response<ProductionDto> create(@RequestBody Request<ProductionDto> request) {
-    	slf4jLogger.info("start method /production/create");
-        Response<ProductionDto> response = new Response<ProductionDto>();
+    public Response<StatusFlashDto> create(@RequestBody Request<StatusFlashDto> request) {
+    	slf4jLogger.info("start method /statusFlash/create");
+        Response<StatusFlashDto> response = new Response<StatusFlashDto>();
         
         String languageID = (String)requestBasic.getAttribute("CURRENT_LANGUAGE_IDENTIFIER");
         Locale locale = new Locale(languageID, "");
 
         try {
 
-        	response = Validate.validateObject(request, response, functionalError, locale);
+        	response = Validate.validateList(request, response, functionalError, locale);
         	if(!response.isHasError()){
-               response = productionBusiness.create(request, locale);
+               response = statusFlashBusiness.create(request, locale);
         	}else{
         	   slf4jLogger.info("Erreur| code: {} -  message: {}", response.getStatus().getCode(), response.getStatus().getMessage());
         	   return response;
@@ -93,23 +93,23 @@ public class ProductionController {
 		} catch (Exception e) {
 			exceptionUtils.EXCEPTION(response, locale, e);
 		}
-		slf4jLogger.info("end method /production/create");
+		slf4jLogger.info("end method /statusFlash/create");
         return response;
     }
 
 	@RequestMapping(value="/update",method=RequestMethod.POST,consumes = {"application/json"},produces={"application/json"})
-    public Response<ProductionDto> update(@RequestBody Request<ProductionDto> request) {
-    	slf4jLogger.info("start method /production/update");
-        Response<ProductionDto> response = new Response<ProductionDto>();
+    public Response<StatusFlashDto> update(@RequestBody Request<StatusFlashDto> request) {
+    	slf4jLogger.info("start method /statusFlash/update");
+        Response<StatusFlashDto> response = new Response<StatusFlashDto>();
 
         String languageID = (String)requestBasic.getAttribute("CURRENT_LANGUAGE_IDENTIFIER");
         Locale locale = new Locale(languageID, "");
         
 		try {
 
-        	response = Validate.validateObject(request, response, functionalError, locale);
+        	response = Validate.validateList(request, response, functionalError, locale);
         	if(!response.isHasError()){
-               response = productionBusiness.update(request, locale);
+               response = statusFlashBusiness.update(request, locale);
         	}else{
         	   slf4jLogger.info("Erreur| code: {} -  message: {}", response.getStatus().getCode(), response.getStatus().getMessage());
         	   return response;
@@ -132,14 +132,14 @@ public class ProductionController {
 		} catch (Exception e) {
 			exceptionUtils.EXCEPTION(response, locale, e);
 		}
-		slf4jLogger.info("end method /production/update");
+		slf4jLogger.info("end method /statusFlash/update");
         return response;
     }
 
 	@RequestMapping(value="/delete",method=RequestMethod.POST,consumes = {"application/json"},produces={"application/json"})
-    public Response<ProductionDto> delete(@RequestBody Request<ProductionDto> request) {
-    	slf4jLogger.info("start method /production/delete");
-        Response<ProductionDto> response = new Response<ProductionDto>();
+    public Response<StatusFlashDto> delete(@RequestBody Request<StatusFlashDto> request) {
+    	slf4jLogger.info("start method /statusFlash/delete");
+        Response<StatusFlashDto> response = new Response<StatusFlashDto>();
 
         String languageID = (String)requestBasic.getAttribute("CURRENT_LANGUAGE_IDENTIFIER");
         Locale locale = new Locale(languageID, "");
@@ -148,7 +148,7 @@ public class ProductionController {
 
         	response = Validate.validateList(request, response, functionalError, locale);
         	if(!response.isHasError()){
-               response = productionBusiness.delete(request, locale);
+               response = statusFlashBusiness.delete(request, locale);
         	}else{
         	   slf4jLogger.info("Erreur| code: {} -  message: {}", response.getStatus().getCode(), response.getStatus().getMessage());
         	   return response;
@@ -171,14 +171,14 @@ public class ProductionController {
 		} catch (Exception e) {
 			exceptionUtils.EXCEPTION(response, locale, e);
 		}
-		slf4jLogger.info("end method /production/delete");
+		slf4jLogger.info("end method /statusFlash/delete");
         return response;
     }
 
 	@RequestMapping(value="/getByCriteria",method=RequestMethod.POST,consumes = {"application/json"},produces={"application/json"})
-    public Response<ProductionDto> getByCriteria(@RequestBody Request<ProductionDto> request) {
-    	slf4jLogger.info("start method /production/getByCriteria");
-        Response<ProductionDto> response = new Response<ProductionDto>();
+    public Response<StatusFlashDto> getByCriteria(@RequestBody Request<StatusFlashDto> request) {
+    	slf4jLogger.info("start method /statusFlash/getByCriteria");
+        Response<StatusFlashDto> response = new Response<StatusFlashDto>();
 
         String languageID = (String)requestBasic.getAttribute("CURRENT_LANGUAGE_IDENTIFIER");
         Locale locale = new Locale(languageID, "");
@@ -187,7 +187,7 @@ public class ProductionController {
 
         	response = Validate.validateObject(request, response, functionalError, locale);
         	if(!response.isHasError()){
-               response = productionBusiness.getByCriteria(request, locale);
+               response = statusFlashBusiness.getByCriteria(request, locale);
         	}else{
         	   slf4jLogger.info("Erreur| code: {} -  message: {}", response.getStatus().getCode(), response.getStatus().getMessage());
         	   return response;
@@ -209,7 +209,7 @@ public class ProductionController {
 		} catch (Exception e) {
 			exceptionUtils.EXCEPTION(response, locale, e);
 		}
-		slf4jLogger.info("end method /production/getByCriteria");
+		slf4jLogger.info("end method /statusFlash/getByCriteria");
         return response;
     }
 }

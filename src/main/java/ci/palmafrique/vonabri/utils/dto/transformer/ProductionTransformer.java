@@ -44,6 +44,10 @@ public interface ProductionTransformer {
 		@Mapping(source="entity.site.id", target="siteId"),
 		@Mapping(source="entity.site.code", target="siteCode"),
 		@Mapping(source="entity.site.libelle", target="siteLibelle"),
+		
+		@Mapping(source="entity.statusFlash.id", target="statusFlashId"),
+		@Mapping(source="entity.statusFlash.code", target="statusFlashCode"),
+		@Mapping(source="entity.statusFlash.libelle", target="statusFlashLibelle"),
 	})
 	ProductionDto toDto(Production entity) throws ParseException;
 
@@ -95,8 +99,9 @@ public interface ProductionTransformer {
 		@Mapping(source="dto.deletedBy", target="deletedBy"),
 		@Mapping(source="dto.isDeleted", target="isDeleted"),
 		@Mapping(source="site", target="site"),
+		@Mapping(source="statusFlash", target="statusFlash"),
 	})
-    Production toEntity(ProductionDto dto, Site site) throws ParseException;
+    Production toEntity(ProductionDto dto, Site site,StatusFlash statusFlash) throws ParseException;
 
     //List<Production> toEntities(List<ProductionDto> dtos) throws ParseException;
 
