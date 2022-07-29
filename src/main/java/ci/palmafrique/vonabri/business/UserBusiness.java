@@ -866,6 +866,11 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 					response.setHasError(true);
 					return response;
 				}
+				if (item.getTravailleur() != null && !item.getTravailleur().getStatut().getCode().equals("CDI") && item.getTravailleur().getDateFinContrat().before(Utilities.getCurrentDate())) {
+					response.setStatus(functionalError.AUTH_FAIL("Compte verrouillé. La date de fin de votre contrat : "+item.getTravailleur().getStatut().getLibelle()+" est arrivée à echéance. si vous pensez que ce message n'est pas correcte Contacter un administrateur !", locale));
+					response.setHasError(Boolean.TRUE);
+					return response;
+				}
 //				if (item.getIsConnected() != null && item.getIsConnected()) {
 //					response.setStatus(functionalError.USER_ALREADY_CONNECTED("---->"+data.getEmail(),locale));
 //					response.setHasError(true);
