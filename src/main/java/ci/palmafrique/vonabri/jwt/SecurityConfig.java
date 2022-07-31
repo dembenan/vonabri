@@ -83,7 +83,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		
 		http.authorizeRequests().antMatchers("/user/login").permitAll();
 		http.authorizeRequests().antMatchers("/logo_cip.png").permitAll();
-
+		http.authorizeRequests().antMatchers("/v2/api-docs").permitAll();
 		
 //		http.authorizeRequests().antMatchers("/**/getByCriteria").permitAll();
 //		http.authorizeRequests().antMatchers("/**/getStatistique").permitAll();

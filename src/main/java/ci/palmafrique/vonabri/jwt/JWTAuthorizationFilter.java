@@ -70,7 +70,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 		// FunctionalError functionalError = new FunctionalError();
 		
 		if ((jwt == null || !jwt.startsWith(SecurityConstants.TOKEN_PREFIX)) ) {
-			if(uri.contains("user/login") || uri.contains("logo_cip.png") ) {
+			if(uri.contains("v2/api-docs") || uri.contains("user/login") || uri.contains("logo_cip.png") ) {
 				filterChain.doFilter(request, response);
 				return;
 			}else {

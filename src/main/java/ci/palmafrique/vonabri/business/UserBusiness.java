@@ -586,6 +586,16 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 					}
 					entityToSave.setUserType(existingUserType);
 				}
+				// Verify if userType exist
+				if (dto.getTravailleurId() != null && dto.getTravailleurId() > 0){
+					Travailleur existingTravailleur = travailleurRepository.findOne(dto.getTravailleurId(), false);
+					if (existingTravailleur == null) {
+						response.setStatus(functionalError.DATA_NOT_EXIST("Travailleur TravailleurId -> " + dto.getTravailleurId(), locale));
+						response.setHasError(true);
+						return response;
+					}
+					entityToSave.setTravailleur(existingTravailleur);
+				}
 				// Verify if profil exist
 				if (dto.getProfilId() != null && dto.getProfilId() > 0){
 					Profil existingProfil = profilRepository.findOne(dto.getProfilId(), false);
@@ -909,22 +919,24 @@ public class UserBusiness implements IBasicBusiness<Request<UserDto>, Response<U
 					response.setHasError(Boolean.TRUE);
 					return response;
 				}
+				System.out.println("TRAVAILLEUR =====>"+userSaved.getTravailleur());
+				UserDto itemsDto = UserTransformer.INSTANCE.toDto(userSaved);
+				if (userSaved.getTravailleur() != null && userSaved.getTravailleur().getPhoto() != null) {
+					String photo = cloudinaryService.getPhotoUrl(userSaved.getTravailleur().getPhoto());
 
-					UserDto itemsDto = UserTransformer.INSTANCE.toDto(userSaved);
-					if (userSaved.getTravailleur() != null && userSaved.getTravailleur().getPhoto() != null) {
-						String photo = cloudinaryService.getPhotoUrl(userSaved.getTravailleur().getPhoto());
-						if (Utilities.notBlank(photo)) {
-							itemsDto.setPhoto(photo);
-						}
+					if (Utilities.notBlank(photo)) {
+						itemsDto.setPhoto(photo);
 					}
-					//String token = String.valueOf(userSaved.getId()).concat("_VONABRI_").concat(Utilities.generateCodeOld());
-					//String tokenEncrypted = Utilities.encryptWalletKeyString(token);
-					redisUser.saveValueWithExpirationMinutes(accessToken, itemsDto,60);
-					itemsDto.setToken(accessToken);
-					itemsDto.setDatasFonctionnalites(listDto);
-					response.setItem(itemsDto);
-					response.setHasError(false);
-					response.setStatus(functionalError.SUCCESS("Connexion reussie", locale));
+				}
+				// String token =
+				// String.valueOf(userSaved.getId()).concat("_VONABRI_").concat(Utilities.generateCodeOld());
+				// String tokenEncrypted = Utilities.encryptWalletKeyString(token);
+				redisUser.saveValueWithExpirationMinutes(accessToken, itemsDto, 60);
+				itemsDto.setToken(accessToken);
+				itemsDto.setDatasFonctionnalites(listDto);
+				response.setItem(itemsDto);
+				response.setHasError(false);
+				response.setStatus(functionalError.SUCCESS("Connexion reussie", locale));
 			
 				
 			log.info("----end login-----");
